@@ -1,0 +1,55 @@
+# TODO: why are there both headless and non-headless versions of each of these services?
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper
+spec:
+  ports:
+  - name: client
+    port: 2181
+    protocol: TCP
+    targetPort: client
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper-headless
+spec:
+  ports:
+  - name: client
+    port: 2181
+    protocol: TCP
+    targetPort: 2181
+  - name: election
+    port: 3888
+    protocol: TCP
+    targetPort: 3888
+  - name: server
+    port: 2888
+    protocol: TCP
+    targetPort: 2888
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka
+spec:
+  ports:
+  - name: broker
+    port: 9092
+    protocol: TCP
+    targetPort: kafka
+---
+apiVersion: v1
+kind: Service
+metadata:
+  # TODO: what is this?
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  name: kafka-headless
+spec:
+  ports:
+  - name: broker
+    port: 9092
+    protocol: TCP
+    targetPort: 9092

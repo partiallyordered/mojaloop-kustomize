@@ -1,0 +1,158 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: kafka
+spec:
+  # podManagementPolicy: OrderedReady
+  serviceName: kafka-headless
+  template:
+    spec:
+      containers:
+      - command:
+        - sh
+        - -exc
+        - |
+          unset KAFKA_PORT && \
+          export KAFKA_BROKER_ID=${POD_NAME##*-} && \
+          export KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://${POD_NAME}.kafka-headless.${POD_NAMESPACE}:9092 && \
+          exec /etc/confluent/docker/run
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: KAFKA_HEAP_OPTS
+          value: -Xmx1G -Xms1G
+        - name: KAFKA_ZOOKEEPER_CONNECT
+          value: zookeeper:2181
+        - name: KAFKA_LOG_DIRS
+          value: /opt/kafka/data/logs
+        - name: KAFKA_CONFLUENT_SUPPORT_METRICS_ENABLE
+          value: "false"
+        - name: KAFKA_DEFAULT_REPLICATION_FACTOR
+          value: "1"
+        - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+          value: "1"
+        image: confluentinc/cp-kafka:5.0.1
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -ec
+            - /usr/bin/jps | /bin/grep -q SupportedKafka
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+        name: kafka-broker
+        ports:
+        - containerPort: 9092
+          name: kafka
+          protocol: TCP
+        readinessProbe:
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          tcpSocket:
+            port: kafka
+          timeoutSeconds: 5
+        volumeMounts:
+        - mountPath: /opt/kafka/data
+          name: datadir
+      terminationGracePeriodSeconds: 60
+      volumes:
+      - emptyDir: {}
+        name: datadir
+  updateStrategy:
+    type: OnDelete
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zookeeper
+spec:
+  # podManagementPolicy: OrderedReady
+  serviceName: zookeeper-headless
+  template:
+    spec:
+      containers:
+      - command:
+        - /bin/bash
+        - -xec
+        - zkGenConfig.sh && exec zkServer.sh start-foreground
+        env:
+        - name: ZK_REPLICAS
+          value: "1"
+        - name: ZK_CLIENT_PORT
+          value: "2181"
+        - name: ZK_ELECTION_PORT
+          value: "3888"
+        - name: ZK_HEAP_SIZE
+          value: 1G
+        - name: ZK_INIT_LIMIT
+          value: "5"
+        - name: ZK_LOG_LEVEL
+          value: INFO
+        - name: ZK_MAX_CLIENT_CNXNS
+          value: "60"
+        - name: ZK_MAX_SESSION_TIMEOUT
+          value: "40000"
+        - name: ZK_MIN_SESSION_TIMEOUT
+          value: "4000"
+        - name: ZK_PURGE_INTERVAL
+          value: "0"
+        - name: ZK_SERVER_PORT
+          value: "2888"
+        - name: ZK_SNAP_RETAIN_COUNT
+          value: "3"
+        - name: ZK_SYNC_LIMIT
+          value: "10"
+        - name: ZK_TICK_TIME
+          value: "2000"
+        image: gcr.io/google_samples/k8szk:v3
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - zkOk.sh
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        name: zookeeper
+        ports:
+        - containerPort: 2181
+          name: client
+          protocol: TCP
+        - containerPort: 3888
+          name: election
+          protocol: TCP
+        - containerPort: 2888
+          name: server
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+            - zkOk.sh
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        volumeMounts:
+        - mountPath: /var/lib/zookeeper
+          name: data
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+      terminationGracePeriodSeconds: 1800
+      volumes:
+      - emptyDir: {}
+        name: data
+  updateStrategy:
+    type: OnDelete

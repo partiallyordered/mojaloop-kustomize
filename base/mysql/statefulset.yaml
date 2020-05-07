@@ -1,0 +1,125 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+spec:
+  replicas: 1
+  serviceName: mysql
+  template:
+    spec:
+      containers:
+      - command:
+        - /bin/bash
+        - /startup-scripts/entrypoint.sh
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: mysql-root-password
+              name: mysql
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: mysql-password
+              name: mysql
+        - name: XTRABACKUP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: xtrabackup-password
+              name: mysql
+        - name: MYSQL_USER
+          value: central_ledger
+        - name: MYSQL_DATABASE
+          value: central_ledger
+        - name: ALLOW_ROOT_FROM
+          value: '%'
+        - name: CLUSTER_NAME
+          value: mysql
+        - name: SHORT_CLUSTER_NAME
+          value: mysql
+        - name: K8S_SERVICE_NAME
+          value: mysql-repl
+        - name: PXC_STRICT_MODE
+          value: ENFORCING
+        - name: DEBUG
+          value: "true"
+        image: percona/percona-xtradb-cluster:5.7.19
+        imagePullPolicy: Always
+        livenessProbe:
+          exec:
+            command:
+            - /bin/bash
+            - -c
+            - mysqladmin ping || test -e /var/lib/mysql/sst_in_progress
+        name: database
+        ports:
+        - containerPort: 3306
+          name: mysql
+          protocol: TCP
+        - containerPort: 4567
+          name: galera-repl
+          protocol: TCP
+        - containerPort: 4568
+          name: state-transfer
+          protocol: TCP
+        - containerPort: 4444
+          name: state-snapshot
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+            - mysql
+            - -h
+            - 127.0.0.1
+            - -e
+            - SELECT 1
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysql-data
+        - mountPath: /startup-scripts
+          name: mysql-startup-scripts
+        - mountPath: /etc/mysql/conf.d
+          name: mysql-config-files
+        - mountPath: /root
+          name: slash-root
+        - mountPath: /var/log
+          name: var-log
+      - command:
+        - tail
+        - -f
+        - /var/log/mysqld.log
+        image: busybox:1.25.0
+        imagePullPolicy: IfNotPresent
+        name: logs
+        volumeMounts:
+        - mountPath: /var/log
+          name: var-log
+      initContainers:
+        # TODO: This initContainer can be replaced by supplying --ignore-db-dir=lost+found to the
+        # mysql startup parameters
+        # https://stackoverflow.com/questions/52601684/kubernetes-mysql-image-persistent-volume-is-non-empty-during-init
+      - command:
+        - rm
+        - -fr
+        - /var/lib/mysql/lost+found
+        image: busybox:1.25.0
+        imagePullPolicy: IfNotPresent
+        name: remove-lost-found
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysql-data
+      volumes:
+      - emptyDir: {}
+        name: slash-root
+      - emptyDir: {}
+        name: var-log
+      - configMap:
+          defaultMode: 420
+          name: mysql-config-files
+        name: mysql-config-files
+      - configMap:
+          defaultMode: 420
+          name: mysql-startup-scripts
+        name: mysql-startup-scripts
+      - emptyDir: {}
+        name: mysql-data

@@ -3,7 +3,7 @@ items:
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
-    name: test-centralledger-service
+    name: centralledger-service
   spec:
     # TODO: is progressDeadlineSeconds: 600 default?
     progressDeadlineSeconds: 600
@@ -62,12 +62,12 @@ items:
             periodSeconds: 15
           volumeMounts:
           - mountPath: /opt/central-ledger/config
-            name: test-centralledger-service-config-volume
+            name: centralledger-service-config-volume
         initContainers:
         - command:
           - sh
           - -c
-          - until mysql -h test-centralledger-mysql -P 3306 -u central_ledger --password=oyMxgZChuu  central_ledger   -e
+          - until mysql -h centralledger-mysql -P 3306 -u central_ledger --password=oyMxgZChuu  central_ledger   -e
             'select version()' ; do echo waiting for MySQL; sleep 2; done;
           image: mysql:latest
           imagePullPolicy: Always
@@ -84,7 +84,7 @@ items:
           name: run-migration
           volumeMounts:
           - mountPath: /opt/central-ledger/config
-            name: test-centralledger-service-config-volume
+            name: centralledger-service-config-volume
         restartPolicy: Always
         volumes:
         - configMap:
@@ -94,12 +94,12 @@ items:
               path: default.json
             - key: knexfile.js
               path: knexfile.js
-            name: test-centralledger-service-config
-          name: test-centralledger-service-config-volume
+            name: centralledger-service-config
+          name: centralledger-service-config-volume
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
-    name: test-centralledger-handler-admin-transfer
+    name: centralledger-handler-admin-transfer
   spec:
     progressDeadlineSeconds: 600
     strategy:
@@ -157,12 +157,12 @@ items:
             periodSeconds: 15
           volumeMounts:
           - mountPath: /opt/central-ledger/config
-            name: test-centralledger-handler-admin-transfer-config-volume
+            name: centralledger-handler-admin-transfer-config-volume
         initContainers:
         - command:
           - sh
           - -c
-          - until result=$(mysql -h test-centralledger-mysql -P 3306 -u central_ledger
+          - until result=$(mysql -h centralledger-mysql -P 3306 -u central_ledger
             --password=oyMxgZChuu  central_ledger -ss -N -e 'select is_locked from
             migration_lock;') && eval 'echo is_locked=$result' && if [ -z $result
             ]; then false; fi && if [ $result -ne 0 ]; then false; fi; do echo waiting
@@ -173,7 +173,7 @@ items:
         - command:
           - sh
           - -c
-          - until ./bin/kafka-broker-api-versions.sh --bootstrap-server test-kafka:9092;
+          - until ./bin/kafka-broker-api-versions.sh --bootstrap-server kafka:9092;
             do echo waiting for Kafka; sleep 2; done;
           image: solsson/kafka:latest
           imagePullPolicy: Always
@@ -187,12 +187,12 @@ items:
               path: default.json
             - key: knexfile.js
               path: knexfile.js
-            name: test-centralledger-handler-admin-transfer-config
-          name: test-centralledger-handler-admin-transfer-config-volume
+            name: centralledger-handler-admin-transfer-config
+          name: centralledger-handler-admin-transfer-config-volume
 - apiVersion: extensions/v1beta1
   kind: Deployment
   metadata:
-    name: test-centralledger-handler-timeout
+    name: centralledger-handler-timeout
   spec:
     progressDeadlineSeconds: 600
     strategy:
@@ -256,7 +256,7 @@ items:
             periodSeconds: 15
           volumeMounts:
           - mountPath: /opt/central-ledger/config
-            name: test-centralledger-handler-timeout-config-volume
+            name: centralledger-handler-timeout-config-volume
         - command:
           - npm
           - run
@@ -292,12 +292,12 @@ items:
             periodSeconds: 15
           volumeMounts:
           - mountPath: /opt/event-sidecar/config
-            name: test-centralledger-handler-timeout-sidecar-volume
+            name: centralledger-handler-timeout-sidecar-volume
         initContainers:
         - command:
           - sh
           - -c
-          - until result=$(mysql -h test-centralledger-mysql -P 3306 -u central_ledger
+          - until result=$(mysql -h centralledger-mysql -P 3306 -u central_ledger
             --password=oyMxgZChuu  central_ledger -ss -N -e 'select is_locked from
             migration_lock;') && eval 'echo is_locked=$result' && if [ -z $result
             ]; then false; fi && if [ $result -ne 0 ]; then false; fi; do echo waiting
@@ -308,7 +308,7 @@ items:
         - command:
           - sh
           - -c
-          - until ./bin/kafka-broker-api-versions.sh --bootstrap-server test-kafka:9092;
+          - until ./bin/kafka-broker-api-versions.sh --bootstrap-server kafka:9092;
             do echo waiting for Kafka; sleep 2; done;
           image: solsson/kafka:latest
           imagePullPolicy: Always
@@ -322,12 +322,12 @@ items:
               path: default.json
             - key: knexfile.js
               path: knexfile.js
-            name: test-centralledger-handler-timeout-config
-          name: test-centralledger-handler-timeout-config-volume
+            name: centralledger-handler-timeout-config
+          name: centralledger-handler-timeout-config-volume
         - configMap:
             defaultMode: 420
             items:
             - key: default.json
               path: default.json
-            name: test-centralledger-handler-timeout-sidecar
-          name: test-centralledger-handler-timeout-sidecar-volume
+            name: centralledger-handler-timeout-sidecar
+          name: centralledger-handler-timeout-sidecar-volume

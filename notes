@@ -23,6 +23,8 @@ developers of the artifacts.
 - Easier to compose systems for testing- similarly to docker-compose
 
 ### Cons:
+- Maybe a less cohesive ownership of resources in the cluster. How does helm 3 manage this? (If
+  kustomize can't duplicate this easily, this will be a downside thereof).
 
 ### Questions:
 - How does kubectl/kustomize identify deployed artifacts when upgrading?
@@ -70,3 +72,4 @@ TODO:
   these
 - Move all json config out of configmaps and into files - see the upstream charts for the source of
   these
+- Split central ledger components into multiple bases? Probably not..

@@ -2,10 +2,18 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: kafka
+  labels:
+    app.kubernetes.io/name: kafka
 spec:
   # podManagementPolicy: OrderedReady
   serviceName: kafka-headless
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kafka
   template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: kafka
     spec:
       containers:
       - command:
@@ -80,10 +88,18 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: zookeeper
+  labels:
+    app.kubernetes.io/name: kafka
 spec:
   # podManagementPolicy: OrderedReady
   serviceName: zookeeper-headless
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kafka
   template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: kafka
     spec:
       containers:
       - command:

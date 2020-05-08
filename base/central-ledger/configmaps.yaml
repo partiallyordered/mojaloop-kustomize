@@ -5,17 +5,17 @@ data:
     : true\n    },\n    \"AMOUNT\": {\n        \"PRECISION\": 18,\n        \"SCALE\"\
     : 4\n    },\n    \"ERROR_HANDLING\": {\n        \"includeCauseExtension\": false,\n\
     \        \"truncateExtensions\": true\n    },\n    \"SIDECAR\": {\n        \"\
-    DISABLED\": true,\n        \"HOST\": \"test-forensicloggingsidecar-ledger\",\n\
+    DISABLED\": true,\n        \"HOST\": \"forensicloggingsidecar-ledger\",\n\
     \        \"PORT\": 5678,\n        \"CONNECT_TIMEOUT\": 45000,\n        \"RECONNECT_INTERVAL\"\
     : 5000\n    },\n    \"DATABASE\": {\n        \"DIALECT\": \"mysql\",\n       \
-    \ \"HOST\": \"test-centralledger-mysql\",\n        \"PORT\": 3306,\n        \"\
+    \ \"HOST\": \"mysql\",\n        \"PORT\": 3306,\n        \"\
     USER\": \"central_ledger\",\n        \"PASSWORD\": \"oyMxgZChuu\",\n        \"\
     SCHEMA\": \"central_ledger\",\n        \"POOL_MIN_SIZE\": 10,\n        \"POOL_MAX_SIZE\"\
     : 30,\n        \"ACQUIRE_TIMEOUT_MILLIS\": 30000,\n        \"CREATE_TIMEOUT_MILLIS\"\
     : 30000,\n        \"DESTROY_TIMEOUT_MILLIS\": 5000,\n        \"IDLE_TIMEOUT_MILLIS\"\
     : 30000,\n        \"REAP_INTERVAL_MILLIS\": 1000,\n        \"CREATE_RETRY_INTERVAL_MILLIS\"\
     : 200,\n        \"DEBUG\": false\n    },\n    \"MONGODB\": {\n        \"DISABLED\"\
-    : true,\n        \"URI\": \"mongodb://test-centralledger-obj:27017/mlos\"\n  \
+    : true,\n        \"URI\": \"mongodb://centralledger-obj:27017/mlos\"\n  \
     \  },\n    \"HANDLERS\": {\n        \"DISABLED\": false,\n        \"API\": {\n\
     \            \"DISABLED\": false\n        },\n        \"CRON\": {\n          \
     \  \"DISABLED\": true,\n            \"TIMEXP\": \"*/10 * * * * *\",\n        \
@@ -49,7 +49,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-bulk-prepare\",\n       \
     \                     \"group.id\": \"cl-group-bulk-prepare\",\n             \
-    \               \"metadata.broker.list\": \"test-kafka:9092\",\n             \
+    \               \"metadata.broker.list\": \"kafka:9092\",\n             \
     \               \"socket.keepalive.enable\": true\n                        },\n\
     \                        \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -63,7 +63,7 @@ data:
     \          },\n                        \"rdkafkaConf\": {\n                  \
     \          \"client.id\": \"cl-con-bulk-processing\",\n                      \
     \      \"group.id\": \"cl-group-bulk-processing\",\n                         \
-    \   \"metadata.broker.list\": \"test-kafka:9092\",\n                         \
+    \   \"metadata.broker.list\": \"kafka:9092\",\n                         \
     \   \"socket.keepalive.enable\": true\n                        },\n          \
     \              \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -77,7 +77,7 @@ data:
     \          },\n                        \"rdkafkaConf\": {\n                  \
     \          \"client.id\": \"cl-con-bulk-fulfil\",\n                          \
     \  \"group.id\": \"cl-group-bulk-fulfil\",\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"socket.keepalive.enable\"\
+    : \"kafka:9092\",\n                            \"socket.keepalive.enable\"\
     : true\n                        },\n                        \"topicConf\": {\n\
     \                            \"auto.offset.reset\": \"earliest\"\n           \
     \             }\n                    }\n                }\n            },\n  \
@@ -91,7 +91,7 @@ data:
     \                        },\n                        \"rdkafkaConf\": {\n    \
     \                        \"client.id\": \"cl-con-transfer-prepare\",\n       \
     \                     \"group.id\": \"cl-group-transfer-prepare\",\n         \
-    \                   \"metadata.broker.list\": \"test-kafka:9092\",\n         \
+    \                   \"metadata.broker.list\": \"kafka:9092\",\n         \
     \                   \"socket.keepalive.enable\": true\n                      \
     \  },\n                        \"topicConf\": {\n                            \"\
     auto.offset.reset\": \"earliest\"\n                        }\n               \
@@ -105,7 +105,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-position\",\n  \
     \                          \"group.id\": \"cl-group-transfer-position\",\n   \
-    \                         \"metadata.broker.list\": \"test-kafka:9092\",\n   \
+    \                         \"metadata.broker.list\": \"kafka:9092\",\n   \
     \                         \"socket.keepalive.enable\": true\n                \
     \        },\n                        \"topicConf\": {\n                      \
     \      \"auto.offset.reset\": \"earliest\"\n                        }\n      \
@@ -119,7 +119,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-fulfil\",\n    \
     \                        \"group.id\": \"cl-group-transfer-fulfil\",\n       \
-    \                     \"metadata.broker.list\": \"test-kafka:9092\",\n       \
+    \                     \"metadata.broker.list\": \"kafka:9092\",\n       \
     \                     \"socket.keepalive.enable\": true\n                    \
     \    },\n                        \"topicConf\": {\n                          \
     \  \"auto.offset.reset\": \"earliest\"\n                        }\n          \
@@ -133,7 +133,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-get\",\n       \
     \                     \"group.id\": \"cl-group-transfer-get\",\n             \
-    \               \"metadata.broker.list\": \"test-kafka:9092\",\n             \
+    \               \"metadata.broker.list\": \"kafka:9092\",\n             \
     \               \"socket.keepalive.enable\": true\n                        },\n\
     \                        \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -147,7 +147,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-admin\",\n     \
     \                       \"group.id\": \"cl-group-transfer-admin\",\n         \
-    \                   \"metadata.broker.list\": \"test-kafka:9092\",\n         \
+    \                   \"metadata.broker.list\": \"kafka:9092\",\n         \
     \                   \"socket.keepalive.enable\": true\n                      \
     \  },\n                        \"topicConf\": {\n                            \"\
     auto.offset.reset\": \"earliest\"\n                        }\n               \
@@ -156,7 +156,7 @@ data:
     \    \"config\": {\n                        \"options\": {\n                 \
     \           \"messageCharset\": \"utf8\"\n                        },\n       \
     \                 \"rdkafkaConf\": {\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"client.id\": \"cl-prod-bulk-processing\"\
+    : \"kafka:9092\",\n                            \"client.id\": \"cl-prod-bulk-processing\"\
     ,\n                            \"event_cb\": true,\n                         \
     \   \"dr_cb\": false,\n                            \"socket.keepalive.enable\"\
     : true,\n                            \"queue.buffering.max.messages\": 10000000\n\
@@ -167,7 +167,7 @@ data:
     : {\n                \"PREPARE\": {\n                    \"config\": {\n     \
     \                   \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-transfer-prepare\",\n\
     \                            \"event_cb\": true,\n                           \
     \ \"dr_cb\": false,\n                            \"socket.keepalive.enable\":\
@@ -179,7 +179,7 @@ data:
     \                   \"config\": {\n                        \"options\": {\n  \
     \                          \"messageCharset\": \"utf8\"\n                    \
     \    },\n                        \"rdkafkaConf\": {\n                        \
-    \    \"metadata.broker.list\": \"test-kafka:9092\",\n                        \
+    \    \"metadata.broker.list\": \"kafka:9092\",\n                        \
     \    \"client.id\": \"cl-prod-transfer-position\",\n                         \
     \   \"event_cb\": true,\n                            \"dr_cb\": false,\n     \
     \                       \"socket.keepalive.enable\": true,\n                 \
@@ -190,7 +190,7 @@ data:
     \           },\n                \"FULFIL\": {\n                    \"config\"\
     : {\n                        \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-transfer-fulfil\",\n \
     \                           \"event_cb\": true,\n                            \"\
     dr_cb\": false,\n                            \"socket.keepalive.enable\": true,\n\
@@ -202,7 +202,7 @@ data:
     \          \"config\": {\n                        \"options\": {\n           \
     \                 \"messageCharset\": \"utf8\"\n                        },\n \
     \                       \"rdkafkaConf\": {\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"client.id\": \"cl-prod-transfer-get\"\
+    : \"kafka:9092\",\n                            \"client.id\": \"cl-prod-transfer-get\"\
     ,\n                            \"event_cb\": true,\n                         \
     \   \"dr_cb\": false,\n                            \"socket.keepalive.enable\"\
     : true,\n                            \"queue.buffering.max.messages\": 10000000\n\
@@ -213,7 +213,7 @@ data:
     : {\n                \"EVENT\": {\n                    \"config\": {\n       \
     \                 \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-notification-event\",\n\
     \                            \"event_cb\": true,\n                           \
     \ \"dr_cb\": false,\n                            \"socket.keepalive.enable\":\
@@ -225,7 +225,7 @@ data:
     : {\n                \"TRANSFER\": {\n                    \"config\": {\n    \
     \                    \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"admin-transfer-produce\",\n  \
     \                          \"event_cb\": true,\n                            \"\
     dr_cb\": false,\n                            \"socket.keepalive.enable\": true,\n\
@@ -244,6 +244,8 @@ data:
 kind: ConfigMap
 metadata:
   name: centralledger-handler-admin-transfer-config
+  labels:
+    app.kubernetes.io/name: centralledger-handler-admin-transfer-config
 ---
 apiVersion: v1
 data:
@@ -252,17 +254,17 @@ data:
     : true\n    },\n    \"AMOUNT\": {\n        \"PRECISION\": 18,\n        \"SCALE\"\
     : 4\n    },\n    \"ERROR_HANDLING\": {\n        \"includeCauseExtension\": false,\n\
     \        \"truncateExtensions\": true\n    },\n    \"SIDECAR\": {\n        \"\
-    DISABLED\": true,\n        \"HOST\": \"test-forensicloggingsidecar-ledger\",\n\
+    DISABLED\": true,\n        \"HOST\": \"forensicloggingsidecar-ledger\",\n\
     \        \"PORT\": 5678,\n        \"CONNECT_TIMEOUT\": 45000,\n        \"RECONNECT_INTERVAL\"\
     : 5000\n    },\n    \"DATABASE\": {\n        \"DIALECT\": \"mysql\",\n       \
-    \ \"HOST\": \"test-centralledger-mysql\",\n        \"PORT\": 3306,\n        \"\
+    \ \"HOST\": \"mysql\",\n        \"PORT\": 3306,\n        \"\
     USER\": \"central_ledger\",\n        \"PASSWORD\": \"oyMxgZChuu\",\n        \"\
     SCHEMA\": \"central_ledger\",\n        \"POOL_MIN_SIZE\": 10,\n        \"POOL_MAX_SIZE\"\
     : 30,\n        \"ACQUIRE_TIMEOUT_MILLIS\": 30000,\n        \"CREATE_TIMEOUT_MILLIS\"\
     : 30000,\n        \"DESTROY_TIMEOUT_MILLIS\": 5000,\n        \"IDLE_TIMEOUT_MILLIS\"\
     : 30000,\n        \"REAP_INTERVAL_MILLIS\": 1000,\n        \"CREATE_RETRY_INTERVAL_MILLIS\"\
     : 200,\n        \"DEBUG\": false\n    },\n    \"MONGODB\": {\n        \"DISABLED\"\
-    : true,\n        \"URI\": \"mongodb://test-centralledger-obj:27017/mlos\"\n  \
+    : true,\n        \"URI\": \"mongodb://centralledger-obj:27017/mlos\"\n  \
     \  },\n    \"HANDLERS\": {\n        \"DISABLED\": false,\n        \"API\": {\n\
     \            \"DISABLED\": false\n        },\n        \"CRON\": {\n          \
     \  \"DISABLED\": true,\n            \"TIMEXP\": \"*/10 * * * * *\",\n        \
@@ -296,7 +298,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-bulk-prepare\",\n       \
     \                     \"group.id\": \"cl-group-bulk-prepare\",\n             \
-    \               \"metadata.broker.list\": \"test-kafka:9092\",\n             \
+    \               \"metadata.broker.list\": \"kafka:9092\",\n             \
     \               \"socket.keepalive.enable\": true\n                        },\n\
     \                        \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -310,7 +312,7 @@ data:
     \          },\n                        \"rdkafkaConf\": {\n                  \
     \          \"client.id\": \"cl-con-bulk-processing\",\n                      \
     \      \"group.id\": \"cl-group-bulk-processing\",\n                         \
-    \   \"metadata.broker.list\": \"test-kafka:9092\",\n                         \
+    \   \"metadata.broker.list\": \"kafka:9092\",\n                         \
     \   \"socket.keepalive.enable\": true\n                        },\n          \
     \              \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -324,7 +326,7 @@ data:
     \          },\n                        \"rdkafkaConf\": {\n                  \
     \          \"client.id\": \"cl-con-bulk-fulfil\",\n                          \
     \  \"group.id\": \"cl-group-bulk-fulfil\",\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"socket.keepalive.enable\"\
+    : \"kafka:9092\",\n                            \"socket.keepalive.enable\"\
     : true\n                        },\n                        \"topicConf\": {\n\
     \                            \"auto.offset.reset\": \"earliest\"\n           \
     \             }\n                    }\n                }\n            },\n  \
@@ -338,7 +340,7 @@ data:
     \                        },\n                        \"rdkafkaConf\": {\n    \
     \                        \"client.id\": \"cl-con-transfer-prepare\",\n       \
     \                     \"group.id\": \"cl-group-transfer-prepare\",\n         \
-    \                   \"metadata.broker.list\": \"test-kafka:9092\",\n         \
+    \                   \"metadata.broker.list\": \"kafka:9092\",\n         \
     \                   \"socket.keepalive.enable\": true\n                      \
     \  },\n                        \"topicConf\": {\n                            \"\
     auto.offset.reset\": \"earliest\"\n                        }\n               \
@@ -352,7 +354,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-position\",\n  \
     \                          \"group.id\": \"cl-group-transfer-position\",\n   \
-    \                         \"metadata.broker.list\": \"test-kafka:9092\",\n   \
+    \                         \"metadata.broker.list\": \"kafka:9092\",\n   \
     \                         \"socket.keepalive.enable\": true\n                \
     \        },\n                        \"topicConf\": {\n                      \
     \      \"auto.offset.reset\": \"earliest\"\n                        }\n      \
@@ -366,7 +368,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-fulfil\",\n    \
     \                        \"group.id\": \"cl-group-transfer-fulfil\",\n       \
-    \                     \"metadata.broker.list\": \"test-kafka:9092\",\n       \
+    \                     \"metadata.broker.list\": \"kafka:9092\",\n       \
     \                     \"socket.keepalive.enable\": true\n                    \
     \    },\n                        \"topicConf\": {\n                          \
     \  \"auto.offset.reset\": \"earliest\"\n                        }\n          \
@@ -380,7 +382,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-get\",\n       \
     \                     \"group.id\": \"cl-group-transfer-get\",\n             \
-    \               \"metadata.broker.list\": \"test-kafka:9092\",\n             \
+    \               \"metadata.broker.list\": \"kafka:9092\",\n             \
     \               \"socket.keepalive.enable\": true\n                        },\n\
     \                        \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -394,7 +396,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-admin\",\n     \
     \                       \"group.id\": \"cl-group-transfer-admin\",\n         \
-    \                   \"metadata.broker.list\": \"test-kafka:9092\",\n         \
+    \                   \"metadata.broker.list\": \"kafka:9092\",\n         \
     \                   \"socket.keepalive.enable\": true\n                      \
     \  },\n                        \"topicConf\": {\n                            \"\
     auto.offset.reset\": \"earliest\"\n                        }\n               \
@@ -403,7 +405,7 @@ data:
     \    \"config\": {\n                        \"options\": {\n                 \
     \           \"messageCharset\": \"utf8\"\n                        },\n       \
     \                 \"rdkafkaConf\": {\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"client.id\": \"cl-prod-bulk-processing\"\
+    : \"kafka:9092\",\n                            \"client.id\": \"cl-prod-bulk-processing\"\
     ,\n                            \"event_cb\": true,\n                         \
     \   \"dr_cb\": false,\n                            \"socket.keepalive.enable\"\
     : true,\n                            \"queue.buffering.max.messages\": 10000000\n\
@@ -414,7 +416,7 @@ data:
     : {\n                \"PREPARE\": {\n                    \"config\": {\n     \
     \                   \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-transfer-prepare\",\n\
     \                            \"event_cb\": true,\n                           \
     \ \"dr_cb\": false,\n                            \"socket.keepalive.enable\":\
@@ -426,7 +428,7 @@ data:
     \                   \"config\": {\n                        \"options\": {\n  \
     \                          \"messageCharset\": \"utf8\"\n                    \
     \    },\n                        \"rdkafkaConf\": {\n                        \
-    \    \"metadata.broker.list\": \"test-kafka:9092\",\n                        \
+    \    \"metadata.broker.list\": \"kafka:9092\",\n                        \
     \    \"client.id\": \"cl-prod-transfer-position\",\n                         \
     \   \"event_cb\": true,\n                            \"dr_cb\": false,\n     \
     \                       \"socket.keepalive.enable\": true,\n                 \
@@ -437,7 +439,7 @@ data:
     \           },\n                \"FULFIL\": {\n                    \"config\"\
     : {\n                        \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-transfer-fulfil\",\n \
     \                           \"event_cb\": true,\n                            \"\
     dr_cb\": false,\n                            \"socket.keepalive.enable\": true,\n\
@@ -449,7 +451,7 @@ data:
     \          \"config\": {\n                        \"options\": {\n           \
     \                 \"messageCharset\": \"utf8\"\n                        },\n \
     \                       \"rdkafkaConf\": {\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"client.id\": \"cl-prod-transfer-get\"\
+    : \"kafka:9092\",\n                            \"client.id\": \"cl-prod-transfer-get\"\
     ,\n                            \"event_cb\": true,\n                         \
     \   \"dr_cb\": false,\n                            \"socket.keepalive.enable\"\
     : true,\n                            \"queue.buffering.max.messages\": 10000000\n\
@@ -460,7 +462,7 @@ data:
     : {\n                \"EVENT\": {\n                    \"config\": {\n       \
     \                 \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-notification-event\",\n\
     \                            \"event_cb\": true,\n                           \
     \ \"dr_cb\": false,\n                            \"socket.keepalive.enable\":\
@@ -472,7 +474,7 @@ data:
     : {\n                \"TRANSFER\": {\n                    \"config\": {\n    \
     \                    \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"admin-transfer-produce\",\n  \
     \                          \"event_cb\": true,\n                            \"\
     dr_cb\": false,\n                            \"socket.keepalive.enable\": true,\n\
@@ -491,6 +493,8 @@ data:
 kind: ConfigMap
 metadata:
   name: centralledger-handler-timeout-config
+  labels:
+    app.kubernetes.io/name: centralledger-handler-timeout-config
 ---
 apiVersion: v1
 data:
@@ -504,7 +508,7 @@ data:
     ,\n        \"REGEX\": \"topic-(.*)\"\n      }\n    },\n    \"PRODUCER\": {\n \
     \     \"EVENT\": {\n        \"config\": {\n          \"options\": {\n        \
     \    \"messageCharset\": \"utf8\"\n          },\n          \"rdkafkaConf\": {\n\
-    \            \"metadata.broker.list\": \"test-kafka:9092\",\n            \"client.id\"\
+    \            \"metadata.broker.list\": \"kafka:9092\",\n            \"client.id\"\
     : \"es-prod-event\",\n            \"event_cb\": true,\n            \"dr_cb\":\
     \ true,\n            \"socket.keepalive.enable\": true,\n            \"queue.buffering.max.messages\"\
     : 10000000\n          },\n          \"topicConf\": {\n            \"request.required.acks\"\
@@ -513,6 +517,8 @@ data:
 kind: ConfigMap
 metadata:
   name: centralledger-handler-timeout-sidecar
+  labels:
+    app.kubernetes.io/name: centralledger-handler-timeout-sidecar
 ---
 apiVersion: v1
 data:
@@ -524,7 +530,7 @@ data:
     DISABLED\": true,\n        \"HOST\": \"test-forensicloggingsidecar-ledger\",\n\
     \        \"PORT\": 5678,\n        \"CONNECT_TIMEOUT\": 45000,\n        \"RECONNECT_INTERVAL\"\
     : 5000\n    },\n    \"DATABASE\": {\n        \"DIALECT\": \"mysql\",\n       \
-    \ \"HOST\": \"test-centralledger-mysql\",\n        \"PORT\": 3306,\n        \"\
+    \ \"HOST\": \"mysql\",\n        \"PORT\": 3306,\n        \"\
     USER\": \"central_ledger\",\n        \"PASSWORD\": \"oyMxgZChuu\",\n        \"\
     SCHEMA\": \"central_ledger\",\n        \"POOL_MIN_SIZE\": 10,\n        \"POOL_MAX_SIZE\"\
     : 30,\n        \"ACQUIRE_TIMEOUT_MILLIS\": 30000,\n        \"CREATE_TIMEOUT_MILLIS\"\
@@ -565,7 +571,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-bulk-prepare\",\n       \
     \                     \"group.id\": \"cl-group-bulk-prepare\",\n             \
-    \               \"metadata.broker.list\": \"test-kafka:9092\",\n             \
+    \               \"metadata.broker.list\": \"kafka:9092\",\n             \
     \               \"socket.keepalive.enable\": true\n                        },\n\
     \                        \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -579,7 +585,7 @@ data:
     \          },\n                        \"rdkafkaConf\": {\n                  \
     \          \"client.id\": \"cl-con-bulk-processing\",\n                      \
     \      \"group.id\": \"cl-group-bulk-processing\",\n                         \
-    \   \"metadata.broker.list\": \"test-kafka:9092\",\n                         \
+    \   \"metadata.broker.list\": \"kafka:9092\",\n                         \
     \   \"socket.keepalive.enable\": true\n                        },\n          \
     \              \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -593,7 +599,7 @@ data:
     \          },\n                        \"rdkafkaConf\": {\n                  \
     \          \"client.id\": \"cl-con-bulk-fulfil\",\n                          \
     \  \"group.id\": \"cl-group-bulk-fulfil\",\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"socket.keepalive.enable\"\
+    : \"kafka:9092\",\n                            \"socket.keepalive.enable\"\
     : true\n                        },\n                        \"topicConf\": {\n\
     \                            \"auto.offset.reset\": \"earliest\"\n           \
     \             }\n                    }\n                }\n            },\n  \
@@ -607,7 +613,7 @@ data:
     \                        },\n                        \"rdkafkaConf\": {\n    \
     \                        \"client.id\": \"cl-con-transfer-prepare\",\n       \
     \                     \"group.id\": \"cl-group-transfer-prepare\",\n         \
-    \                   \"metadata.broker.list\": \"test-kafka:9092\",\n         \
+    \                   \"metadata.broker.list\": \"kafka:9092\",\n         \
     \                   \"socket.keepalive.enable\": true\n                      \
     \  },\n                        \"topicConf\": {\n                            \"\
     auto.offset.reset\": \"earliest\"\n                        }\n               \
@@ -621,7 +627,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-position\",\n  \
     \                          \"group.id\": \"cl-group-transfer-position\",\n   \
-    \                         \"metadata.broker.list\": \"test-kafka:9092\",\n   \
+    \                         \"metadata.broker.list\": \"kafka:9092\",\n   \
     \                         \"socket.keepalive.enable\": true\n                \
     \        },\n                        \"topicConf\": {\n                      \
     \      \"auto.offset.reset\": \"earliest\"\n                        }\n      \
@@ -635,7 +641,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-fulfil\",\n    \
     \                        \"group.id\": \"cl-group-transfer-fulfil\",\n       \
-    \                     \"metadata.broker.list\": \"test-kafka:9092\",\n       \
+    \                     \"metadata.broker.list\": \"kafka:9092\",\n       \
     \                     \"socket.keepalive.enable\": true\n                    \
     \    },\n                        \"topicConf\": {\n                          \
     \  \"auto.offset.reset\": \"earliest\"\n                        }\n          \
@@ -649,7 +655,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-get\",\n       \
     \                     \"group.id\": \"cl-group-transfer-get\",\n             \
-    \               \"metadata.broker.list\": \"test-kafka:9092\",\n             \
+    \               \"metadata.broker.list\": \"kafka:9092\",\n             \
     \               \"socket.keepalive.enable\": true\n                        },\n\
     \                        \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -663,7 +669,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-admin\",\n     \
     \                       \"group.id\": \"cl-group-transfer-admin\",\n         \
-    \                   \"metadata.broker.list\": \"test-kafka:9092\",\n         \
+    \                   \"metadata.broker.list\": \"kafka:9092\",\n         \
     \                   \"socket.keepalive.enable\": true\n                      \
     \  },\n                        \"topicConf\": {\n                            \"\
     auto.offset.reset\": \"earliest\"\n                        }\n               \
@@ -672,7 +678,7 @@ data:
     \    \"config\": {\n                        \"options\": {\n                 \
     \           \"messageCharset\": \"utf8\"\n                        },\n       \
     \                 \"rdkafkaConf\": {\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"client.id\": \"cl-prod-bulk-processing\"\
+    : \"kafka:9092\",\n                            \"client.id\": \"cl-prod-bulk-processing\"\
     ,\n                            \"event_cb\": true,\n                         \
     \   \"dr_cb\": false,\n                            \"socket.keepalive.enable\"\
     : true,\n                            \"queue.buffering.max.messages\": 10000000\n\
@@ -683,7 +689,7 @@ data:
     : {\n                \"PREPARE\": {\n                    \"config\": {\n     \
     \                   \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-transfer-prepare\",\n\
     \                            \"event_cb\": true,\n                           \
     \ \"dr_cb\": false,\n                            \"socket.keepalive.enable\":\
@@ -695,7 +701,7 @@ data:
     \                   \"config\": {\n                        \"options\": {\n  \
     \                          \"messageCharset\": \"utf8\"\n                    \
     \    },\n                        \"rdkafkaConf\": {\n                        \
-    \    \"metadata.broker.list\": \"test-kafka:9092\",\n                        \
+    \    \"metadata.broker.list\": \"kafka:9092\",\n                        \
     \    \"client.id\": \"cl-prod-transfer-position\",\n                         \
     \   \"event_cb\": true,\n                            \"dr_cb\": false,\n     \
     \                       \"socket.keepalive.enable\": true,\n                 \
@@ -706,7 +712,7 @@ data:
     \           },\n                \"FULFIL\": {\n                    \"config\"\
     : {\n                        \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-transfer-fulfil\",\n \
     \                           \"event_cb\": true,\n                            \"\
     dr_cb\": false,\n                            \"socket.keepalive.enable\": true,\n\
@@ -718,7 +724,7 @@ data:
     \          \"config\": {\n                        \"options\": {\n           \
     \                 \"messageCharset\": \"utf8\"\n                        },\n \
     \                       \"rdkafkaConf\": {\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"client.id\": \"cl-prod-transfer-get\"\
+    : \"kafka:9092\",\n                            \"client.id\": \"cl-prod-transfer-get\"\
     ,\n                            \"event_cb\": true,\n                         \
     \   \"dr_cb\": false,\n                            \"socket.keepalive.enable\"\
     : true,\n                            \"queue.buffering.max.messages\": 10000000\n\
@@ -729,7 +735,7 @@ data:
     : {\n                \"EVENT\": {\n                    \"config\": {\n       \
     \                 \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-notification-event\",\n\
     \                            \"event_cb\": true,\n                           \
     \ \"dr_cb\": false,\n                            \"socket.keepalive.enable\":\
@@ -741,7 +747,7 @@ data:
     : {\n                \"TRANSFER\": {\n                    \"config\": {\n    \
     \                    \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"admin-transfer-produce\",\n  \
     \                          \"event_cb\": true,\n                            \"\
     dr_cb\": false,\n                            \"socket.keepalive.enable\": true,\n\
@@ -760,6 +766,8 @@ data:
 kind: ConfigMap
 metadata:
   name: centralledger-handler-transfer-fulfil-config
+  labels:
+    app.kubernetes.io/name: centralledger-handler-transfer-fulfil-config
 ---
 apiVersion: v1
 data:
@@ -773,7 +781,7 @@ data:
     ,\n        \"REGEX\": \"topic-(.*)\"\n      }\n    },\n    \"PRODUCER\": {\n \
     \     \"EVENT\": {\n        \"config\": {\n          \"options\": {\n        \
     \    \"messageCharset\": \"utf8\"\n          },\n          \"rdkafkaConf\": {\n\
-    \            \"metadata.broker.list\": \"test-kafka:9092\",\n            \"client.id\"\
+    \            \"metadata.broker.list\": \"kafka:9092\",\n            \"client.id\"\
     : \"es-prod-event\",\n            \"event_cb\": true,\n            \"dr_cb\":\
     \ true,\n            \"socket.keepalive.enable\": true,\n            \"queue.buffering.max.messages\"\
     : 10000000\n          },\n          \"topicConf\": {\n            \"request.required.acks\"\
@@ -782,6 +790,8 @@ data:
 kind: ConfigMap
 metadata:
   name: centralledger-handler-transfer-fulfil-sidecar
+  labels:
+    app.kubernetes.io/name: centralledger-handler-transfer-fulfil-sidecar
 ---
 apiVersion: v1
 data:
@@ -793,7 +803,7 @@ data:
     DISABLED\": true,\n        \"HOST\": \"test-forensicloggingsidecar-ledger\",\n\
     \        \"PORT\": 5678,\n        \"CONNECT_TIMEOUT\": 45000,\n        \"RECONNECT_INTERVAL\"\
     : 5000\n    },\n    \"DATABASE\": {\n        \"DIALECT\": \"mysql\",\n       \
-    \ \"HOST\": \"test-centralledger-mysql\",\n        \"PORT\": 3306,\n        \"\
+    \ \"HOST\": \"mysql\",\n        \"PORT\": 3306,\n        \"\
     USER\": \"central_ledger\",\n        \"PASSWORD\": \"oyMxgZChuu\",\n        \"\
     SCHEMA\": \"central_ledger\",\n        \"POOL_MIN_SIZE\": 10,\n        \"POOL_MAX_SIZE\"\
     : 30,\n        \"ACQUIRE_TIMEOUT_MILLIS\": 30000,\n        \"CREATE_TIMEOUT_MILLIS\"\
@@ -834,7 +844,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-bulk-prepare\",\n       \
     \                     \"group.id\": \"cl-group-bulk-prepare\",\n             \
-    \               \"metadata.broker.list\": \"test-kafka:9092\",\n             \
+    \               \"metadata.broker.list\": \"kafka:9092\",\n             \
     \               \"socket.keepalive.enable\": true\n                        },\n\
     \                        \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -848,7 +858,7 @@ data:
     \          },\n                        \"rdkafkaConf\": {\n                  \
     \          \"client.id\": \"cl-con-bulk-processing\",\n                      \
     \      \"group.id\": \"cl-group-bulk-processing\",\n                         \
-    \   \"metadata.broker.list\": \"test-kafka:9092\",\n                         \
+    \   \"metadata.broker.list\": \"kafka:9092\",\n                         \
     \   \"socket.keepalive.enable\": true\n                        },\n          \
     \              \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -862,7 +872,7 @@ data:
     \          },\n                        \"rdkafkaConf\": {\n                  \
     \          \"client.id\": \"cl-con-bulk-fulfil\",\n                          \
     \  \"group.id\": \"cl-group-bulk-fulfil\",\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"socket.keepalive.enable\"\
+    : \"kafka:9092\",\n                            \"socket.keepalive.enable\"\
     : true\n                        },\n                        \"topicConf\": {\n\
     \                            \"auto.offset.reset\": \"earliest\"\n           \
     \             }\n                    }\n                }\n            },\n  \
@@ -876,7 +886,7 @@ data:
     \                        },\n                        \"rdkafkaConf\": {\n    \
     \                        \"client.id\": \"cl-con-transfer-prepare\",\n       \
     \                     \"group.id\": \"cl-group-transfer-prepare\",\n         \
-    \                   \"metadata.broker.list\": \"test-kafka:9092\",\n         \
+    \                   \"metadata.broker.list\": \"kafka:9092\",\n         \
     \                   \"socket.keepalive.enable\": true\n                      \
     \  },\n                        \"topicConf\": {\n                            \"\
     auto.offset.reset\": \"earliest\"\n                        }\n               \
@@ -890,7 +900,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-position\",\n  \
     \                          \"group.id\": \"cl-group-transfer-position\",\n   \
-    \                         \"metadata.broker.list\": \"test-kafka:9092\",\n   \
+    \                         \"metadata.broker.list\": \"kafka:9092\",\n   \
     \                         \"socket.keepalive.enable\": true\n                \
     \        },\n                        \"topicConf\": {\n                      \
     \      \"auto.offset.reset\": \"earliest\"\n                        }\n      \
@@ -904,7 +914,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-fulfil\",\n    \
     \                        \"group.id\": \"cl-group-transfer-fulfil\",\n       \
-    \                     \"metadata.broker.list\": \"test-kafka:9092\",\n       \
+    \                     \"metadata.broker.list\": \"kafka:9092\",\n       \
     \                     \"socket.keepalive.enable\": true\n                    \
     \    },\n                        \"topicConf\": {\n                          \
     \  \"auto.offset.reset\": \"earliest\"\n                        }\n          \
@@ -918,7 +928,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-get\",\n       \
     \                     \"group.id\": \"cl-group-transfer-get\",\n             \
-    \               \"metadata.broker.list\": \"test-kafka:9092\",\n             \
+    \               \"metadata.broker.list\": \"kafka:9092\",\n             \
     \               \"socket.keepalive.enable\": true\n                        },\n\
     \                        \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -932,7 +942,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-admin\",\n     \
     \                       \"group.id\": \"cl-group-transfer-admin\",\n         \
-    \                   \"metadata.broker.list\": \"test-kafka:9092\",\n         \
+    \                   \"metadata.broker.list\": \"kafka:9092\",\n         \
     \                   \"socket.keepalive.enable\": true\n                      \
     \  },\n                        \"topicConf\": {\n                            \"\
     auto.offset.reset\": \"earliest\"\n                        }\n               \
@@ -941,7 +951,7 @@ data:
     \    \"config\": {\n                        \"options\": {\n                 \
     \           \"messageCharset\": \"utf8\"\n                        },\n       \
     \                 \"rdkafkaConf\": {\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"client.id\": \"cl-prod-bulk-processing\"\
+    : \"kafka:9092\",\n                            \"client.id\": \"cl-prod-bulk-processing\"\
     ,\n                            \"event_cb\": true,\n                         \
     \   \"dr_cb\": false,\n                            \"socket.keepalive.enable\"\
     : true,\n                            \"queue.buffering.max.messages\": 10000000\n\
@@ -952,7 +962,7 @@ data:
     : {\n                \"PREPARE\": {\n                    \"config\": {\n     \
     \                   \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-transfer-prepare\",\n\
     \                            \"event_cb\": true,\n                           \
     \ \"dr_cb\": false,\n                            \"socket.keepalive.enable\":\
@@ -964,7 +974,7 @@ data:
     \                   \"config\": {\n                        \"options\": {\n  \
     \                          \"messageCharset\": \"utf8\"\n                    \
     \    },\n                        \"rdkafkaConf\": {\n                        \
-    \    \"metadata.broker.list\": \"test-kafka:9092\",\n                        \
+    \    \"metadata.broker.list\": \"kafka:9092\",\n                        \
     \    \"client.id\": \"cl-prod-transfer-position\",\n                         \
     \   \"event_cb\": true,\n                            \"dr_cb\": false,\n     \
     \                       \"socket.keepalive.enable\": true,\n                 \
@@ -975,7 +985,7 @@ data:
     \           },\n                \"FULFIL\": {\n                    \"config\"\
     : {\n                        \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-transfer-fulfil\",\n \
     \                           \"event_cb\": true,\n                            \"\
     dr_cb\": false,\n                            \"socket.keepalive.enable\": true,\n\
@@ -987,7 +997,7 @@ data:
     \          \"config\": {\n                        \"options\": {\n           \
     \                 \"messageCharset\": \"utf8\"\n                        },\n \
     \                       \"rdkafkaConf\": {\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"client.id\": \"cl-prod-transfer-get\"\
+    : \"kafka:9092\",\n                            \"client.id\": \"cl-prod-transfer-get\"\
     ,\n                            \"event_cb\": true,\n                         \
     \   \"dr_cb\": false,\n                            \"socket.keepalive.enable\"\
     : true,\n                            \"queue.buffering.max.messages\": 10000000\n\
@@ -998,7 +1008,7 @@ data:
     : {\n                \"EVENT\": {\n                    \"config\": {\n       \
     \                 \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-notification-event\",\n\
     \                            \"event_cb\": true,\n                           \
     \ \"dr_cb\": false,\n                            \"socket.keepalive.enable\":\
@@ -1010,7 +1020,7 @@ data:
     : {\n                \"TRANSFER\": {\n                    \"config\": {\n    \
     \                    \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"admin-transfer-produce\",\n  \
     \                          \"event_cb\": true,\n                            \"\
     dr_cb\": false,\n                            \"socket.keepalive.enable\": true,\n\
@@ -1029,6 +1039,8 @@ data:
 kind: ConfigMap
 metadata:
   name: centralledger-handler-transfer-get-config
+  labels:
+    app.kubernetes.io/name: centralledger-handler-transfer-get-config
 ---
 apiVersion: v1
 data:
@@ -1040,7 +1052,7 @@ data:
     DISABLED\": true,\n        \"HOST\": \"test-forensicloggingsidecar-ledger\",\n\
     \        \"PORT\": 5678,\n        \"CONNECT_TIMEOUT\": 45000,\n        \"RECONNECT_INTERVAL\"\
     : 5000\n    },\n    \"DATABASE\": {\n        \"DIALECT\": \"mysql\",\n       \
-    \ \"HOST\": \"test-centralledger-mysql\",\n        \"PORT\": 3306,\n        \"\
+    \ \"HOST\": \"mysql\",\n        \"PORT\": 3306,\n        \"\
     USER\": \"central_ledger\",\n        \"PASSWORD\": \"oyMxgZChuu\",\n        \"\
     SCHEMA\": \"central_ledger\",\n        \"POOL_MIN_SIZE\": 10,\n        \"POOL_MAX_SIZE\"\
     : 30,\n        \"ACQUIRE_TIMEOUT_MILLIS\": 30000,\n        \"CREATE_TIMEOUT_MILLIS\"\
@@ -1081,7 +1093,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-bulk-prepare\",\n       \
     \                     \"group.id\": \"cl-group-bulk-prepare\",\n             \
-    \               \"metadata.broker.list\": \"test-kafka:9092\",\n             \
+    \               \"metadata.broker.list\": \"kafka:9092\",\n             \
     \               \"socket.keepalive.enable\": true\n                        },\n\
     \                        \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -1095,7 +1107,7 @@ data:
     \          },\n                        \"rdkafkaConf\": {\n                  \
     \          \"client.id\": \"cl-con-bulk-processing\",\n                      \
     \      \"group.id\": \"cl-group-bulk-processing\",\n                         \
-    \   \"metadata.broker.list\": \"test-kafka:9092\",\n                         \
+    \   \"metadata.broker.list\": \"kafka:9092\",\n                         \
     \   \"socket.keepalive.enable\": true\n                        },\n          \
     \              \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -1109,7 +1121,7 @@ data:
     \          },\n                        \"rdkafkaConf\": {\n                  \
     \          \"client.id\": \"cl-con-bulk-fulfil\",\n                          \
     \  \"group.id\": \"cl-group-bulk-fulfil\",\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"socket.keepalive.enable\"\
+    : \"kafka:9092\",\n                            \"socket.keepalive.enable\"\
     : true\n                        },\n                        \"topicConf\": {\n\
     \                            \"auto.offset.reset\": \"earliest\"\n           \
     \             }\n                    }\n                }\n            },\n  \
@@ -1123,7 +1135,7 @@ data:
     \                        },\n                        \"rdkafkaConf\": {\n    \
     \                        \"client.id\": \"cl-con-transfer-prepare\",\n       \
     \                     \"group.id\": \"cl-group-transfer-prepare\",\n         \
-    \                   \"metadata.broker.list\": \"test-kafka:9092\",\n         \
+    \                   \"metadata.broker.list\": \"kafka:9092\",\n         \
     \                   \"socket.keepalive.enable\": true\n                      \
     \  },\n                        \"topicConf\": {\n                            \"\
     auto.offset.reset\": \"earliest\"\n                        }\n               \
@@ -1137,7 +1149,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-position\",\n  \
     \                          \"group.id\": \"cl-group-transfer-position\",\n   \
-    \                         \"metadata.broker.list\": \"test-kafka:9092\",\n   \
+    \                         \"metadata.broker.list\": \"kafka:9092\",\n   \
     \                         \"socket.keepalive.enable\": true\n                \
     \        },\n                        \"topicConf\": {\n                      \
     \      \"auto.offset.reset\": \"earliest\"\n                        }\n      \
@@ -1151,7 +1163,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-fulfil\",\n    \
     \                        \"group.id\": \"cl-group-transfer-fulfil\",\n       \
-    \                     \"metadata.broker.list\": \"test-kafka:9092\",\n       \
+    \                     \"metadata.broker.list\": \"kafka:9092\",\n       \
     \                     \"socket.keepalive.enable\": true\n                    \
     \    },\n                        \"topicConf\": {\n                          \
     \  \"auto.offset.reset\": \"earliest\"\n                        }\n          \
@@ -1165,7 +1177,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-get\",\n       \
     \                     \"group.id\": \"cl-group-transfer-get\",\n             \
-    \               \"metadata.broker.list\": \"test-kafka:9092\",\n             \
+    \               \"metadata.broker.list\": \"kafka:9092\",\n             \
     \               \"socket.keepalive.enable\": true\n                        },\n\
     \                        \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -1179,7 +1191,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-admin\",\n     \
     \                       \"group.id\": \"cl-group-transfer-admin\",\n         \
-    \                   \"metadata.broker.list\": \"test-kafka:9092\",\n         \
+    \                   \"metadata.broker.list\": \"kafka:9092\",\n         \
     \                   \"socket.keepalive.enable\": true\n                      \
     \  },\n                        \"topicConf\": {\n                            \"\
     auto.offset.reset\": \"earliest\"\n                        }\n               \
@@ -1188,7 +1200,7 @@ data:
     \    \"config\": {\n                        \"options\": {\n                 \
     \           \"messageCharset\": \"utf8\"\n                        },\n       \
     \                 \"rdkafkaConf\": {\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"client.id\": \"cl-prod-bulk-processing\"\
+    : \"kafka:9092\",\n                            \"client.id\": \"cl-prod-bulk-processing\"\
     ,\n                            \"event_cb\": true,\n                         \
     \   \"dr_cb\": false,\n                            \"socket.keepalive.enable\"\
     : true,\n                            \"queue.buffering.max.messages\": 10000000\n\
@@ -1199,7 +1211,7 @@ data:
     : {\n                \"PREPARE\": {\n                    \"config\": {\n     \
     \                   \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-transfer-prepare\",\n\
     \                            \"event_cb\": true,\n                           \
     \ \"dr_cb\": false,\n                            \"socket.keepalive.enable\":\
@@ -1211,7 +1223,7 @@ data:
     \                   \"config\": {\n                        \"options\": {\n  \
     \                          \"messageCharset\": \"utf8\"\n                    \
     \    },\n                        \"rdkafkaConf\": {\n                        \
-    \    \"metadata.broker.list\": \"test-kafka:9092\",\n                        \
+    \    \"metadata.broker.list\": \"kafka:9092\",\n                        \
     \    \"client.id\": \"cl-prod-transfer-position\",\n                         \
     \   \"event_cb\": true,\n                            \"dr_cb\": false,\n     \
     \                       \"socket.keepalive.enable\": true,\n                 \
@@ -1222,7 +1234,7 @@ data:
     \           },\n                \"FULFIL\": {\n                    \"config\"\
     : {\n                        \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-transfer-fulfil\",\n \
     \                           \"event_cb\": true,\n                            \"\
     dr_cb\": false,\n                            \"socket.keepalive.enable\": true,\n\
@@ -1234,7 +1246,7 @@ data:
     \          \"config\": {\n                        \"options\": {\n           \
     \                 \"messageCharset\": \"utf8\"\n                        },\n \
     \                       \"rdkafkaConf\": {\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"client.id\": \"cl-prod-transfer-get\"\
+    : \"kafka:9092\",\n                            \"client.id\": \"cl-prod-transfer-get\"\
     ,\n                            \"event_cb\": true,\n                         \
     \   \"dr_cb\": false,\n                            \"socket.keepalive.enable\"\
     : true,\n                            \"queue.buffering.max.messages\": 10000000\n\
@@ -1245,7 +1257,7 @@ data:
     : {\n                \"EVENT\": {\n                    \"config\": {\n       \
     \                 \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-notification-event\",\n\
     \                            \"event_cb\": true,\n                           \
     \ \"dr_cb\": false,\n                            \"socket.keepalive.enable\":\
@@ -1257,7 +1269,7 @@ data:
     : {\n                \"TRANSFER\": {\n                    \"config\": {\n    \
     \                    \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"admin-transfer-produce\",\n  \
     \                          \"event_cb\": true,\n                            \"\
     dr_cb\": false,\n                            \"socket.keepalive.enable\": true,\n\
@@ -1276,6 +1288,8 @@ data:
 kind: ConfigMap
 metadata:
   name: centralledger-handler-transfer-position-config
+  labels:
+    app.kubernetes.io/name: centralledger-handler-transfer-position-config
 ---
 apiVersion: v1
 data:
@@ -1289,7 +1303,7 @@ data:
     ,\n        \"REGEX\": \"topic-(.*)\"\n      }\n    },\n    \"PRODUCER\": {\n \
     \     \"EVENT\": {\n        \"config\": {\n          \"options\": {\n        \
     \    \"messageCharset\": \"utf8\"\n          },\n          \"rdkafkaConf\": {\n\
-    \            \"metadata.broker.list\": \"test-kafka:9092\",\n            \"client.id\"\
+    \            \"metadata.broker.list\": \"kafka:9092\",\n            \"client.id\"\
     : \"es-prod-event\",\n            \"event_cb\": true,\n            \"dr_cb\":\
     \ true,\n            \"socket.keepalive.enable\": true,\n            \"queue.buffering.max.messages\"\
     : 10000000\n          },\n          \"topicConf\": {\n            \"request.required.acks\"\
@@ -1298,6 +1312,8 @@ data:
 kind: ConfigMap
 metadata:
   name: centralledger-handler-transfer-position-sidecar
+  labels:
+    app.kubernetes.io/name: centralledger-handler-transfer-position-sidecar
 ---
 apiVersion: v1
 data:
@@ -1309,7 +1325,7 @@ data:
     DISABLED\": true,\n        \"HOST\": \"test-forensicloggingsidecar-ledger\",\n\
     \        \"PORT\": 5678,\n        \"CONNECT_TIMEOUT\": 45000,\n        \"RECONNECT_INTERVAL\"\
     : 5000\n    },\n    \"DATABASE\": {\n        \"DIALECT\": \"mysql\",\n       \
-    \ \"HOST\": \"test-centralledger-mysql\",\n        \"PORT\": 3306,\n        \"\
+    \ \"HOST\": \"mysql\",\n        \"PORT\": 3306,\n        \"\
     USER\": \"central_ledger\",\n        \"PASSWORD\": \"oyMxgZChuu\",\n        \"\
     SCHEMA\": \"central_ledger\",\n        \"POOL_MIN_SIZE\": 10,\n        \"POOL_MAX_SIZE\"\
     : 30,\n        \"ACQUIRE_TIMEOUT_MILLIS\": 30000,\n        \"CREATE_TIMEOUT_MILLIS\"\
@@ -1350,7 +1366,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-bulk-prepare\",\n       \
     \                     \"group.id\": \"cl-group-bulk-prepare\",\n             \
-    \               \"metadata.broker.list\": \"test-kafka:9092\",\n             \
+    \               \"metadata.broker.list\": \"kafka:9092\",\n             \
     \               \"socket.keepalive.enable\": true\n                        },\n\
     \                        \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -1364,7 +1380,7 @@ data:
     \          },\n                        \"rdkafkaConf\": {\n                  \
     \          \"client.id\": \"cl-con-bulk-processing\",\n                      \
     \      \"group.id\": \"cl-group-bulk-processing\",\n                         \
-    \   \"metadata.broker.list\": \"test-kafka:9092\",\n                         \
+    \   \"metadata.broker.list\": \"kafka:9092\",\n                         \
     \   \"socket.keepalive.enable\": true\n                        },\n          \
     \              \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -1378,7 +1394,7 @@ data:
     \          },\n                        \"rdkafkaConf\": {\n                  \
     \          \"client.id\": \"cl-con-bulk-fulfil\",\n                          \
     \  \"group.id\": \"cl-group-bulk-fulfil\",\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"socket.keepalive.enable\"\
+    : \"kafka:9092\",\n                            \"socket.keepalive.enable\"\
     : true\n                        },\n                        \"topicConf\": {\n\
     \                            \"auto.offset.reset\": \"earliest\"\n           \
     \             }\n                    }\n                }\n            },\n  \
@@ -1392,7 +1408,7 @@ data:
     \                        },\n                        \"rdkafkaConf\": {\n    \
     \                        \"client.id\": \"cl-con-transfer-prepare\",\n       \
     \                     \"group.id\": \"cl-group-transfer-prepare\",\n         \
-    \                   \"metadata.broker.list\": \"test-kafka:9092\",\n         \
+    \                   \"metadata.broker.list\": \"kafka:9092\",\n         \
     \                   \"socket.keepalive.enable\": true\n                      \
     \  },\n                        \"topicConf\": {\n                            \"\
     auto.offset.reset\": \"earliest\"\n                        }\n               \
@@ -1406,7 +1422,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-position\",\n  \
     \                          \"group.id\": \"cl-group-transfer-position\",\n   \
-    \                         \"metadata.broker.list\": \"test-kafka:9092\",\n   \
+    \                         \"metadata.broker.list\": \"kafka:9092\",\n   \
     \                         \"socket.keepalive.enable\": true\n                \
     \        },\n                        \"topicConf\": {\n                      \
     \      \"auto.offset.reset\": \"earliest\"\n                        }\n      \
@@ -1420,7 +1436,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-fulfil\",\n    \
     \                        \"group.id\": \"cl-group-transfer-fulfil\",\n       \
-    \                     \"metadata.broker.list\": \"test-kafka:9092\",\n       \
+    \                     \"metadata.broker.list\": \"kafka:9092\",\n       \
     \                     \"socket.keepalive.enable\": true\n                    \
     \    },\n                        \"topicConf\": {\n                          \
     \  \"auto.offset.reset\": \"earliest\"\n                        }\n          \
@@ -1434,7 +1450,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-get\",\n       \
     \                     \"group.id\": \"cl-group-transfer-get\",\n             \
-    \               \"metadata.broker.list\": \"test-kafka:9092\",\n             \
+    \               \"metadata.broker.list\": \"kafka:9092\",\n             \
     \               \"socket.keepalive.enable\": true\n                        },\n\
     \                        \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -1448,7 +1464,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-admin\",\n     \
     \                       \"group.id\": \"cl-group-transfer-admin\",\n         \
-    \                   \"metadata.broker.list\": \"test-kafka:9092\",\n         \
+    \                   \"metadata.broker.list\": \"kafka:9092\",\n         \
     \                   \"socket.keepalive.enable\": true\n                      \
     \  },\n                        \"topicConf\": {\n                            \"\
     auto.offset.reset\": \"earliest\"\n                        }\n               \
@@ -1457,7 +1473,7 @@ data:
     \    \"config\": {\n                        \"options\": {\n                 \
     \           \"messageCharset\": \"utf8\"\n                        },\n       \
     \                 \"rdkafkaConf\": {\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"client.id\": \"cl-prod-bulk-processing\"\
+    : \"kafka:9092\",\n                            \"client.id\": \"cl-prod-bulk-processing\"\
     ,\n                            \"event_cb\": true,\n                         \
     \   \"dr_cb\": false,\n                            \"socket.keepalive.enable\"\
     : true,\n                            \"queue.buffering.max.messages\": 10000000\n\
@@ -1468,7 +1484,7 @@ data:
     : {\n                \"PREPARE\": {\n                    \"config\": {\n     \
     \                   \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-transfer-prepare\",\n\
     \                            \"event_cb\": true,\n                           \
     \ \"dr_cb\": false,\n                            \"socket.keepalive.enable\":\
@@ -1480,7 +1496,7 @@ data:
     \                   \"config\": {\n                        \"options\": {\n  \
     \                          \"messageCharset\": \"utf8\"\n                    \
     \    },\n                        \"rdkafkaConf\": {\n                        \
-    \    \"metadata.broker.list\": \"test-kafka:9092\",\n                        \
+    \    \"metadata.broker.list\": \"kafka:9092\",\n                        \
     \    \"client.id\": \"cl-prod-transfer-position\",\n                         \
     \   \"event_cb\": true,\n                            \"dr_cb\": false,\n     \
     \                       \"socket.keepalive.enable\": true,\n                 \
@@ -1491,7 +1507,7 @@ data:
     \           },\n                \"FULFIL\": {\n                    \"config\"\
     : {\n                        \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-transfer-fulfil\",\n \
     \                           \"event_cb\": true,\n                            \"\
     dr_cb\": false,\n                            \"socket.keepalive.enable\": true,\n\
@@ -1503,7 +1519,7 @@ data:
     \          \"config\": {\n                        \"options\": {\n           \
     \                 \"messageCharset\": \"utf8\"\n                        },\n \
     \                       \"rdkafkaConf\": {\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"client.id\": \"cl-prod-transfer-get\"\
+    : \"kafka:9092\",\n                            \"client.id\": \"cl-prod-transfer-get\"\
     ,\n                            \"event_cb\": true,\n                         \
     \   \"dr_cb\": false,\n                            \"socket.keepalive.enable\"\
     : true,\n                            \"queue.buffering.max.messages\": 10000000\n\
@@ -1514,7 +1530,7 @@ data:
     : {\n                \"EVENT\": {\n                    \"config\": {\n       \
     \                 \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-notification-event\",\n\
     \                            \"event_cb\": true,\n                           \
     \ \"dr_cb\": false,\n                            \"socket.keepalive.enable\":\
@@ -1526,7 +1542,7 @@ data:
     : {\n                \"TRANSFER\": {\n                    \"config\": {\n    \
     \                    \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"admin-transfer-produce\",\n  \
     \                          \"event_cb\": true,\n                            \"\
     dr_cb\": false,\n                            \"socket.keepalive.enable\": true,\n\
@@ -1545,6 +1561,8 @@ data:
 kind: ConfigMap
 metadata:
   name: centralledger-handler-transfer-prepare-config
+  labels:
+    app.kubernetes.io/name: centralledger-handler-transfer-prepare-config
 ---
 apiVersion: v1
 data:
@@ -1558,7 +1576,7 @@ data:
     ,\n        \"REGEX\": \"topic-(.*)\"\n      }\n    },\n    \"PRODUCER\": {\n \
     \     \"EVENT\": {\n        \"config\": {\n          \"options\": {\n        \
     \    \"messageCharset\": \"utf8\"\n          },\n          \"rdkafkaConf\": {\n\
-    \            \"metadata.broker.list\": \"test-kafka:9092\",\n            \"client.id\"\
+    \            \"metadata.broker.list\": \"kafka:9092\",\n            \"client.id\"\
     : \"es-prod-event\",\n            \"event_cb\": true,\n            \"dr_cb\":\
     \ true,\n            \"socket.keepalive.enable\": true,\n            \"queue.buffering.max.messages\"\
     : 10000000\n          },\n          \"topicConf\": {\n            \"request.required.acks\"\
@@ -1567,6 +1585,8 @@ data:
 kind: ConfigMap
 metadata:
   name: centralledger-handler-transfer-prepare-sidecar
+  labels:
+    app.kubernetes.io/name: centralledger-handler-transfer-prepare-sidecar
 ---
 apiVersion: v1
 data:
@@ -1604,6 +1624,8 @@ data:
 kind: ConfigMap
 metadata:
   name: centralledger-mysql-config-files
+  labels:
+    app.kubernetes.io/name: centralledger-mysql-config-files
 ---
 apiVersion: v1
 data:
@@ -1680,12 +1702,14 @@ data:
 kind: ConfigMap
 metadata:
   name: centralledger-mysql-startup-scripts
+  labels:
+    app.kubernetes.io/name: centralledger-mysql-startup-scripts
 ---
 apiVersion: v1
 data:
   run.sh: 'echo "Testing Percona XtraDB Cluster"
 
-    creds="-uroot -p${MYSQL_ROOT_PASSWORD} -h test-centralledger-mysql"
+    creds="-uroot -p${MYSQL_ROOT_PASSWORD} -h mysql"
 
     echo "==> basic mysql ping"
 
@@ -1721,6 +1745,8 @@ data:
 kind: ConfigMap
 metadata:
   name: centralledger-mysql-tests
+  labels:
+    app.kubernetes.io/name: centralledger-mysql-tests
 ---
 apiVersion: v1
 data:
@@ -1732,7 +1758,7 @@ data:
     DISABLED\": true,\n        \"HOST\": \"test-forensicloggingsidecar-ledger\",\n\
     \        \"PORT\": 5678,\n        \"CONNECT_TIMEOUT\": 45000,\n        \"RECONNECT_INTERVAL\"\
     : 5000\n    },\n    \"DATABASE\": {\n        \"DIALECT\": \"mysql\",\n       \
-    \ \"HOST\": \"test-centralledger-mysql\",\n        \"PORT\": 3306,\n        \"\
+    \ \"HOST\": \"mysql\",\n        \"PORT\": 3306,\n        \"\
     USER\": \"central_ledger\",\n        \"PASSWORD\": \"oyMxgZChuu\",\n        \"\
     SCHEMA\": \"central_ledger\",\n        \"POOL_MIN_SIZE\": 10,\n        \"POOL_MAX_SIZE\"\
     : 30,\n        \"ACQUIRE_TIMEOUT_MILLIS\": 30000,\n        \"CREATE_TIMEOUT_MILLIS\"\
@@ -1773,7 +1799,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-bulk-prepare\",\n       \
     \                     \"group.id\": \"cl-group-bulk-prepare\",\n             \
-    \               \"metadata.broker.list\": \"test-kafka:9092\",\n             \
+    \               \"metadata.broker.list\": \"kafka:9092\",\n             \
     \               \"socket.keepalive.enable\": true\n                        },\n\
     \                        \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -1787,7 +1813,7 @@ data:
     \          },\n                        \"rdkafkaConf\": {\n                  \
     \          \"client.id\": \"cl-con-bulk-processing\",\n                      \
     \      \"group.id\": \"cl-group-bulk-processing\",\n                         \
-    \   \"metadata.broker.list\": \"test-kafka:9092\",\n                         \
+    \   \"metadata.broker.list\": \"kafka:9092\",\n                         \
     \   \"socket.keepalive.enable\": true\n                        },\n          \
     \              \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -1801,7 +1827,7 @@ data:
     \          },\n                        \"rdkafkaConf\": {\n                  \
     \          \"client.id\": \"cl-con-bulk-fulfil\",\n                          \
     \  \"group.id\": \"cl-group-bulk-fulfil\",\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"socket.keepalive.enable\"\
+    : \"kafka:9092\",\n                            \"socket.keepalive.enable\"\
     : true\n                        },\n                        \"topicConf\": {\n\
     \                            \"auto.offset.reset\": \"earliest\"\n           \
     \             }\n                    }\n                }\n            },\n  \
@@ -1815,7 +1841,7 @@ data:
     \                        },\n                        \"rdkafkaConf\": {\n    \
     \                        \"client.id\": \"cl-con-transfer-prepare\",\n       \
     \                     \"group.id\": \"cl-group-transfer-prepare\",\n         \
-    \                   \"metadata.broker.list\": \"test-kafka:9092\",\n         \
+    \                   \"metadata.broker.list\": \"kafka:9092\",\n         \
     \                   \"socket.keepalive.enable\": true\n                      \
     \  },\n                        \"topicConf\": {\n                            \"\
     auto.offset.reset\": \"earliest\"\n                        }\n               \
@@ -1829,7 +1855,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-position\",\n  \
     \                          \"group.id\": \"cl-group-transfer-position\",\n   \
-    \                         \"metadata.broker.list\": \"test-kafka:9092\",\n   \
+    \                         \"metadata.broker.list\": \"kafka:9092\",\n   \
     \                         \"socket.keepalive.enable\": true\n                \
     \        },\n                        \"topicConf\": {\n                      \
     \      \"auto.offset.reset\": \"earliest\"\n                        }\n      \
@@ -1843,7 +1869,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-fulfil\",\n    \
     \                        \"group.id\": \"cl-group-transfer-fulfil\",\n       \
-    \                     \"metadata.broker.list\": \"test-kafka:9092\",\n       \
+    \                     \"metadata.broker.list\": \"kafka:9092\",\n       \
     \                     \"socket.keepalive.enable\": true\n                    \
     \    },\n                        \"topicConf\": {\n                          \
     \  \"auto.offset.reset\": \"earliest\"\n                        }\n          \
@@ -1857,7 +1883,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-get\",\n       \
     \                     \"group.id\": \"cl-group-transfer-get\",\n             \
-    \               \"metadata.broker.list\": \"test-kafka:9092\",\n             \
+    \               \"metadata.broker.list\": \"kafka:9092\",\n             \
     \               \"socket.keepalive.enable\": true\n                        },\n\
     \                        \"topicConf\": {\n                            \"auto.offset.reset\"\
     : \"earliest\"\n                        }\n                    }\n           \
@@ -1871,7 +1897,7 @@ data:
     : 1000\n                        },\n                        \"rdkafkaConf\": {\n\
     \                            \"client.id\": \"cl-con-transfer-admin\",\n     \
     \                       \"group.id\": \"cl-group-transfer-admin\",\n         \
-    \                   \"metadata.broker.list\": \"test-kafka:9092\",\n         \
+    \                   \"metadata.broker.list\": \"kafka:9092\",\n         \
     \                   \"socket.keepalive.enable\": true\n                      \
     \  },\n                        \"topicConf\": {\n                            \"\
     auto.offset.reset\": \"earliest\"\n                        }\n               \
@@ -1880,7 +1906,7 @@ data:
     \    \"config\": {\n                        \"options\": {\n                 \
     \           \"messageCharset\": \"utf8\"\n                        },\n       \
     \                 \"rdkafkaConf\": {\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"client.id\": \"cl-prod-bulk-processing\"\
+    : \"kafka:9092\",\n                            \"client.id\": \"cl-prod-bulk-processing\"\
     ,\n                            \"event_cb\": true,\n                         \
     \   \"dr_cb\": false,\n                            \"socket.keepalive.enable\"\
     : true,\n                            \"queue.buffering.max.messages\": 10000000\n\
@@ -1891,7 +1917,7 @@ data:
     : {\n                \"PREPARE\": {\n                    \"config\": {\n     \
     \                   \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-transfer-prepare\",\n\
     \                            \"event_cb\": true,\n                           \
     \ \"dr_cb\": false,\n                            \"socket.keepalive.enable\":\
@@ -1903,7 +1929,7 @@ data:
     \                   \"config\": {\n                        \"options\": {\n  \
     \                          \"messageCharset\": \"utf8\"\n                    \
     \    },\n                        \"rdkafkaConf\": {\n                        \
-    \    \"metadata.broker.list\": \"test-kafka:9092\",\n                        \
+    \    \"metadata.broker.list\": \"kafka:9092\",\n                        \
     \    \"client.id\": \"cl-prod-transfer-position\",\n                         \
     \   \"event_cb\": true,\n                            \"dr_cb\": false,\n     \
     \                       \"socket.keepalive.enable\": true,\n                 \
@@ -1914,7 +1940,7 @@ data:
     \           },\n                \"FULFIL\": {\n                    \"config\"\
     : {\n                        \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-transfer-fulfil\",\n \
     \                           \"event_cb\": true,\n                            \"\
     dr_cb\": false,\n                            \"socket.keepalive.enable\": true,\n\
@@ -1926,7 +1952,7 @@ data:
     \          \"config\": {\n                        \"options\": {\n           \
     \                 \"messageCharset\": \"utf8\"\n                        },\n \
     \                       \"rdkafkaConf\": {\n                            \"metadata.broker.list\"\
-    : \"test-kafka:9092\",\n                            \"client.id\": \"cl-prod-transfer-get\"\
+    : \"kafka:9092\",\n                            \"client.id\": \"cl-prod-transfer-get\"\
     ,\n                            \"event_cb\": true,\n                         \
     \   \"dr_cb\": false,\n                            \"socket.keepalive.enable\"\
     : true,\n                            \"queue.buffering.max.messages\": 10000000\n\
@@ -1937,7 +1963,7 @@ data:
     : {\n                \"EVENT\": {\n                    \"config\": {\n       \
     \                 \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"cl-prod-notification-event\",\n\
     \                            \"event_cb\": true,\n                           \
     \ \"dr_cb\": false,\n                            \"socket.keepalive.enable\":\
@@ -1949,7 +1975,7 @@ data:
     : {\n                \"TRANSFER\": {\n                    \"config\": {\n    \
     \                    \"options\": {\n                            \"messageCharset\"\
     : \"utf8\"\n                        },\n                        \"rdkafkaConf\"\
-    : {\n                            \"metadata.broker.list\": \"test-kafka:9092\"\
+    : {\n                            \"metadata.broker.list\": \"kafka:9092\"\
     ,\n                            \"client.id\": \"admin-transfer-produce\",\n  \
     \                          \"event_cb\": true,\n                            \"\
     dr_cb\": false,\n                            \"socket.keepalive.enable\": true,\n\
@@ -1968,3 +1994,5 @@ data:
 kind: ConfigMap
 metadata:
   name: centralledger-service-config
+  labels:
+    app.kubernetes.io/name: centralledger-service-config

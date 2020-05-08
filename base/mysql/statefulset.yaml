@@ -2,8 +2,12 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mysql
+  labels:
+    app.kubernetes.io/name: mysql
 spec:
-  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: mysql
   serviceName: mysql
   template:
     spec:

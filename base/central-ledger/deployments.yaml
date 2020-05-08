@@ -2,7 +2,12 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: centralledger-service
+  labels:
+    app.kubernetes.io/name: centralledger-service
 spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: centralledger-service
   # TODO: is progressDeadlineSeconds: 600 default?
   progressDeadlineSeconds: 600
   # TODO: is this strategy default? Should we instead use default, given there was a bug with
@@ -13,6 +18,9 @@ spec:
       maxUnavailable: 25%
     type: RollingUpdate
   template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: centralledger-service
     spec:
       containers:
       - command:
@@ -65,7 +73,7 @@ spec:
       - command:
         - sh
         - -c
-        - until mysql -h centralledger-mysql -P 3306 -u central_ledger --password=oyMxgZChuu  central_ledger   -e
+        - until mysql -h mysql -P 3306 -u central_ledger --password=oyMxgZChuu  central_ledger   -e
           'select version()' ; do echo waiting for MySQL; sleep 2; done;
         image: mysql:latest
         imagePullPolicy: Always
@@ -99,7 +107,12 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: centralledger-handler-admin-transfer
+  labels:
+    app.kubernetes.io/name: centralledger-handler-admin-transfer
 spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: centralledger-handler-admin-transfer
   progressDeadlineSeconds: 600
   strategy:
     rollingUpdate:
@@ -107,6 +120,9 @@ spec:
       maxUnavailable: 25%
     type: RollingUpdate
   template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: centralledger-handler-admin-transfer
     spec:
       containers:
       - command:
@@ -161,7 +177,7 @@ spec:
       - command:
         - sh
         - -c
-        - until result=$(mysql -h centralledger-mysql -P 3306 -u central_ledger
+        - until result=$(mysql -h mysql -P 3306 -u central_ledger
           --password=oyMxgZChuu  central_ledger -ss -N -e 'select is_locked from
           migration_lock;') && eval 'echo is_locked=$result' && if [ -z $result
           ]; then false; fi && if [ $result -ne 0 ]; then false; fi; do echo waiting
@@ -193,7 +209,12 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: centralledger-handler-timeout
+  labels:
+    app.kubernetes.io/name: centralledger-handler-timeout
 spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: centralledger-handler-timeout
   progressDeadlineSeconds: 600
   strategy:
     rollingUpdate:
@@ -201,6 +222,9 @@ spec:
       maxUnavailable: 25%
     type: RollingUpdate
   template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: centralledger-handler-timeout
     spec:
       containers:
       - command:
@@ -297,7 +321,7 @@ spec:
       - command:
         - sh
         - -c
-        - until result=$(mysql -h centralledger-mysql -P 3306 -u central_ledger
+        - until result=$(mysql -h mysql -P 3306 -u central_ledger
           --password=oyMxgZChuu  central_ledger -ss -N -e 'select is_locked from
           migration_lock;') && eval 'echo is_locked=$result' && if [ -z $result
           ]; then false; fi && if [ $result -ne 0 ]; then false; fi; do echo waiting
@@ -336,7 +360,12 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: centralledger-handler-transfer-prepare
+  labels:
+    app.kubernetes.io/name: centralledger-handler-transfer-prepare
 spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: centralledger-handler-transfer-prepare
   progressDeadlineSeconds: 600
   revisionHistoryLimit: 10
   strategy:
@@ -345,6 +374,9 @@ spec:
       maxUnavailable: 25%
     type: RollingUpdate
   template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: centralledger-handler-transfer-prepare
     spec:
       containers:
         - command:
@@ -485,7 +517,12 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: centralledger-handler-transfer-position
+  labels:
+    app.kubernetes.io/name: centralledger-handler-transfer-position
 spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: centralledger-handler-transfer-position
   progressDeadlineSeconds: 600
   revisionHistoryLimit: 10
   strategy:
@@ -494,6 +531,9 @@ spec:
       maxUnavailable: 25%
     type: RollingUpdate
   template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: centralledger-handler-transfer-position
     spec:
       containers:
         - command:
@@ -634,7 +674,12 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: centralledger-handler-transfer-get
+  labels:
+    app.kubernetes.io/name: centralledger-handler-transfer-get
 spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: centralledger-handler-transfer-get
   progressDeadlineSeconds: 600
   revisionHistoryLimit: 10
   strategy:
@@ -643,6 +688,9 @@ spec:
       maxUnavailable: 25%
     type: RollingUpdate
   template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: centralledger-handler-transfer-get
     spec:
       containers:
         - command:
@@ -730,7 +778,12 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: centralledger-handler-transfer-fulfil
+  labels:
+    app.kubernetes.io/name: centralledger-handler-transfer-fulfil
 spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: centralledger-handler-transfer-fulfil
   progressDeadlineSeconds: 600
   revisionHistoryLimit: 10
   strategy:
@@ -739,6 +792,9 @@ spec:
       maxUnavailable: 25%
     type: RollingUpdate
   template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: centralledger-handler-transfer-fulfil
     spec:
       containers:
         - command:

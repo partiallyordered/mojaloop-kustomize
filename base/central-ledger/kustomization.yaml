@@ -1,0 +1,9 @@
+commonLabels:
+  app.kubernetes.io/part-of: centralledger
+resources:
+  - ../kafka
+  - ../mysql
+  - configmaps.yaml
+  - deployments.yaml
+  - services.yaml
+  - secrets.yaml

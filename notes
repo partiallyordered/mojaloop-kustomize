@@ -1,3 +1,35 @@
+The philosophy of Kustomize is to supply a minimal set of working manifests that can be composed
+with other manifests, and modified using Kustomize. If a user wishes to remove some part of the
+manifest, there's a good chance either
+1. the application will no longer function
+2. your manifest was not simple enough
+
+This results in more control over artifacts for users, _and_ in a lower maintenance burden for the
+developers of the artifacts.
+
+- Intended that all bases should be deployable without kustomizations. Therefore, treated the label
+  `app.kubernetes.io/name` as reserved, and set it manually for all bases.
+
+### Pros:
+Lower maintenance burden for artifact developers
+More control over deployment for users
+Better control of redeployment of pods dependent on secrets/configmaps
+
+### Cons:
+
+### Questions:
+- How does kubectl/kustomize identify deployed artifacts when upgrading?
+- How does kubectl/kustomize manage failed upgrades?
+- How does kubectl/kustomize manage shared resources? Does it expect to "own" the cluster? How can
+  a user handle whatever behaviour it exhibits here?
+- When using commonLabels it's possible to overwrite those used by subcharts. Is it just
+  best-practice to not use `commonLabels` such as `kubernetes.io/name`?
+- Do commonLabels get applied to selectors?
+- How does kustomize handle deletions during upgrades?
+- How to manage immutable fields? For example, try to change a Service .spec.clusterIP and apply
+  the changed configuration.
+
+
 Objective:
 
 ALS
@@ -8,3 +40,25 @@ central ledger
 Therefore, Kafka and MySQL
 
 All services needed to run P2P for clearing
+
+TODO:
+- Move all wait-for-kafka and wait-for-mysql init containers into kustomizations- this way the
+- service names they connect to can be controlled
+- Look through TODOs in the code
+- Collapse all mysql access configmaps into one. Perhaps supplied by the mysql base.
+- Prettify the config json
+- Use SecretGenerators and ConfigMapGenerators instead of secrets and configmaps
+- It's possible to have kustomize produce all manifests as individual files with
+  ```sh
+  mkdir out
+  kustomize build -o out
+  ```
+  Could split our single files into multiple files like this.
+- Treated `app.kubernetes.io/name` as reserved. For this to work, it might be the case that
+  consumers have to respect this also. Is this sensible? Presumably it's possible to apply a
+  transformer to change this value?
+- Look at the notes from the previous attempt
+- Move all scripts out of configmaps and into files - see the upstream charts for the source of
+  these
+- Move all json config out of configmaps and into files - see the upstream charts for the source of
+  these

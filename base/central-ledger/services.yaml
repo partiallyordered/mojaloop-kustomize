@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: centralledger-handler-admin-transfer
+  labels:
+    app.kubernetes.io/name: centralledger-handler-admin-transfer
 spec:
   ports:
     - name: http-api
@@ -9,12 +11,14 @@ spec:
       protocol: TCP
       targetPort: 3001
   selector:
-    deployment: centralledger-handler-admin-transfer
+    app.kubernetes.io/name: centralledger-handler-admin-transfer
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: centralledger-handler-timeout
+  labels:
+    app.kubernetes.io/name: centralledger-handler-timeout
 spec:
   ports:
     - name: http-api
@@ -22,12 +26,14 @@ spec:
       protocol: TCP
       targetPort: 3001
   selector:
-    deployment: centralledger-handler-timeout
+    app.kubernetes.io/name: centralledger-handler-timeout
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: centralledger-handler-transfer-fulfil
+  labels:
+    app.kubernetes.io/name: centralledger-handler-transfer-fulfil
 spec:
   ports:
     - name: http-api
@@ -35,12 +41,14 @@ spec:
       protocol: TCP
       targetPort: 3001
   selector:
-    deployment: centralledger-handler-transfer-fulfil
+    app.kubernetes.io/name: centralledger-handler-transfer-fulfil
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: centralledger-handler-transfer-get
+  labels:
+    app.kubernetes.io/name: centralledger-handler-transfer-get
 spec:
   ports:
     - name: http-api
@@ -48,12 +56,14 @@ spec:
       protocol: TCP
       targetPort: 3001
   selector:
-    deployment: centralledger-handler-transfer-get
+    app.kubernetes.io/name: centralledger-handler-transfer-get
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: centralledger-handler-transfer-position
+  labels:
+    app.kubernetes.io/name: centralledger-handler-transfer-position
 spec:
   ports:
     - name: http-api
@@ -61,12 +71,14 @@ spec:
       protocol: TCP
       targetPort: 3001
   selector:
-    deployment: centralledger-handler-transfer-position
+    app.kubernetes.io/name: centralledger-handler-transfer-position
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: centralledger-handler-transfer-prepare
+  labels:
+    app.kubernetes.io/name: centralledger-handler-transfer-prepare
 spec:
   ports:
     - name: http-api
@@ -74,12 +86,14 @@ spec:
       protocol: TCP
       targetPort: 3001
   selector:
-    deployment: centralledger-handler-transfer-prepare
+    app.kubernetes.io/name: centralledger-handler-transfer-prepare
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: centralledger-service
+  labels:
+    app.kubernetes.io/name: centralledger-service
 spec:
   ports:
     - name: http-api
@@ -87,4 +101,4 @@ spec:
       protocol: TCP
       targetPort: 3001
   selector:
-    deployment: centralledger-service
+    app.kubernetes.io/name: centralledger-service

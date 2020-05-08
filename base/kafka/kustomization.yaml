@@ -1,5 +1,5 @@
 commonLabels:
-  app.kubernetes.io/name: kafka
+  app.kubernetes.io/name: BLAH
 resources:
   - statefulsets.yaml
   - services.yaml

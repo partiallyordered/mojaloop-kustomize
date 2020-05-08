@@ -10,6 +10,9 @@ spec:
       app.kubernetes.io/name: mysql
   serviceName: mysql
   template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: mysql
     spec:
       containers:
       - command:

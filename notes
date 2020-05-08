@@ -11,9 +11,16 @@ developers of the artifacts.
   `app.kubernetes.io/name` as reserved, and set it manually for all bases.
 
 ### Pros:
-Lower maintenance burden for artifact developers
-More control over deployment for users
-Better control of redeployment of pods dependent on secrets/configmaps
+- Lower maintenance burden for artifact developers
+- More control over deployment for users
+- Better control of redeployment of pods dependent on secrets/configmaps
+- Less abstraction
+  - when something goes wrong there are fewer components in the system- you don't need to know (1)
+    what helm is doing (2) what k8s is doing (3) what $layer is doing.. (Obviously, there is only
+    one layer fewer).
+  - when reasoning about compatibility and versioning, one less element in the compatibility matrix
+- Fewer tools to use- services can be deployed with _only_ kubectl, if desired
+- Easier to compose systems for testing- similarly to docker-compose
 
 ### Cons:
 
@@ -28,6 +35,7 @@ Better control of redeployment of pods dependent on secrets/configmaps
 - How does kustomize handle deletions during upgrades?
 - How to manage immutable fields? For example, try to change a Service .spec.clusterIP and apply
   the changed configuration.
+- Is it possible for users of the ML charts to make a smooth transition from Helm?
 
 
 Objective:

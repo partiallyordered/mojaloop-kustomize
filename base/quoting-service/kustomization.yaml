@@ -2,3 +2,4 @@ resources:
   - deployment.yaml
   - config.yaml
   - secret.yaml
+  - service.yaml

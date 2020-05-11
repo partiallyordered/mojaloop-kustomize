@@ -1,13 +1,19 @@
 resources:
-  - statefulset.yaml
-  - secret.yaml
-  - services.yaml
+- statefulset.yaml
+- services.yaml
 
 configMapGenerator:
-  - name: mysql-config-files
-    files:
-      - node.cnf
-  - name: mysql-startup-scripts
-    files:
-      - entrypoint.sh
-      - functions.sh
+- name: mysql-config-files
+  files:
+  - node.cnf
+- name: mysql-startup-scripts
+  files:
+  - entrypoint.sh
+  - functions.sh
+
+secretGenerator:
+- name: mysql
+  literals:
+  - mysql-password=oyMxgZChuu
+  - mysql-root-password=2dMJTrx8y9
+  - xtrabackup-password=4WHuZ4xTLq

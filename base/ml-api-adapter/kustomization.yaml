@@ -1,4 +1,17 @@
 resources:
-  - deployments.yaml
-  - services.yaml
-  - config.yaml
+- deployments.yaml
+- services.yaml
+
+configMapGenerator:
+- name: ml-api-adapter-handler-notification-config
+  files:
+  - default.json=./configs/ml-api-adapter-notification-config.json
+- name: ml-api-adapter-handler-notification-sidecar
+  files:
+  - default.json=./configs/ml-api-adapter-handler-notification-event-sidecar-config.json
+- name: ml-api-adapter-service-config
+  files:
+  - default.json=./configs/ml-api-adapter-service-config.json
+- name: ml-api-adapter-service-sidecar
+  files:
+  - default.json=./configs/ml-api-adapter-service-event-sidecar-config.json

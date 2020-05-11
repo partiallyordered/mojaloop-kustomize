@@ -5,3 +5,4 @@ resources:
   - ../mysql
   - ../central-ledger
   - ../ml-api-adapter
+  - ../quoting-service

@@ -45,6 +45,8 @@ developers of the artifacts.
 - Can Kustomize deploy to multiple namespaces simultaneously?
 - How to handle ingresses? Should that be left to the user, or put in a different base, or put in
   the service base?
+- If I want to compose a configmap with a sidecar and then apply that composition to a service, how
+  do I do that?
 
 
 #### Onboarding
@@ -57,7 +59,8 @@ developers of the artifacts.
   `HOST_CENTRAL_LEDGER=localhost:3001`
   `BASE_CENTRAL_LEDGER_ADMIN=''`
 - Find and replace everywhere `participants/hub` (case-sensitive!) with `participants/Hub`
-- Run `New-Deployment-FSP_Setup_MojaloopSims/FSP Onboarding/` onboarding folder
+- Using the Postman _Runner_, run `New-Deployment-FSP_Setup_MojaloopSims/FSP Onboarding/`
+  onboarding folder
 
 #### Transfer
 - Use Postman
@@ -82,6 +85,9 @@ Therefore, Kafka and MySQL
 All services needed to run P2P for clearing
 
 TODO:
+- Review all liveness/readiness probes. Perhaps remove them from all node-only services and apply
+  those from the kustomization. This is because the liveness/readiness probe configurations
+  probably depends on the individual cluster compute resources available.
 - Is there any use to the various sidecars?
 - Remove all `progressDeadlineSeconds: 600`- this is the default value
 - Remove all:

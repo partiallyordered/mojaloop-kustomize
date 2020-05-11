@@ -63,7 +63,7 @@ spec:
               path: /health
               port: 4001
               scheme: HTTP
-            initialDelaySeconds: 90
+            initialDelaySeconds: 10
           name: quoting-service-sidecar
           ports:
             - containerPort: 4001
@@ -74,7 +74,7 @@ spec:
               path: /health
               port: 4001
               scheme: HTTP
-            initialDelaySeconds: 120
+            initialDelaySeconds: 10
           volumeMounts:
             - mountPath: /opt/event-sidecar/config
               name: quoting-service-sidecar-volume

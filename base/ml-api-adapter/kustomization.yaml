@@ -1,5 +1,4 @@
 resources:
-  - configmaps.yaml
   - deployments.yaml
   - services.yaml
-  - secrets.yaml
+  - config.yaml

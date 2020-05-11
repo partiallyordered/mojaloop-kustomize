@@ -1,0 +1,7 @@
+commonLabels:
+  app.kubernetes.io/part-of: mojaloop
+resources:
+  - ../kafka
+  - ../mysql
+  - ../central-ledger
+  - ../ml-api-adapter

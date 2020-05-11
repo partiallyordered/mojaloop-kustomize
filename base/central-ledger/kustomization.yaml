@@ -1,5 +1,34 @@
 resources:
-  - configmaps.yaml
-  - deployments.yaml
-  - services.yaml
-  - secrets.yaml
+- deployments.yaml
+- services.yaml
+- secrets.yaml
+
+configMapGenerator:
+- name: centralledger-handler-admin-transfer-config
+  files:
+  - knexfile.js
+  - default.json=centralledger-handler-admin-transfer-config.json
+- name: centralledger-service-config
+  files:
+  - knexfile.js
+  - default.json=centralledger-service-config.json
+- name: centralledger-handler-timeout-config
+  files:
+  - knexfile.js
+  - default.json=centralledger-handler-timeout-config.json
+- name: centralledger-handler-transfer-fulfil-config
+  files:
+  - knexfile.js
+  - default.json=centralledger-handler-transfer-fulfil-config.json
+- name: centralledger-handler-transfer-get-config
+  files:
+  - knexfile.js
+  - default.json=centralledger-handler-transfer-get-config.json
+- name: centralledger-handler-transfer-position-config
+  files:
+  - knexfile.js
+  - default.json=centralledger-handler-transfer-position-config.json
+- name: centralledger-handler-transfer-prepare-config
+  files:
+  - knexfile.js
+  - default.json=centralledger-handler-transfer-prepare-config.json

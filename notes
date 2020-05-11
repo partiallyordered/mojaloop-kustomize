@@ -38,6 +38,36 @@ developers of the artifacts.
 - How to manage immutable fields? For example, try to change a Service .spec.clusterIP and apply
   the changed configuration.
 - Is it possible for users of the ML charts to make a smooth transition from Helm?
+- How does Kustomize handle the diamond problem? (How does Helm handle the diamond problem?)
+  - https://github.com/kubernetes-sigs/kustomize/issues/1251
+- Can Kustomize catch problems before helm would?
+- What advantages are gained by a `--dry-run` kubectl install?
+- Can Kustomize deploy to multiple namespaces simultaneously?
+- How to handle ingresses? Should that be left to the user, or put in a different base, or put in
+  the service base?
+
+
+#### Onboarding
+- Use Postman
+- Port-forward central ledger
+  ```sh
+  kubectl port-forward -n cl deploy/centralledger-service 3001
+  ```
+- Modify postman environment
+  `HOST_CENTRAL_LEDGER=localhost:3001`
+  `BASE_CENTRAL_LEDGER_ADMIN=''`
+- Find and replace everywhere `participants/hub` (case-sensitive!) with `participants/Hub`
+- Run `New-Deployment-FSP_Setup_MojaloopSims/FSP Onboarding/` onboarding folder
+
+#### Transfer
+- Use Postman
+- Port-forward ml-api-adapter
+  ```sh
+  kubectl port-forward -n cl deploy/ml-api-adapter-service 3000
+  ```
+- Modify environment:
+  `HOST_SWITCH=localhost:3000`
+  `BASE_PATH_SWITCH=''`
 
 
 Objective:
@@ -52,6 +82,19 @@ Therefore, Kafka and MySQL
 All services needed to run P2P for clearing
 
 TODO:
+- Is there any use to the various sidecars?
+- Remove all `progressDeadlineSeconds: 600`- this is the default value
+- Remove all:
+  ```
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  ```
+  Those are the defaults.
+- Remove all `service.type: ClusterIP` (the default)
+- Remove all `revisionHistoryLimit` values- this is probably something for a user to decide
 - Move all wait-for-kafka and wait-for-mysql init containers into kustomizations- this way the
 - service names they connect to can be controlled
 - Look through TODOs in the code
@@ -73,3 +116,4 @@ TODO:
 - Move all json config out of configmaps and into files - see the upstream charts for the source of
   these
 - Split central ledger components into multiple bases? Probably not..
+- Ingresses! Put them in Mojaloop, or in the individual services?

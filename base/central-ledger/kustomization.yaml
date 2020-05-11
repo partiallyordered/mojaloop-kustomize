@@ -32,3 +32,15 @@ configMapGenerator:
   files:
   - knexfile.js
   - default.json=centralledger-handler-transfer-prepare-config.json
+- name: centralledger-handler-timeout-sidecar
+  files:
+  - default.json=centralledger-handler-timeout-event-sidecar-config.json
+- name: centralledger-handler-transfer-prepare-sidecar
+  files:
+  - default.json=centralledger-handler-transfer-prepare-event-sidecar-config.json
+- name: centralledger-handler-transfer-position-sidecar
+  files:
+  - default.json=centralledger-handler-transfer-position-event-sidecar-config.json
+- name: centralledger-handler-transfer-fulfil-sidecar
+  files:
+  - default.json=centralledger-handler-transfer-fulfil-event-sidecar-config.json

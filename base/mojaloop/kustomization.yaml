@@ -3,6 +3,6 @@ commonLabels:
 resources:
   - ../kafka
   - ../mysql
-  - ../central-ledger
+  - ../centralledger
   - ../ml-api-adapter
   - ../quoting-service

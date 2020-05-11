@@ -5,6 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/name: kafka
 spec:
+  # TODO: what is this?
   # podManagementPolicy: OrderedReady
   serviceName: kafka-headless
   selector:
@@ -91,6 +92,7 @@ metadata:
   labels:
     app.kubernetes.io/name: kafka
 spec:
+  # TODO: what is this?
   # podManagementPolicy: OrderedReady
   serviceName: zookeeper-headless
   selector:

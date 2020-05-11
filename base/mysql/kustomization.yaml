@@ -1,6 +1,13 @@
 resources:
-  - configmap-files.yaml
-  - configmap-startup-scripts.yaml
   - statefulset.yaml
   - secret.yaml
   - services.yaml
+
+configMapGenerator:
+  - name: mysql-config-files
+    files:
+      - node.cnf
+  - name: mysql-startup-scripts
+    files:
+      - entrypoint.sh
+      - functions.sh

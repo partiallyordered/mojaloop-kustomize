@@ -37,7 +37,6 @@ data:
     : \"all\"\n          }\n        }\n      }\n    }\n  }\n}\n"
 kind: ConfigMap
 metadata:
-  creationTimestamp: '2020-05-07T11:27:48Z'
   labels:
     app.kubernetes.io/name: quoting-service
   name: quoting-service-sidecar

@@ -9,14 +9,6 @@ spec:
     matchLabels:
       app.kubernetes.io/name: centralledger-service
   # TODO: is progressDeadlineSeconds: 600 default?
-  progressDeadlineSeconds: 600
-  # TODO: is this strategy default? Should we instead use default, given there was a bug with
-  # this?
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -52,7 +44,7 @@ spec:
             path: /health
             port: 3001
             scheme: HTTP
-          initialDelaySeconds: 60
+          initialDelaySeconds: 10
           periodSeconds: 15
         name: centralledger-service
         ports:
@@ -64,7 +56,7 @@ spec:
             path: /health
             port: 3001
             scheme: HTTP
-          initialDelaySeconds: 60
+          initialDelaySeconds: 10
           periodSeconds: 15
         volumeMounts:
         - mountPath: /opt/central-ledger/config
@@ -113,12 +105,6 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: centralledger-handler-admin-transfer
-  progressDeadlineSeconds: 600
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -156,7 +142,7 @@ spec:
             path: /health
             port: 3001
             scheme: HTTP
-          initialDelaySeconds: 60
+          initialDelaySeconds: 10
           periodSeconds: 15
         name: centralledger-handler-admin-transfer
         ports:
@@ -168,7 +154,7 @@ spec:
             path: /health
             port: 3001
             scheme: HTTP
-          initialDelaySeconds: 60
+          initialDelaySeconds: 10
           periodSeconds: 15
         volumeMounts:
         - mountPath: /opt/central-ledger/config
@@ -215,12 +201,6 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: centralledger-handler-timeout
-  progressDeadlineSeconds: 600
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -264,7 +244,7 @@ spec:
             path: /health
             port: 3001
             scheme: HTTP
-          initialDelaySeconds: 60
+          initialDelaySeconds: 10
           periodSeconds: 15
         name: centralledger-handler-timeout
         ports:
@@ -276,7 +256,7 @@ spec:
             path: /health
             port: 3001
             scheme: HTTP
-          initialDelaySeconds: 60
+          initialDelaySeconds: 10
           periodSeconds: 15
         volumeMounts:
         - mountPath: /opt/central-ledger/config
@@ -366,13 +346,6 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: centralledger-handler-transfer-prepare
-  progressDeadlineSeconds: 600
-  revisionHistoryLimit: 10
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -417,7 +390,7 @@ spec:
               path: /health
               port: 3001
               scheme: HTTP
-            initialDelaySeconds: 60
+            initialDelaySeconds: 10
             periodSeconds: 15
           name: centralledger-handler-transfer-prepare
           ports:
@@ -430,7 +403,7 @@ spec:
               path: /health
               port: 3001
               scheme: HTTP
-            initialDelaySeconds: 60
+            initialDelaySeconds: 10
             periodSeconds: 15
           volumeMounts:
             - mountPath: /opt/central-ledger/config
@@ -523,13 +496,6 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: centralledger-handler-transfer-position
-  progressDeadlineSeconds: 600
-  revisionHistoryLimit: 10
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -574,7 +540,7 @@ spec:
               path: /health
               port: 3001
               scheme: HTTP
-            initialDelaySeconds: 60
+            initialDelaySeconds: 10
             periodSeconds: 15
           name: centralledger-handler-transfer-position
           ports:
@@ -587,7 +553,7 @@ spec:
               path: /health
               port: 3001
               scheme: HTTP
-            initialDelaySeconds: 60
+            initialDelaySeconds: 10
             periodSeconds: 15
           volumeMounts:
             - mountPath: /opt/central-ledger/config
@@ -680,13 +646,6 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: centralledger-handler-transfer-get
-  progressDeadlineSeconds: 600
-  revisionHistoryLimit: 10
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -723,7 +682,7 @@ spec:
               path: /health
               port: 3001
               scheme: HTTP
-            initialDelaySeconds: 60
+            initialDelaySeconds: 10
             periodSeconds: 15
           name: centralledger-handler-transfer-get
           ports:
@@ -736,7 +695,7 @@ spec:
               path: /health
               port: 3001
               scheme: HTTP
-            initialDelaySeconds: 60
+            initialDelaySeconds: 10
             periodSeconds: 15
           volumeMounts:
             - mountPath: /opt/central-ledger/config
@@ -784,13 +743,6 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: centralledger-handler-transfer-fulfil
-  progressDeadlineSeconds: 600
-  revisionHistoryLimit: 10
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -835,7 +787,7 @@ spec:
               path: /health
               port: 3001
               scheme: HTTP
-            initialDelaySeconds: 60
+            initialDelaySeconds: 10
             periodSeconds: 15
           name: centralledger-handler-transfer-fulfil
           ports:
@@ -848,7 +800,7 @@ spec:
               path: /health
               port: 3001
               scheme: HTTP
-            initialDelaySeconds: 60
+            initialDelaySeconds: 10
             periodSeconds: 15
           volumeMounts:
             - mountPath: /opt/central-ledger/config

@@ -6,7 +6,7 @@ resources:
 patches:
 - patch: |-
     - op: replace
-      value: als-mysql
+      value: centralledger-mysql
       path: /metadata/name
   target:
     name: mysql.*

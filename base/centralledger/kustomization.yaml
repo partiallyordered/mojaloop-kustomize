@@ -1,6 +1,15 @@
 resources:
   - deployments.yaml
   - services.yaml
+  - ../mysql
+
+patches:
+- patch: |-
+    - op: replace
+      value: als-mysql
+      path: /metadata/name
+  target:
+    name: mysql.*
 
 configMapGenerator:
   - name: centralledger-handler-admin-transfer-config

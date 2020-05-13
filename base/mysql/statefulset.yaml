@@ -45,7 +45,7 @@ spec:
         - name: SHORT_CLUSTER_NAME
           value: mysql
         - name: K8S_SERVICE_NAME
-          value: mysql-repl
+          value: $(K8S_SERVICE_NAME)
         - name: PXC_STRICT_MODE
           value: ENFORCING
         - name: DEBUG

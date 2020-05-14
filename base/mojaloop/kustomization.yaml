@@ -2,7 +2,6 @@ commonLabels:
   app.kubernetes.io/part-of: mojaloop
 resources:
   - ../kafka
-  - ../mysql
   - ../centralledger
   - ../ml-api-adapter
   - ../quoting-service

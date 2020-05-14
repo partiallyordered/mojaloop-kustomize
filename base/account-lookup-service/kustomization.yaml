@@ -2,6 +2,14 @@ resources:
   - deployments.yaml
   - services.yaml
 
+patches:
+- patch: |-
+    - op: replace
+      value: als-mysql
+      path: /metadata/name
+  target:
+    name: mysql.*
+
 configMapGenerator:
   - name: account-lookup-service-admin-config
     files:

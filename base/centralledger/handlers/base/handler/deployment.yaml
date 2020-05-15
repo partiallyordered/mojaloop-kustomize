@@ -89,9 +89,10 @@ spec:
       restartPolicy: Always
       volumes:
       - configMap:
-        items:
-          - key: default.json
-            path: default.json
-          - key: knexfile.js
-            path: knexfile.js
+          name: centralledger-handler-config
+          items:
+            - key: default.json
+              path: default.json
+            - key: knexfile.js
+              path: knexfile.js
         name: config-volume

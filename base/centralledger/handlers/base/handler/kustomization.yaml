@@ -1,0 +1,18 @@
+resources:
+  - ./service.yaml
+  - ./deployment.yaml
+
+configMapGenerator:
+  - name: centralledger-handler-config
+    files:
+      - ./knexfile.js
+      - ./default.json
+
+vars:
+  - name: NAME
+    objref:
+      kind: Service
+      name: centralledger-handler
+      apiVersion: v1
+    fieldref:
+      fieldpath: metadata.name

@@ -1,0 +1,18 @@
+nameSuffix: -transfer-fulfil
+
+patches:
+  # Override the container command
+  - patch: |
+      - op: replace
+        path: /spec/template/spec/containers/0/command
+        value:
+          - node
+          - src/handlers/index.js
+          - handler
+          - --fulfil
+    target:
+      name: centralledger-handler
+      kind: Deployment
+
+resources:
+  - ../base/sidecar

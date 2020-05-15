@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: centralledger-handler
+  labels:
+    app.kubernetes.io/name: centralledger-handler
+spec:
+  ports:
+    - name: http-api
+      port: 80
+      protocol: TCP
+      targetPort: 3001
+  selector:
+    app.kubernetes.io/name: centralledger-handler

@@ -1,29 +1,23 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: centralledger-handler
+  name: centralledger-service
   labels:
-    app.kubernetes.io/name: centralledger-handler
+    app.kubernetes.io/name: centralledger-service
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: centralledger-handler
+      app.kubernetes.io/name: centralledger-service
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: centralledger-handler
+        app.kubernetes.io/name: centralledger-service
     spec:
       containers:
       - command:
         - node
-        - src/handlers/index.js
-        - handler
-        - --handler # This will fail. We don't want it to succeed- this should be overridden in overlays.
+        - src/api/index.js
         env:
-        - name: CLEDG_HOSTNAME
-          value: centralledger-handler
-        - name: CLEDG_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
-          value: centralledger-handler
         - name: LOG_LEVEL
           value: info
         - name: LOG_FILTER
@@ -51,7 +45,7 @@ spec:
             scheme: HTTP
           initialDelaySeconds: 10
           periodSeconds: 15
-        name: handler
+        name: centralledger-service
         ports:
         - containerPort: 3001
           name: http-api
@@ -65,34 +59,37 @@ spec:
           periodSeconds: 15
         volumeMounts:
         - mountPath: /opt/central-ledger/config
-          name: config-volume
+          name: centralledger-service-config-volume
       initContainers:
       - command:
         - sh
         - -c
-        - until result=$(mysql -h mysql -P 3306 -u central_ledger
-          --password=oyMxgZChuu  central_ledger -ss -N -e 'select is_locked from
-          migration_lock;') && eval 'echo is_locked=$result' && if [ -z $result
-          ]; then false; fi && if [ $result -ne 0 ]; then false; fi; do echo waiting
-          for MySQL; sleep 2; done;
+        - until mysql -h mysql -P 3306 -u central_ledger --password=oyMxgZChuu  central_ledger   -e
+          'select version()' ; do echo waiting for MySQL; sleep 2; done;
         image: mysql:latest
         imagePullPolicy: Always
         name: wait-for-mysql
       - command:
         - sh
         - -c
-        - until ./bin/kafka-broker-api-versions.sh --bootstrap-server kafka:9092;
-          do echo waiting for Kafka; sleep 2; done;
-        image: solsson/kafka:latest
+        - npm run migrate
+        env:
+        - name: CLEDG_MIGRATIONS__RUN_DATA_MIGRATIONS
+          value: "true"
+        image: mojaloop/central-ledger:v9.5.0
         imagePullPolicy: Always
-        name: wait-for-kafka
+        name: run-migration
+        volumeMounts:
+        - mountPath: /opt/central-ledger/config
+          name: centralledger-service-config-volume
       restartPolicy: Always
       volumes:
       - configMap:
-          name: centralledger-handler-config
+          defaultMode: 420
           items:
-            - key: default.json
-              path: default.json
-            - key: knexfile.js
-              path: knexfile.js
-        name: config-volume
+          - key: default.json
+            path: default.json
+          - key: knexfile.js
+            path: knexfile.js
+          name: centralledger-service-config
+        name: centralledger-service-config-volume

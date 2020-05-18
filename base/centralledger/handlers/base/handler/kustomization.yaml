@@ -8,11 +8,3 @@ configMapGenerator:
       - ./knexfile.js
       - ./default.json
 
-vars:
-  - name: NAME
-    objref:
-      kind: Service
-      name: centralledger-handler
-      apiVersion: v1
-    fieldref:
-      fieldpath: metadata.name

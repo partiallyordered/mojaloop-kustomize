@@ -8,8 +8,9 @@
 resources:
   - ../handler
 
-# TODO: is it possible to incorporate this in the patchesStrategicMerge? If so, this entire overlay
-# could be just a patch.
+# TODO: is it possible to incorporate this in the patchesStrategicMerge without including the file
+# in-line? If so, this entire overlay could be just a patch. (Or we _could_ include the file
+# in-line..).
 configMapGenerator:
   - name: event-sidecar-config
     files:
@@ -26,7 +27,7 @@ patchesStrategicMerge:
       template:
         spec:
           containers:
-            - name: centralledger-handler
+            - name: handler
               env:
                 - name: EVENT_SDK_LOG_METADATA_ONLY
                   value: "false"
@@ -49,8 +50,8 @@ patchesStrategicMerge:
                   value: audit:*, log:info, log:warn, log:error
                 - name: EVENT_SDK_LOG_METADATA_ONLY
                   value: "true"
-                - name: ES_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
-                  value: $(NAME) # TODO: not actually used in event sidecar AFAICT
+                # - name: ES_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
+                #   value: $(NAME) # TODO: not actually used in event sidecar AFAICT
               image: mojaloop/event-sidecar:v9.3.0
               imagePullPolicy: Always
               livenessProbe:

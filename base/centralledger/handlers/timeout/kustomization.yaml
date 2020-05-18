@@ -1,18 +1,26 @@
 nameSuffix: -timeout
 
-patches:
-  # Override the container command
-  - patch: |
-      - op: replace
-        path: /spec/template/spec/containers/0/command
-        value:
-          - node
-          - src/handlers/index.js
-          - handler
-          - --timeout
-    target:
+patchesStrategicMerge:
+  - |-
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    metadata:
       name: centralledger-handler
-      kind: Deployment
+    spec:
+      template:
+        spec:
+          containers:
+            - name: handler
+              command:
+                - node
+                - src/handlers/index.js
+                - handler
+                - --timeout
+              env:
+                - name: CLEDG_HOSTNAME
+                  value: central-ledger-timeout.local
+                - name: CLEDG_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
+                  value: central-handler-timeout
 
 resources:
   - ../base/sidecar

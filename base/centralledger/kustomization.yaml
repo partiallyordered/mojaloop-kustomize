@@ -1,21 +1,13 @@
 resources:
   - deployments.yaml
   - services.yaml
-  - ../mysql
+  - ./mysql
   - ./handlers/admin-transfer
   - ./handlers/timeout
   - ./handlers/transfer-fulfil
   - ./handlers/transfer-get
   - ./handlers/transfer-position
   - ./handlers/transfer-prepare
-
-patches:
-- patch: |-
-    - op: replace
-      value: centralledger-mysql
-      path: /metadata/name
-  target:
-    name: mysql.*
 
 configMapGenerator:
   - name: centralledger-service-config

@@ -2,6 +2,12 @@ resources:
   - deployments.yaml
   - services.yaml
   - ../mysql
+  - ./handlers/admin-transfer
+  - ./handlers/timeout
+  - ./handlers/transfer-fulfil
+  - ./handlers/transfer-get
+  - ./handlers/transfer-position
+  - ./handlers/transfer-prepare
 
 patches:
 - patch: |-
@@ -12,43 +18,7 @@ patches:
     name: mysql.*
 
 configMapGenerator:
-  - name: centralledger-handler-admin-transfer-config
-    files:
-      - ./configs/knexfile.js
-      - default.json=./configs/centralledger-handler-admin-transfer-config.json
   - name: centralledger-service-config
     files:
       - ./configs/knexfile.js
       - default.json=./configs/centralledger-service-config.json
-  - name: centralledger-handler-timeout-config
-    files:
-      - ./configs/knexfile.js
-      - default.json=./configs/centralledger-handler-timeout-config.json
-  - name: centralledger-handler-transfer-fulfil-config
-    files:
-      - ./configs/knexfile.js
-      - default.json=./configs/centralledger-handler-transfer-fulfil-config.json
-  - name: centralledger-handler-transfer-get-config
-    files:
-      - ./configs/knexfile.js
-      - default.json=./configs/centralledger-handler-transfer-get-config.json
-  - name: centralledger-handler-transfer-position-config
-    files:
-      - ./configs/knexfile.js
-      - default.json=./configs/centralledger-handler-transfer-position-config.json
-  - name: centralledger-handler-transfer-prepare-config
-    files:
-      - ./configs/knexfile.js
-      - default.json=./configs/centralledger-handler-transfer-prepare-config.json
-  - name: centralledger-handler-timeout-sidecar
-    files:
-      - default.json=./configs/centralledger-handler-timeout-event-sidecar-config.json
-  - name: centralledger-handler-transfer-prepare-sidecar
-    files:
-      - default.json=./configs/centralledger-handler-transfer-prepare-event-sidecar-config.json
-  - name: centralledger-handler-transfer-position-sidecar
-    files:
-      - default.json=./configs/centralledger-handler-transfer-position-event-sidecar-config.json
-  - name: centralledger-handler-transfer-fulfil-sidecar
-    files:
-      - default.json=./configs/centralledger-handler-transfer-fulfil-event-sidecar-config.json

@@ -35,8 +35,12 @@ metadata:
   labels:
     app.kubernetes.io/name: mysql
 spec:
-  # We need a headless service with selectors- when the percona nodes come up they resolve this
-  # service- if it does not resolve to their IP address they start up as a slave node.
+  # We need a headless service with selectors. The consequence of this is that k8s will create a
+  # service that resolves directly to pod IP addresses. When the percona nodes come up they resolve
+  # this service name. Because of the ordering guarantees of a _StatefulSet_, only one node is
+  # brought up at a time- subsequent nodes are not brought up until the preceding node is _Ready_.
+  # If the service resolves to nothing, this is the first pod ready, and it starts up as primary node.
+  # If it resolves, but not to their IP address they start up as a secondary node.
   # See: https://github.com/helm/charts/blob/c20aa5c619235fc23638536505022ac61536e703/stable/percona-xtradb-cluster/files/entrypoint.sh#L19
   clusterIP: None
   ports:

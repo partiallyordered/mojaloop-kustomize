@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: mysql
-  serviceName: mysql
+  serviceName: mysql-repl
   template:
     metadata:
       labels:
@@ -40,12 +40,6 @@ spec:
           value: central_ledger
         - name: ALLOW_ROOT_FROM
           value: '%'
-        - name: CLUSTER_NAME
-          value: $(K8S_SERVICE_NAME)
-        - name: SHORT_CLUSTER_NAME
-          value: $(K8S_SERVICE_NAME)
-        - name: K8S_SERVICE_NAME
-          value: $(K8S_SERVICE_NAME)
         - name: PXC_STRICT_MODE
           value: ENFORCING
         - name: DEBUG

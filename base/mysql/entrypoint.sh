@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
 if [[ -n "${DEBUG}" ]]; then
@@ -16,22 +16,27 @@ if [ "${1:0:1}" = '-' ]; then
     CMDARG="$@"
 fi
 
-cluster_join=$(resolveip -s "${K8S_SERVICE_NAME}" || echo "")
-if [[ -z "${cluster_join}" ]]; then
+function testconn() {
+    timeout 1 bash -c "cat < /dev/null > /dev/tcp/$1/3306"
+}
+
+service_name=$(hostname -f | grep -o '[^.]\+' | head -n2 | tail -n1)
+if ! testconn "$service_name"; then
     echo "I am the Primary Node"
     init_mysql
     write_password_file
-    exec mysqld --user=mysql --wsrep_cluster_name=$SHORT_CLUSTER_NAME --wsrep_node_name=$hostname \
+    exec mysqld --user=mysql --wsrep_cluster_name=$service_name --wsrep_node_name=$hostname \
     --wsrep_cluster_address=gcomm:// --wsrep_sst_method=xtrabackup-v2 \
     --wsrep_sst_auth="xtrabackup:$XTRABACKUP_PASSWORD" \
     --wsrep_node_address="$ipaddr" --pxc_strict_mode="$PXC_STRICT_MODE" $CMDARG
 else
     echo "I am not the Primary Node"
     chown -R mysql:mysql /var/lib/mysql || true # default is root:root 777
+    cluster_join=$(resolveip -s "${service_name}")
     touch /var/log/mysqld.log
     chown mysql:mysql /var/log/mysqld.log
     write_password_file
-    exec mysqld --user=mysql --wsrep_cluster_name=$SHORT_CLUSTER_NAME --wsrep_node_name=$hostname \
+    exec mysqld --user=mysql --wsrep_cluster_name=$service_name --wsrep_node_name=$hostname \
     --wsrep_cluster_address="gcomm://$cluster_join" --wsrep_sst_method=xtrabackup-v2 \
     --wsrep_sst_auth="xtrabackup:$XTRABACKUP_PASSWORD" \
     --wsrep_node_address="$ipaddr" --pxc_strict_mode="$PXC_STRICT_MODE" $CMDARG

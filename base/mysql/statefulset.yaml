@@ -35,9 +35,9 @@ spec:
               key: xtrabackup-password
               name: mysql
         - name: MYSQL_USER
-          value: central_ledger
+          value: mysql
         - name: MYSQL_DATABASE
-          value: central_ledger
+          value: default
         - name: ALLOW_ROOT_FROM
           value: '%'
         - name: PXC_STRICT_MODE

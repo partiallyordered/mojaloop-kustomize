@@ -8,12 +8,9 @@ configMapGenerator:
     files:
       - ./configs/knexfile.js
       - ./configs/default.json
-  - name: account-lookup-service-admin-sidecar
-    files:
-      - default.json=./configs/account-lookup-service-admin-event-sidecar-config.json
   - name: account-lookup-service-sidecar
     files:
-      - default.json=./configs/account-lookup-service-event-sidecar-config.json
+      - default.json=./configs/sidecar.json
 
 secretGenerator:
   - name: mysql

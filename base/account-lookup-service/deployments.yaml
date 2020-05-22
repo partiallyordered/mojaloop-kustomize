@@ -71,6 +71,8 @@ spec:
               value: audit:*, log:info, log:warn, log:error
             - name: EVENT_SDK_LOG_METADATA_ONLY
               value: 'true'
+            - name: ALS_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
+              value: account-lookup-service-event-sidecar
           image: mojaloop/event-sidecar:v9.3.0
           imagePullPolicy: Always
           livenessProbe:
@@ -93,7 +95,7 @@ spec:
             periodSeconds: 15
           volumeMounts:
             - mountPath: /opt/event-sidecar/config
-              name: account-lookup-service-sidecar-volume
+              name: sidecar-config-volume
       initContainers:
         - command:
             - sh
@@ -121,7 +123,7 @@ spec:
               - key: default.json
                 path: default.json
             name: account-lookup-service-sidecar
-          name: account-lookup-service-sidecar-volume
+          name: sidecar-config-volume
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -196,6 +198,8 @@ spec:
               value: audit:*, log:info, log:warn, log:error
             - name: EVENT_SDK_LOG_METADATA_ONLY
               value: 'true'
+            - name: ALS_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
+              value: account-lookup-service-admin-event-sidecar
           image: mojaloop/event-sidecar:v9.3.0
           imagePullPolicy: Always
           livenessProbe:
@@ -218,7 +222,7 @@ spec:
             periodSeconds: 15
           volumeMounts:
             - mountPath: /opt/event-sidecar/config
-              name: event-sidecar-volume
+              name: sidecar-volume
       initContainers:
         - command:
             - sh
@@ -254,5 +258,5 @@ spec:
             items:
               - key: default.json
                 path: default.json
-            name: account-lookup-service-admin-sidecar
-          name: event-sidecar-volume
+            name: account-lookup-service-sidecar
+          name: sidecar-volume

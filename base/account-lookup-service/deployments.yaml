@@ -43,7 +43,7 @@ spec:
               path: /health
               port: http-api
               scheme: HTTP
-          name: account-lookup-service
+          name: service
           ports:
             - containerPort: 4002
               name: http-api
@@ -76,7 +76,7 @@ spec:
               path: /health
               port: 4003
               scheme: HTTP
-            initialDelaySeconds: 90
+            initialDelaySeconds: 15
             periodSeconds: 15
           name: account-lookup-service-sidecar
           ports:
@@ -87,7 +87,7 @@ spec:
               path: /health
               port: 4003
               scheme: HTTP
-            initialDelaySeconds: 120
+            initialDelaySeconds: 15
             periodSeconds: 15
           volumeMounts:
             - mountPath: /opt/event-sidecar/config
@@ -96,21 +96,15 @@ spec:
         - command:
             - sh
             - -c
-            - until mysql -h account-lookup-mysql -P 3306 -u account_lookup --password=OdonPianoX  account_lookup   -e
+            - until mysql -h als-mysql -P 3306 -u account_lookup --password=$(MYSQL_PASSWORD) account_lookup   -e
               'select * from oracleEndpoint;' ; do echo waiting for MySQL; sleep 2;
               done;
           image: mysql:latest
           imagePullPolicy: Always
           name: wait-for-mysql
-        - command:
-            - sh
-            - -c
-            - until mysql -h account-lookup-mysql -P 3306 -u account_lookup --password=OdonPianoX  account_lookup   -e
-              'select * from oracleEndpoint;' ; do echo waiting for MySQL; sleep 2;
-              done;
-          image: mysql:latest
-          imagePullPolicy: Always
-          name: wait-for-mysql
+          envFrom:
+            - secretRef:
+                name: mysql
       volumes:
         - configMap:
             items:
@@ -172,7 +166,7 @@ spec:
               path: /health
               port: http-admin
               scheme: HTTP
-          name: account-lookup-service-admin
+          name: service
           ports:
             - containerPort: 4001
               name: http-admin
@@ -205,9 +199,9 @@ spec:
               path: /health
               port: 4003
               scheme: HTTP
-            initialDelaySeconds: 90
+            initialDelaySeconds: 15
             periodSeconds: 15
-          name: account-lookup-service-admin-sidecar
+          name: event-sidecar
           ports:
             - containerPort: 4003
               protocol: TCP
@@ -216,20 +210,23 @@ spec:
               path: /health
               port: 4003
               scheme: HTTP
-            initialDelaySeconds: 120
+            initialDelaySeconds: 15
             periodSeconds: 15
           volumeMounts:
             - mountPath: /opt/event-sidecar/config
-              name: account-lookup-service-admin-sidecar-volume
+              name: event-sidecar-volume
       initContainers:
         - command:
             - sh
             - -c
-            - until mysql -h account-lookup-mysql -P 3306 -u account_lookup --password=OdonPianoX  account_lookup   -e
+            - until mysql -h als-mysql -P 3306 -u account_lookup --password=$(MYSQL_PASSWORD)  account_lookup   -e
               'select version()' ; do echo waiting for MySQL; sleep 2; done;
           image: mysql:latest
           imagePullPolicy: Always
           name: wait-for-mysql
+          envFrom:
+            - secretRef:
+                name: mysql
         - command:
             - sh
             - -c
@@ -254,4 +251,4 @@ spec:
               - key: default.json
                 path: default.json
             name: account-lookup-service-admin-sidecar
-          name: account-lookup-service-admin-sidecar-volume
+          name: event-sidecar-volume

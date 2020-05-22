@@ -18,3 +18,60 @@ configMapGenerator:
   - name: account-lookup-service-sidecar
     files:
       - default.json=./configs/account-lookup-service-event-sidecar-config.json
+
+secretGenerator:
+  - name: mysql
+    behavior: merge
+    literals:
+      - MYSQL_PASSWORD=oyMxgZChuu
+      - MYSQL_ROOT_PASSWORD=2dMJTrx8y9
+      - XTRABACKUP_PASSWORD=4WHuZ4xTLq
+
+patches:
+  - target:
+      kind: Deployment
+      name: account-lookup-service-admin
+    patch: |-
+      apiVersion: extensions/v1beta1
+      kind: Deployment
+      metadata:
+        name: ignored
+      spec:
+        template:
+          spec:
+            initContainers:
+              - name: run-migration
+                env:
+                  - name: ALS_DATABASE__HOST
+                    value: als-mysql
+                  - name: ALS_DATABASE__PASSWORD
+                    valueFrom:
+                      secretKeyRef:
+                        name: mysql
+                        key: MYSQL_PASSWORD
+  - target:
+      kind: Deployment
+      name: account-lookup-.*
+    patch: |-
+      apiVersion: extensions/v1beta1
+      kind: Deployment
+      metadata:
+        name: ignored
+      spec:
+        template:
+          spec:
+            containers:
+              - name: service
+                env:
+                  - name: ALS_DATABASE__HOST
+                    value: als-mysql
+                  - name: ALS_DATABASE__PASSWORD
+                    valueFrom:
+                      secretKeyRef:
+                        name: mysql
+                        key: MYSQL_PASSWORD
+            initContainers:
+              - name: wait-for-mysql
+                envFrom:
+                  - secretRef:
+                      name: mysql

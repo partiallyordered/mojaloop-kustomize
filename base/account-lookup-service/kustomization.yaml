@@ -40,6 +40,16 @@ patches:
             initContainers:
               - name: run-migration
                 env:
+                  - name: ALS_DATABASE__SCHEMA
+                    valueFrom:
+                      configMapKeyRef:
+                        name: mysql
+                        key: MYSQL_DATABASE
+                  - name: ALS_DATABASE__USER
+                    valueFrom:
+                      configMapKeyRef:
+                        name: mysql
+                        key: MYSQL_USER
                   - name: ALS_DATABASE__HOST
                     value: als-mysql
                   - name: ALS_DATABASE__PASSWORD
@@ -61,6 +71,16 @@ patches:
             containers:
               - name: service
                 env:
+                  - name: ALS_DATABASE__SCHEMA
+                    valueFrom:
+                      configMapKeyRef:
+                        name: mysql
+                        key: MYSQL_DATABASE
+                  - name: ALS_DATABASE__USER
+                    valueFrom:
+                      configMapKeyRef:
+                        name: mysql
+                        key: MYSQL_USER
                   - name: ALS_DATABASE__HOST
                     value: als-mysql
                   - name: ALS_DATABASE__PASSWORD

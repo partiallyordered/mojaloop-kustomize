@@ -19,21 +19,6 @@ spec:
         - /bin/bash
         - /startup-scripts/entrypoint.sh
         env:
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: mysql-root-password
-              name: mysql
-        - name: MYSQL_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: mysql-password
-              name: mysql
-        - name: XTRABACKUP_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: xtrabackup-password
-              name: mysql
         - name: MYSQL_USER
           value: mysql
         - name: MYSQL_DATABASE
@@ -44,6 +29,9 @@ spec:
           value: ENFORCING
         - name: DEBUG
           value: "true"
+        envFrom:
+        - secretRef:
+            name: mysql
         image: percona/percona-xtradb-cluster:5.7.19
         imagePullPolicy: Always
         livenessProbe:

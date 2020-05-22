@@ -10,6 +10,13 @@ configMapGenerator:
     files:
       - entrypoint.sh
       - functions.sh
+  - name: mysql
+    literals:
+      - MYSQL_USER=mysql
+      - MYSQL_DATABASE=default
+      - ALLOW_ROOT_FROM='%'
+      - PXC_STRICT_MODE=ENFORCING
+      - DEBUG="true"
 
 secretGenerator:
   - name: mysql

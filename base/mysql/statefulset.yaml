@@ -19,18 +19,10 @@ spec:
         - /bin/bash
         - /startup-scripts/entrypoint.sh
         env:
-        - name: MYSQL_USER
-          value: mysql
-        - name: MYSQL_DATABASE
-          value: default
-        - name: ALLOW_ROOT_FROM
-          value: '%'
-        - name: PXC_STRICT_MODE
-          value: ENFORCING
-        - name: DEBUG
-          value: "true"
         envFrom:
         - secretRef:
+            name: mysql
+        - configMapRef:
             name: mysql
         image: percona/percona-xtradb-cluster:5.7.19
         imagePullPolicy: Always

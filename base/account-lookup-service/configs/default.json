@@ -39,7 +39,7 @@
         "timeout": 5000,
         "prefix": "moja_",
         "defaultLabels": {
-          "serviceName": "account-lookup-service-admin"
+          "serviceName": "account-lookup-service"
         }
       }
     }

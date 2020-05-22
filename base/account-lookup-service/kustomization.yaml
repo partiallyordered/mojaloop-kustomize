@@ -4,17 +4,13 @@ resources:
   - ./mysql
 
 configMapGenerator:
-  - name: account-lookup-service-admin-config
+  - name: account-lookup-service
     files:
       - ./configs/knexfile.js
-      - default.json=./configs/account-lookup-service-admin-config.json
+      - ./configs/default.json
   - name: account-lookup-service-admin-sidecar
     files:
       - default.json=./configs/account-lookup-service-admin-event-sidecar-config.json
-  - name: account-lookup-service-config
-    files:
-      - ./configs/knexfile.js
-      - default.json=./configs/account-lookup-service-config.json
   - name: account-lookup-service-sidecar
     files:
       - default.json=./configs/account-lookup-service-event-sidecar-config.json

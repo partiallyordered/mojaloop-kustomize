@@ -36,6 +36,8 @@ spec:
             - name: EVENT_SDK_TRACESTATE_HEADER_ENABLED
             - name: EVENT_SDK_ASYNC_OVERRIDE_EVENTS
             - name: EVENT_SDK_TRACEID_PER_VENDOR
+            - name: ALS_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
+              value: account-lookup-service
           image: mojaloop/account-lookup-service:v9.4.4
           imagePullPolicy: Always
           livenessProbe:
@@ -55,7 +57,7 @@ spec:
               scheme: HTTP
           volumeMounts:
             - mountPath: /opt/account-lookup-service/config
-              name: account-lookup-service-config-volume
+              name: config-volume
         - command:
             - npm
             - run
@@ -112,8 +114,8 @@ spec:
                 path: default.json
               - key: knexfile.js
                 path: knexfile.js
-            name: account-lookup-service-config
-          name: account-lookup-service-config-volume
+            name: account-lookup-service
+          name: config-volume
         - configMap:
             items:
               - key: default.json
@@ -159,6 +161,8 @@ spec:
             - name: EVENT_SDK_TRACESTATE_HEADER_ENABLED
             - name: EVENT_SDK_ASYNC_OVERRIDE_EVENTS
             - name: EVENT_SDK_TRACEID_PER_VENDOR
+            - name: ALS_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
+              value: account-lookup-service-admin
           image: mojaloop/account-lookup-service:v9.4.4
           imagePullPolicy: Always
           livenessProbe:
@@ -178,7 +182,7 @@ spec:
               scheme: HTTP
           volumeMounts:
             - mountPath: /opt/account-lookup-service/config
-              name: account-lookup-service-admin-config-volume
+              name: config-volume
         - command:
             - npm
             - run
@@ -236,7 +240,7 @@ spec:
           name: run-migration
           volumeMounts:
             - mountPath: /opt/account-lookup-service/config
-              name: account-lookup-service-admin-config-volume
+              name: config-volume
       volumes:
         - configMap:
             items:
@@ -244,8 +248,8 @@ spec:
                 path: default.json
               - key: knexfile.js
                 path: knexfile.js
-            name: account-lookup-service-admin-config
-          name: account-lookup-service-admin-config-volume
+            name: account-lookup-service
+          name: config-volume
         - configMap:
             items:
               - key: default.json

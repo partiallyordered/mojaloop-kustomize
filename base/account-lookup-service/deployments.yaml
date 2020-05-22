@@ -100,7 +100,7 @@ spec:
         - command:
             - sh
             - -c
-            - until mysql -h als-mysql -P 3306 -u account_lookup --password=$(MYSQL_PASSWORD) account_lookup   -e
+            - until mysql -h als-mysql -P 3306 -u $(MYSQL_USER) --password=$(MYSQL_PASSWORD) $(MYSQL_DATABASE)   -e
               'select * from oracleEndpoint;' ; do echo waiting for MySQL; sleep 2;
               done;
           image: mysql:latest

@@ -11,6 +11,11 @@ configMapGenerator:
   - name: account-lookup-service-sidecar
     files:
       - default.json=./configs/sidecar.json
+  - name: mysql
+    behavior: merge
+    literals:
+      - MYSQL_DATABASE=account_lookup
+      - MYSQL_USER=account_lookup
 
 secretGenerator:
   - name: mysql
@@ -66,5 +71,7 @@ patches:
             initContainers:
               - name: wait-for-mysql
                 envFrom:
+                  - configMapRef:
+                      name: mysql
                   - secretRef:
                       name: mysql

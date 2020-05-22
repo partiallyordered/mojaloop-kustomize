@@ -18,7 +18,6 @@ spec:
       - command:
         - /bin/bash
         - /startup-scripts/entrypoint.sh
-        env:
         envFrom:
         - secretRef:
             name: mysql

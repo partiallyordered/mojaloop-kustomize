@@ -30,7 +30,7 @@ patches:
       kind: Deployment
       name: account-lookup-service-admin
     patch: |-
-      apiVersion: extensions/v1beta1
+      apiVersion: apps/v1
       kind: Deployment
       metadata:
         name: ignored
@@ -61,7 +61,7 @@ patches:
       kind: Deployment
       name: account-lookup-.*
     patch: |-
-      apiVersion: extensions/v1beta1
+      apiVersion: apps/v1
       kind: Deployment
       metadata:
         name: ignored

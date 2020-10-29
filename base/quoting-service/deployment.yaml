@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -25,7 +25,7 @@ spec:
             - name: EVENT_SDK_LOG_METADATA_ONLY
               value: 'false'
             - name: EVENT_SDK_SIDECAR_DISABLED
-              value: 'false'
+              value: 'true'
             - name: EVENT_SDK_SERVER_HOST
               value: localhost
             - name: EVENT_SDK_SERVER_PORT
@@ -38,6 +38,8 @@ spec:
               value: log,trace
             - name: EVENT_SDK_TRACEID_PER_VENDOR
               value: 'false'
+            - name: QUOTE_SWITCH_ENDPOINT
+              value: centralledger
           image: mojaloop/quoting-service:v9.3.2-snapshot
           imagePullPolicy: Always
           name: quoting-service
@@ -45,65 +47,20 @@ spec:
             - containerPort: 3002
               name: http-api
               protocol: TCP
-          volumeMounts:
-            - mountPath: /opt/quoting-service/config
-              name: quoting-service-config-volume
-        - command:
-            - npm
-            - run
-            - start
-          env:
-            - name: LOG_LEVEL
-              value: info
-          image: mojaloop/event-sidecar:v9.3.0
-          imagePullPolicy: Always
-          livenessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /health
-              port: 4001
-              scheme: HTTP
-            initialDelaySeconds: 10
-          name: quoting-service-sidecar
-          ports:
-            - containerPort: 4001
-              protocol: TCP
-          readinessProbe:
-            failureThreshold: 3
-            httpGet:
-              path: /health
-              port: 4001
-              scheme: HTTP
-            initialDelaySeconds: 10
-          volumeMounts:
-            - mountPath: /opt/event-sidecar/config
-              name: quoting-service-sidecar-volume
       initContainers:
         - command:
             - sh
             - -c
-            - until result=$(mysql -h mysql -P 3306 -u central_ledger
-              --password=oyMxgZChuu  central_ledger -ss -N -e 'select is_locked from
+            - until result=$(mysql -h "$MYSQL_HOST" -P 3306 -u central_ledger
+              --password="$MYSQL_PASSWORD"  central_ledger -ss -N -e 'select is_locked from
               migration_lock;') && eval 'echo is_locked=$result' && if [ -z $result
               ]; then false; fi && if [ $result -ne 0 ]; then false; fi; do echo waiting
               for MySQL; sleep 2; done;
           image: mysql:latest
           imagePullPolicy: Always
           name: wait-for-mysql
-      volumes:
-        - configMap:
-            defaultMode: 420
-            items:
-              - key: default.json
-                path: default.json
-              - key: rules.json
-                path: rules.json
-            name: quoting-service-config
-          name: quoting-service-config-volume
-        - configMap:
-            defaultMode: 420
-            items:
-              - key: default.json
-                path: default.json
-            name: quoting-service-sidecar
-          name: quoting-service-sidecar-volume
+          env:
+            - name: MYSQL_HOST
+              value: cl-mysql
+            - name: MYSQL_PASSWORD
+              value: oyMxgZChuu

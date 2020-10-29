@@ -4,9 +4,6 @@ resources:
   - ./mysql
 
 configMapGenerator:
-  - name: account-lookup-service
-    literals:
-      - ALS_SWITCH_ENDPOINT=centralledger
   - name: mysql
     behavior: merge
     literals:

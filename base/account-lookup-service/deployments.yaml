@@ -27,7 +27,7 @@ spec:
             - name: EVENT_SDK_LOG_FILTER
             - name: EVENT_SDK_LOG_METADATA_ONLY
             - name: EVENT_SDK_SIDECAR_DISABLED
-              value: 'false'
+              value: 'true'
             - name: EVENT_SDK_SERVER_HOST
               value: localhost
             - name: EVENT_SDK_SERVER_PORT
@@ -38,6 +38,8 @@ spec:
             - name: EVENT_SDK_TRACEID_PER_VENDOR
             - name: ALS_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
               value: account-lookup-service
+            - name: ALS_SWITCH_ENDPOINT
+              value: centralledger
           image: mojaloop/account-lookup-service:v9.4.4
           imagePullPolicy: Always
           livenessProbe:
@@ -55,9 +57,6 @@ spec:
               path: /health
               port: http-api
               scheme: HTTP
-          volumeMounts:
-            - mountPath: /opt/account-lookup-service/config
-              name: config-volume
       initContainers:
         - command:
             - sh
@@ -71,15 +70,6 @@ spec:
           envFrom:
             - secretRef:
                 name: mysql
-      volumes:
-        - configMap:
-            items:
-              - key: default.json
-                path: default.json
-              - key: knexfile.js
-                path: knexfile.js
-            name: account-lookup-service
-          name: config-volume
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -138,9 +128,6 @@ spec:
               path: /health
               port: http-admin
               scheme: HTTP
-          volumeMounts:
-            - mountPath: /opt/account-lookup-service/config
-              name: config-volume
       initContainers:
         - command:
             - sh
@@ -160,15 +147,3 @@ spec:
           image: mojaloop/account-lookup-service:v9.4.4
           imagePullPolicy: Always
           name: run-migration
-          volumeMounts:
-            - mountPath: /opt/account-lookup-service/config
-              name: config-volume
-      volumes:
-        - configMap:
-            items:
-              - key: default.json
-                path: default.json
-              - key: knexfile.js
-                path: knexfile.js
-            name: account-lookup-service
-          name: config-volume

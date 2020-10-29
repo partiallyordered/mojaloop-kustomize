@@ -58,44 +58,6 @@ spec:
           volumeMounts:
             - mountPath: /opt/account-lookup-service/config
               name: config-volume
-        - command:
-            - npm
-            - run
-            - start
-          env:
-            - name: LOG_LEVEL
-              value: info
-            - name: LOG_FILTER
-              value: error, warn, info
-            - name: EVENT_SDK_LOG_FILTER
-              value: audit:*, log:info, log:warn, log:error
-            - name: EVENT_SDK_LOG_METADATA_ONLY
-              value: 'true'
-            - name: ALS_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
-              value: account-lookup-service-event-sidecar
-          image: mojaloop/event-sidecar:v9.3.0
-          imagePullPolicy: Always
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 4003
-              scheme: HTTP
-            initialDelaySeconds: 15
-            periodSeconds: 15
-          name: account-lookup-service-sidecar
-          ports:
-            - containerPort: 4003
-              protocol: TCP
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 4003
-              scheme: HTTP
-            initialDelaySeconds: 15
-            periodSeconds: 15
-          volumeMounts:
-            - mountPath: /opt/event-sidecar/config
-              name: sidecar-config-volume
       initContainers:
         - command:
             - sh
@@ -118,12 +80,6 @@ spec:
                 path: knexfile.js
             name: account-lookup-service
           name: config-volume
-        - configMap:
-            items:
-              - key: default.json
-                path: default.json
-            name: account-lookup-service-sidecar
-          name: sidecar-config-volume
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -154,7 +110,7 @@ spec:
             - name: EVENT_SDK_LOG_FILTER
             - name: EVENT_SDK_LOG_METADATA_ONLY
             - name: EVENT_SDK_SIDECAR_DISABLED
-              value: 'false'
+              value: 'true'
             - name: EVENT_SDK_SERVER_HOST
               value: localhost
             - name: EVENT_SDK_SERVER_PORT
@@ -185,44 +141,6 @@ spec:
           volumeMounts:
             - mountPath: /opt/account-lookup-service/config
               name: config-volume
-        - command:
-            - npm
-            - run
-            - start
-          env:
-            - name: LOG_LEVEL
-              value: info
-            - name: LOG_FILTER
-              value: error, warn, info
-            - name: EVENT_SDK_LOG_FILTER
-              value: audit:*, log:info, log:warn, log:error
-            - name: EVENT_SDK_LOG_METADATA_ONLY
-              value: 'true'
-            - name: ALS_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
-              value: account-lookup-service-admin-event-sidecar
-          image: mojaloop/event-sidecar:v9.3.0
-          imagePullPolicy: Always
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 4003
-              scheme: HTTP
-            initialDelaySeconds: 15
-            periodSeconds: 15
-          name: event-sidecar
-          ports:
-            - containerPort: 4003
-              protocol: TCP
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 4003
-              scheme: HTTP
-            initialDelaySeconds: 15
-            periodSeconds: 15
-          volumeMounts:
-            - mountPath: /opt/event-sidecar/config
-              name: sidecar-volume
       initContainers:
         - command:
             - sh
@@ -254,9 +172,3 @@ spec:
                 path: knexfile.js
             name: account-lookup-service
           name: config-volume
-        - configMap:
-            items:
-              - key: default.json
-                path: default.json
-            name: account-lookup-service-sidecar
-          name: sidecar-volume

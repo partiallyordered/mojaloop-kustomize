@@ -5,12 +5,8 @@ resources:
 
 configMapGenerator:
   - name: account-lookup-service
-    files:
-      - ./configs/knexfile.js
-      - ./configs/default.json
-  - name: account-lookup-service-sidecar
-    files:
-      - default.json=./configs/sidecar.json
+    literals:
+      - ALS_SWITCH_ENDPOINT=centralledger
   - name: mysql
     behavior: merge
     literals:

@@ -1,4 +1,4 @@
-namePrefix: centralledger-
+namePrefix: cl-
 
 resources:
   - ../../mysql

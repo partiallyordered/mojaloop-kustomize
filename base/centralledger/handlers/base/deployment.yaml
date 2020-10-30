@@ -1,23 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: centralledger-service
+  name: centralledger-handler
   labels:
-    app.kubernetes.io/name: centralledger-service
+    app.kubernetes.io/name: centralledger-handler
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: centralledger-service
+      app.kubernetes.io/name: centralledger-handler
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: centralledger-service
+        app.kubernetes.io/name: centralledger-handler
     spec:
       containers:
       - command:
         - node
-        - src/api/index.js
+        - src/handlers/index.js
+        - handler
+        - --handler # This will fail. We don't want it to succeed- this should be overridden in overlays.
         env:
+        - name: CLEDG_HOSTNAME
+          value: centralledger-handler
+        - name: CLEDG_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
+          value: centralledger-handler
         - name: LOG_LEVEL
           value: info
         - name: LOG_FILTER
@@ -26,7 +32,7 @@ spec:
           value: console
         - name: EVENT_SDK_SIDECAR_DISABLED
           value: "true"
-        image: &image mojaloop/central-ledger:v11.2.3
+        image: mojaloop/central-ledger:v11.2.3
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -35,7 +41,7 @@ spec:
             scheme: HTTP
           initialDelaySeconds: 10
           periodSeconds: 15
-        name: centralledger-service
+        name: handler
         ports:
         - containerPort: 3001
           name: http-api
@@ -47,25 +53,4 @@ spec:
             scheme: HTTP
           initialDelaySeconds: 10
           periodSeconds: 15
-      initContainers:
-      - command:
-        - sh
-        - -c
-        - until mysql -h cl-mysql -P 3306 -u central_ledger --password=oyMxgZChuu  central_ledger   -e
-          'select version()' ; do echo waiting for MySQL; sleep 2; done;
-        image: mysql:latest
-        imagePullPolicy: Always
-        name: wait-for-mysql
-      - command:
-        - sh
-        - -c
-        - npm run migrate
-        env:
-        - name: CLEDG_MIGRATIONS__RUN_DATA_MIGRATIONS
-          value: "true"
-        - name: CLEDG_DATABASE__HOST
-          value: "cl-mysql"
-        image: *image
-        imagePullPolicy: Always
-        name: run-migration
       restartPolicy: Always

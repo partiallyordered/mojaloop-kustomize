@@ -1,0 +1,5 @@
+
+Supply MySQL host at top level.
+
+Simplify handler configs if possible. If they're each not very different, it might be possible to
+have a single config and override it per-service.

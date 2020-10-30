@@ -2,7 +2,7 @@ nameSuffix: -timeout
 
 patchesStrategicMerge:
   - |-
-    apiVersion: extensions/v1beta1
+    apiVersion: apps/v1
     kind: Deployment
     metadata:
       name: centralledger-handler
@@ -23,4 +23,4 @@ patchesStrategicMerge:
                   value: central-handler-timeout
 
 resources:
-  - ../base/sidecar
+  - ../base/

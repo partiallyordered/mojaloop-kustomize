@@ -23,19 +23,9 @@ spec:
             - name: LOG_LEVEL
               value: info
             - name: CSL_LOG_TRANSPORT
-              value: file
-            - name: EVENT_SDK_LOG_FILTER
-            - name: EVENT_SDK_LOG_METADATA_ONLY
+              value: console
             - name: EVENT_SDK_SIDECAR_DISABLED
               value: 'true'
-            - name: EVENT_SDK_SERVER_HOST
-              value: localhost
-            - name: EVENT_SDK_SERVER_PORT
-              value: '50051'
-            - name: EVENT_SDK_VENDOR_PREFIX
-            - name: EVENT_SDK_TRACESTATE_HEADER_ENABLED
-            - name: EVENT_SDK_ASYNC_OVERRIDE_EVENTS
-            - name: EVENT_SDK_TRACEID_PER_VENDOR
             - name: ALS_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
               value: account-lookup-service
             - name: ALS_SWITCH_ENDPOINT

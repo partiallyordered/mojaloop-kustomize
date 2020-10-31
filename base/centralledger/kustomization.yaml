@@ -10,12 +10,33 @@ resources:
   - ./handlers/transfer-prepare
   - ../kafka
 
+configurations:
+  - ./kustomizeconfig/namereference.yaml
+
 configMapGenerator:
   - name: mysql
     behavior: merge
     literals:
       - MYSQL_DATABASE=central_ledger
       - MYSQL_USER=central_ledger
+  # TODO: it should be possible to reference the kafka base here
+  - name: centralledger-kafka
+    literals:
+      - CLEDG_KAFKA__CONSUMER__TRANSFER__PREPARE__config__rdkafkaConf__metadata.broker.list=kafka:9092
+      - CLEDG_KAFKA__PRODUCER__TRANSFER__PREPARE__config__rdkafkaConf__metadata.broker.list=kafka:9092
+      - CLEDG_KAFKA__CONSUMER__TRANSFER__POSITION__config__rdkafkaConf__metadata.broker.list=kafka:9092
+      - CLEDG_KAFKA__PRODUCER__TRANSFER__POSITION__config__rdkafkaConf__metadata.broker.list=kafka:9092
+      - CLEDG_KAFKA__CONSUMER__BULK__GET__config__rdkafkaConf__metadata.broker.list=kafka:9092
+      - CLEDG_KAFKA__CONSUMER__BULK__PREPARE__config__rdkafkaConf__metadata.broker.list=kafka:9092
+      - CLEDG_KAFKA__CONSUMER__BULK__PROCESSING__config__rdkafkaConf__metadata.broker.list=kafka:9092
+      - CLEDG_KAFKA__CONSUMER__BULK__FULFIL__config__rdkafkaConf__metadata.broker.list=kafka:9092
+      - CLEDG_KAFKA__PRODUCER__BULK__PROCESSING__config__rdkafkaConf__metadata.broker.list=kafka:9092
+      - CLEDG_KAFKA__CONSUMER__TRANSFER__GET__config__rdkafkaConf__metadata.broker.list=kafka:9092
+      - CLEDG_KAFKA__CONSUMER__TRANSFER__FULFIL__config__rdkafkaConf__metadata.broker.list=kafka:9092
+      - CLEDG_KAFKA__PRODUCER__TRANSFER__FULFIL__config__rdkafkaConf__metadata.broker.list=kafka:9092
+      - CLEDG_KAFKA__CONSUMER__ADMIN__TRANSFER__config__rdkafkaConf__metadata.broker.list=kafka:9092
+      - CLEDG_KAFKA__PRODUCER__ADMIN__TRANSFER__config__rdkafkaConf__metadata.broker.list=kafka:9092
+
 
 secretGenerator:
   - name: mysql
@@ -33,13 +54,13 @@ patches:
       apiVersion: apps/v1
       kind: Deployment
       metadata:
-        name: ignored
+        name: ignored-by-kustomize
       spec:
         template:
           spec:
             containers:
               - name: centralledger-service
-                env:
+                env: &db_env
                   - name: CLEDG_DATABASE__SCHEMA
                     valueFrom:
                       configMapKeyRef:
@@ -51,60 +72,20 @@ patches:
                         name: mysql
                         key: MYSQL_USER
                   - name: CLEDG_DATABASE__HOST
-                    value: cl-mysql
+                    value: mysql
                   - name: CLEDG_DATABASE__PASSWORD
                     valueFrom:
                       secretKeyRef:
                         name: mysql
                         key: MYSQL_PASSWORD
-                  - name: CLEDG_KAFKA__CONSUMER__TRANSFER__PREPARE__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__PRODUCER__TRANSFER__PREPARE__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__CONSUMER__TRANSFER__POSITION__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__PRODUCER__TRANSFER__POSITION__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__CONSUMER__BULK__GET__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__CONSUMER__BULK__PREPARE__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__CONSUMER__BULK__PROCESSING__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__CONSUMER__BULK__FULFIL__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__PRODUCER__BULK__PROCESSING__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__CONSUMER__TRANSFER__GET__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__CONSUMER__TRANSFER__FULFIL__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__PRODUCER__TRANSFER__FULFIL__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__CONSUMER__ADMIN__TRANSFER__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__PRODUCER__ADMIN__TRANSFER__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
+                envFrom:
+                  - configMapRef:
+                      name: centralledger-kafka
             initContainers:
+              - name: wait-for-mysql
+                env: *db_env
               - name: run-migration
-                env:
-                  - name: CLEDG_DATABASE__SCHEMA
-                    valueFrom:
-                      configMapKeyRef:
-                        name: mysql
-                        key: MYSQL_DATABASE
-                  - name: CLEDG_DATABASE__USER
-                    valueFrom:
-                      configMapKeyRef:
-                        name: mysql
-                        key: MYSQL_USER
-                  - name: CLEDG_DATABASE__HOST
-                    value: cl-mysql
-                  - name: CLEDG_DATABASE__PASSWORD
-                    valueFrom:
-                      secretKeyRef:
-                        name: mysql
-                        key: MYSQL_PASSWORD
+                env: *db_env
   - target:
       kind: Deployment
       name: centralledger-handler-.*
@@ -112,41 +93,16 @@ patches:
       apiVersion: apps/v1
       kind: Deployment
       metadata:
-        name: ignored
+        name: ignored-by-kustomize
       spec:
         template:
           spec:
             containers:
               - name: handler
+                envFrom:
+                  - configMapRef:
+                      name: centralledger-kafka
                 env:
-                  - name: CLEDG_KAFKA__CONSUMER__TRANSFER__PREPARE__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__PRODUCER__TRANSFER__PREPARE__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__CONSUMER__TRANSFER__POSITION__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__PRODUCER__TRANSFER__POSITION__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__CONSUMER__BULK__GET__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__CONSUMER__BULK__PREPARE__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__CONSUMER__BULK__PROCESSING__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__CONSUMER__BULK__FULFIL__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__PRODUCER__BULK__PROCESSING__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__CONSUMER__TRANSFER__GET__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__CONSUMER__TRANSFER__FULFIL__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__PRODUCER__TRANSFER__FULFIL__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__CONSUMER__ADMIN__TRANSFER__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
-                  - name: CLEDG_KAFKA__PRODUCER__ADMIN__TRANSFER__config__rdkafkaConf__metadata.broker.list
-                    value: kafka:9092
                   - name: CLEDG_DATABASE__SCHEMA
                     valueFrom:
                       configMapKeyRef:
@@ -158,7 +114,7 @@ patches:
                         name: mysql
                         key: MYSQL_USER
                   - name: CLEDG_DATABASE__HOST
-                    value: cl-mysql
+                    value: mysql
                   - name: CLEDG_DATABASE__PASSWORD
                     valueFrom:
                       secretKeyRef:

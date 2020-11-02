@@ -128,6 +128,9 @@ patches:
                       secretKeyRef:
                         name: mysql
                         key: MYSQL_PASSWORD
+            # TODO: apply wait-for-mysql and wait-for-kafka to all relevant images with a patch as
+            #       follows. This also means removing them from the bases. Additionally, use the
+            #       relevant MySQL and Kafka configmaps.
             # initContainers:
             #   - name: wait-for-mysql
             #     command:

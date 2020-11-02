@@ -19,7 +19,15 @@ configMapGenerator:
     literals:
       - MYSQL_DATABASE=central_ledger
       - MYSQL_USER=central_ledger
-  # TODO: it should be possible to reference the kafka base here
+  # TODO: it should be possible to reference the kafka base here. Perhaps modifying every
+  # deployment to have environment variables using k8s variable replacement functionality:
+  # - name: KAFKA_SVC
+  #   value: kafka
+  # - name: KAFKA_PORT
+  #   value: 9092
+  # - name: CLEDG_KAFKA__CONSUMER__ADMIN__TRANSFER__config__rdkafkaConf__metadata
+  #   value: $(KAFKA_SVC):$(KAFKA_PORT)
+  # I'm unsure, but it may also be possible to use the valueAddTransformer.
   - name: centralledger-kafka
     literals:
       - CLEDG_KAFKA__CONSUMER__TRANSFER__PREPARE__config__rdkafkaConf__metadata.broker.list=kafka:9092

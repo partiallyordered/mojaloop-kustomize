@@ -1,13 +1,6 @@
 resources:
-  - deployments.yaml
-  - services.yaml
+  - ../centralledger
   - ./mysql
-  - ./handlers/admin-transfer
-  - ./handlers/timeout
-  - ./handlers/transfer-fulfil
-  - ./handlers/transfer-get
-  - ./handlers/transfer-position
-  - ./handlers/transfer-prepare
   - ../kafka
 
 configurations:
@@ -44,7 +37,6 @@ configMapGenerator:
       - CLEDG_KAFKA__PRODUCER__TRANSFER__FULFIL__config__rdkafkaConf__metadata.broker.list=kafka:9092
       - CLEDG_KAFKA__CONSUMER__ADMIN__TRANSFER__config__rdkafkaConf__metadata.broker.list=kafka:9092
       - CLEDG_KAFKA__PRODUCER__ADMIN__TRANSFER__config__rdkafkaConf__metadata.broker.list=kafka:9092
-
 
 secretGenerator:
   - name: mysql

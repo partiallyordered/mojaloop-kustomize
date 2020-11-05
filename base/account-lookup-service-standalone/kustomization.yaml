@@ -1,6 +1,5 @@
 resources:
-  - deployments.yaml
-  - services.yaml
+  - ../account-lookup-service
   - ./mysql
 
 configMapGenerator:

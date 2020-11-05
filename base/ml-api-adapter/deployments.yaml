@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -26,25 +26,9 @@ spec:
               value: error, warn, info
             - name: CSL_LOG_TRANSPORT
               value: console
-            - name: EVENT_SDK_LOG_FILTER
-              value: audit:*, log:warn, log:error
-            - name: EVENT_SDK_LOG_METADATA_ONLY
-              value: 'false'
             - name: EVENT_SDK_SIDECAR_DISABLED
-              value: 'false'
-            - name: EVENT_SDK_SERVER_HOST
-              value: localhost
-            - name: EVENT_SDK_SERVER_PORT
-              value: '50051'
-            - name: EVENT_SDK_VENDOR_PREFIX
-              value: mojaloop
-            - name: EVENT_SDK_TRACESTATE_HEADER_ENABLED
               value: 'true'
-            - name: EVENT_SDK_ASYNC_OVERRIDE_EVENTS
-              value: log,trace
-            - name: EVENT_SDK_TRACEID_PER_VENDOR
-              value: 'false'
-          image: mojaloop/ml-api-adapter:v9.4.2
+          image: mojaloop/ml-api-adapter:v11.1.2
           imagePullPolicy: Always
           livenessProbe:
             httpGet:
@@ -53,7 +37,7 @@ spec:
               scheme: HTTP
             initialDelaySeconds: 90
             periodSeconds: 15
-          name: ml-api-adapter-handler-notification
+          name: service
           ports:
             - containerPort: 3000
               protocol: TCP
@@ -64,71 +48,8 @@ spec:
               scheme: HTTP
             initialDelaySeconds: 120
             periodSeconds: 15
-          volumeMounts:
-            - mountPath: /opt/ml-api-adapter/config
-              name: ml-api-adapter-handler-notification-config-volume
-        - command:
-            - npm
-            - run
-            - start
-          env:
-            - name: LOG_LEVEL
-              value: info
-            - name: LOG_FILTER
-              value: error, warn, info
-            - name: EVENT_SDK_LOG_FILTER
-              value: audit:*, log:info, log:warn, log:error
-            - name: EVENT_SDK_LOG_METADATA_ONLY
-              value: 'true'
-          image: mojaloop/event-sidecar:v9.3.0
-          imagePullPolicy: Always
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 4001
-              scheme: HTTP
-            initialDelaySeconds: 90
-            periodSeconds: 15
-          name: ml-api-adapter-handler-notification-sidecar
-          ports:
-            - containerPort: 4001
-              protocol: TCP
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 4001
-              scheme: HTTP
-            initialDelaySeconds: 120
-            periodSeconds: 15
-          volumeMounts:
-            - mountPath: /opt/event-sidecar/config
-              name: ml-api-adapter-handler-notification-sidecar-volume
-      initContainers:
-        - command:
-            - sh
-            - -c
-            - until ./bin/kafka-broker-api-versions.sh --bootstrap-server kafka:9092;
-              do echo waiting for Kafka; sleep 2; done;
-          image: solsson/kafka:latest
-          imagePullPolicy: Always
-          name: wait-for-kafka
-      volumes:
-        - configMap:
-            defaultMode: 420
-            items:
-              - key: default.json
-                path: default.json
-            name: ml-api-adapter-handler-notification-config
-          name: ml-api-adapter-handler-notification-config-volume
-        - configMap:
-            defaultMode: 420
-            items:
-              - key: default.json
-                path: default.json
-            name: ml-api-adapter-handler-notification-sidecar
-          name: ml-api-adapter-handler-notification-sidecar-volume
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -154,25 +75,9 @@ spec:
               value: error, warn, info
             - name: CSL_LOG_TRANSPORT
               value: console
-            - name: EVENT_SDK_LOG_FILTER
-              value: audit:*, log:warn, log:error
-            - name: EVENT_SDK_LOG_METADATA_ONLY
-              value: 'false'
             - name: EVENT_SDK_SIDECAR_DISABLED
-              value: 'false'
-            - name: EVENT_SDK_SERVER_HOST
-              value: localhost
-            - name: EVENT_SDK_SERVER_PORT
-              value: '50051'
-            - name: EVENT_SDK_VENDOR_PREFIX
-              value: mojaloop
-            - name: EVENT_SDK_TRACESTATE_HEADER_ENABLED
               value: 'true'
-            - name: EVENT_SDK_ASYNC_OVERRIDE_EVENTS
-              value: log,trace
-            - name: EVENT_SDK_TRACEID_PER_VENDOR
-              value: 'false'
-          image: mojaloop/ml-api-adapter:v9.4.2
+          image: mojaloop/ml-api-adapter:v11.1.2
           imagePullPolicy: Always
           livenessProbe:
             httpGet:
@@ -181,7 +86,7 @@ spec:
               scheme: HTTP
             initialDelaySeconds: 90
             periodSeconds: 15
-          name: ml-api-adapter-service
+          name: service
           ports:
             - containerPort: 3000
               protocol: TCP
@@ -192,66 +97,3 @@ spec:
               scheme: HTTP
             initialDelaySeconds: 120
             periodSeconds: 15
-          volumeMounts:
-            - mountPath: /opt/ml-api-adapter/config
-              name: ml-api-adapter-service-config-volume
-        - command:
-            - npm
-            - run
-            - start
-          env:
-            - name: LOG_LEVEL
-              value: info
-            - name: LOG_FILTER
-              value: error, warn, info
-            - name: EVENT_SDK_LOG_FILTER
-              value: audit:*, log:info, log:warn, log:error
-            - name: EVENT_SDK_LOG_METADATA_ONLY
-              value: 'true'
-          image: mojaloop/event-sidecar:v9.3.0
-          imagePullPolicy: Always
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 4001
-              scheme: HTTP
-            initialDelaySeconds: 90
-            periodSeconds: 15
-          name: ml-api-adapter-service-sidecar
-          ports:
-            - containerPort: 4001
-              protocol: TCP
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: 4001
-              scheme: HTTP
-            initialDelaySeconds: 120
-            periodSeconds: 15
-          volumeMounts:
-            - mountPath: /opt/event-sidecar/config
-              name: ml-api-adapter-service-sidecar-volume
-      initContainers:
-        - command:
-            - sh
-            - -c
-            - until ./bin/kafka-broker-api-versions.sh --bootstrap-server kafka:9092;
-              do echo waiting for Kafka; sleep 2; done;
-          image: solsson/kafka:latest
-          imagePullPolicy: Always
-          name: wait-for-kafka
-      volumes:
-        - configMap:
-            defaultMode: 420
-            items:
-              - key: default.json
-                path: default.json
-            name: ml-api-adapter-service-config
-          name: ml-api-adapter-service-config-volume
-        - configMap:
-            defaultMode: 420
-            items:
-              - key: default.json
-                path: default.json
-            name: ml-api-adapter-service-sidecar
-          name: ml-api-adapter-service-sidecar-volume

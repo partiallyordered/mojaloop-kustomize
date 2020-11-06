@@ -2,6 +2,9 @@ resources:
   - statefulset.yaml
   - services.yaml
 
+# TODO: have a configmap.yaml and secret.yaml in this directory so that we can deploy this base
+# without kustomization? Would need to handle the files node.cnf, entrypoint.sh, functions.sh.
+
 configMapGenerator:
   - name: mysql-config-files
     files:

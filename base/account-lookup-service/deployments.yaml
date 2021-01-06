@@ -124,6 +124,6 @@ spec:
             - sh
             - -c
             - npm run migrate
-          image: mojaloop/account-lookup-service:v9.4.4
+          image: mojaloop/account-lookup-service:v11.1.2
           imagePullPolicy: Always
           name: run-migration

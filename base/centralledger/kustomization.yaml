@@ -1,6 +1,6 @@
 resources:
-  - deployments.yaml
-  - services.yaml
+  - deployment.yaml
+  - service.yaml
   - ./handlers/transfer-fulfil
   - ./handlers/transfer-prepare
   - ./handlers/transfer-position

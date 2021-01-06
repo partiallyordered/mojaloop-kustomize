@@ -43,7 +43,10 @@ patches:
                         name: mysql
                         key: MYSQL_USER
                   - name: ALS_DATABASE__HOST
-                    value: als-mysql
+                    valueFrom:
+                      configMapKeyRef:
+                        name: mysql
+                        key: MYSQL_SERVICE
                   - name: ALS_DATABASE__PASSWORD
                     valueFrom:
                       secretKeyRef:
@@ -74,7 +77,10 @@ patches:
                         name: mysql
                         key: MYSQL_USER
                   - name: ALS_DATABASE__HOST
-                    value: als-mysql
+                    valueFrom:
+                      configMapKeyRef:
+                        name: mysql
+                        key: MYSQL_SERVICE
                   - name: ALS_DATABASE__PASSWORD
                     valueFrom:
                       secretKeyRef:

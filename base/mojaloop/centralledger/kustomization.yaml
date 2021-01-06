@@ -7,15 +7,10 @@ resources:
   # - ../quoting-service
   # - ../ml-api-adapter
 
-
-
 #######################
 #### CENTRALLEDGER ####
 #######################
 # TODO: split into separate files?
-
-configurations:
-  - ./kustomizeconfig/namereference.yaml
 
 configMapGenerator:
   - name: mysql
@@ -83,7 +78,10 @@ patches:
                         name: mysql
                         key: MYSQL_USER
                   - name: CLEDG_DATABASE__HOST
-                    value: mysql
+                    valueFrom:
+                      configMapKeyRef:
+                        name: mysql
+                        key: MYSQL_SERVICE
                   - name: CLEDG_DATABASE__PASSWORD
                     valueFrom:
                       secretKeyRef:
@@ -125,7 +123,10 @@ patches:
                         name: mysql
                         key: MYSQL_USER
                   - name: CLEDG_DATABASE__HOST
-                    value: mysql
+                    valueFrom:
+                      configMapKeyRef:
+                        name: mysql
+                        key: MYSQL_SERVICE
                   - name: CLEDG_DATABASE__PASSWORD
                     valueFrom:
                       secretKeyRef:

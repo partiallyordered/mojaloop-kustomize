@@ -35,7 +35,7 @@ spec:
               path: /health
               port: 3000
               scheme: HTTP
-            initialDelaySeconds: 90
+            initialDelaySeconds: 15
             periodSeconds: 15
           name: service
           ports:
@@ -46,7 +46,7 @@ spec:
               path: /health
               port: 3000
               scheme: HTTP
-            initialDelaySeconds: 120
+            initialDelaySeconds: 15
             periodSeconds: 15
 ---
 apiVersion: apps/v1
@@ -84,7 +84,7 @@ spec:
               path: /health
               port: 3000
               scheme: HTTP
-            initialDelaySeconds: 90
+            initialDelaySeconds: 15
             periodSeconds: 15
           name: service
           ports:
@@ -95,5 +95,5 @@ spec:
               path: /health
               port: 3000
               scheme: HTTP
-            initialDelaySeconds: 120
+            initialDelaySeconds: 15
             periodSeconds: 15

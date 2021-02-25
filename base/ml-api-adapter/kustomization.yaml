@@ -14,10 +14,10 @@ configMapGenerator:
   # I'm unsure, but it may also be possible to use the valueAddTransformer.
   - name: mlapi-kafka
     literals:
-      - CLEDG_KAFKA__CONSUMER__NOTIFICATION__EVENT__config__rdkafkaConf__metadata.broker.list=kafka:9092
-      - CLEDG_KAFKA__PRODUCER__TRANSFER__PREPARE__config__rdkafkaConf__metadata.broker.list=kafka:9092
-      - CLEDG_KAFKA__PRODUCER__TRANSFER__GET__config__rdkafkaConf__metadata.broker.list=kafka:9092
-      - CLEDG_KAFKA__PRODUCER__TRANSFER__FULFIL__config__rdkafkaConf__metadata.broker.list=kafka:9092
+    - MLAPI_KAFKA__CONSUMER__NOTIFICATION__EVENT__config__rdkafkaConf__metadata.broker.list=kafka:9092
+    - MLAPI_KAFKA__PRODUCER__TRANSFER__PREPARE__config__rdkafkaConf__metadata.broker.list=kafka:9092
+    - MLAPI_KAFKA__PRODUCER__TRANSFER__GET__config__rdkafkaConf__metadata.broker.list=kafka:9092
+    - MLAPI_KAFKA__PRODUCER__TRANSFER__FULFIL__config__rdkafkaConf__metadata.broker.list=kafka:9092
 
 patches:
   - target:

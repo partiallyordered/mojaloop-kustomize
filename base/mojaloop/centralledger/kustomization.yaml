@@ -1,21 +1,14 @@
-# TODO: note that all references to mysql here are to `cl-mysql`. Hypothetically, kustomize should
-# allow us to use just `mysql`. However, it looks like these names are resolved globally, rather
-# than hierarchically, which means we must use `cl-mysql` instead of `mysql`. Which means whenever
-# we rename our centralledger mysql instance, we must replace all instances of `cl-mysql` with the
-# new name.
+# Note that all references to mysql here are to `cl-mysql`. Hypothetically, kustomize should allow
+# us to use just `mysql`. However, it looks like these names are resolved globally, rather than
+# hierarchically, which means we must use `cl-mysql` instead of `mysql`. Which means whenever we
+# rename our centralledger mysql instance, we must replace all instances of `cl-mysql` with the new
+# name.
 commonLabels:
   app.kubernetes.io/part-of: mojaloop
 resources:
 - ../../kafka
 - ./centralledger-mysql
 - ../../centralledger
-# - ../quoting-service
-# - ../ml-api-adapter
-
-#######################
-#### CENTRALLEDGER ####
-#######################
-# TODO: split into separate files?
 
 configMapGenerator:
 - name: cl-mysql
@@ -31,7 +24,8 @@ configMapGenerator:
 #   value: 9092
 # - name: CLEDG_KAFKA__CONSUMER__ADMIN__TRANSFER__config__rdkafkaConf__metadata
 #   value: $(KAFKA_SVC):$(KAFKA_PORT)
-# I'm unsure, but it may also be possible to use the valueAddTransformer.
+# I'm unsure, but it may also be possible to use the valueAddTransformer. Alternatively, upstream
+# could be changed to use KAFKA_HOST instead of KAFKA_SVC and KAFKA_PORT.
 - name: centralledger-kafka
   literals:
   - CLEDG_KAFKA__CONSUMER__TRANSFER__PREPARE__config__rdkafkaConf__metadata.broker.list=kafka:9092

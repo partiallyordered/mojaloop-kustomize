@@ -53,3 +53,26 @@ It is the author's contention that the Kustomize implementation is
 - more understandable
 - less than 1/10th the size
 - less maintenance
+
+## Try It
+You'll need Kustomize v3.10.0 or later (pretty new).
+
+Build the manifests:
+```sh
+kustomize build base/mojaloop
+```
+
+Validate (you'll need `kubeval`, but you should get it anyway!):
+```sh
+kustomize build base/mojaloop | kubeval
+```
+
+Deploy:
+```sh
+kustomize build base/mojaloop | kubectl apply -f -
+```
+
+Destroy:
+```sh
+kustomize build base/mojaloop | kubectl delete -f -
+```

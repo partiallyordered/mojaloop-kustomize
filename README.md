@@ -29,7 +29,8 @@ Kustomize has a considerably different philosophy to Helm. This is to supply a m
 manifest that can be composed with other manifests, added to, and patched using generic yaml/json
 transformation tools included with Kustomize. Example: a [minimal working manifest](./base/centralledger/handlers/base/deployment.yaml)
 and a [generic yaml transformation](./base/centralledger/handlers/transfer-fulfil/kustomization.yaml).
-The transformation can modify any aspect of
+The transformation can modify any aspect of the manifest- it's not restricted to the configurations
+exposed by the maintainers.
 
 ## Comparison
 

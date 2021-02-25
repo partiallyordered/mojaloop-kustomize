@@ -68,7 +68,7 @@ spec:
         - tail
         - -f
         - /var/log/mysqld.log
-        image: busybox:1.25.0
+        image: busybox:stable
         imagePullPolicy: IfNotPresent
         name: logs
         volumeMounts:
@@ -82,7 +82,7 @@ spec:
         - rm
         - -fr
         - /var/lib/mysql/lost+found
-        image: busybox:1.25.0
+        image: busybox:stable
         imagePullPolicy: IfNotPresent
         name: remove-lost-found
         volumeMounts:

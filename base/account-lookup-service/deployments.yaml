@@ -14,52 +14,52 @@ spec:
         app.kubernetes.io/name: account-lookup-service
     spec:
       containers:
-        - command:
-            - node
-            - src/index.js
-            - server
-            - --api
-          env:
-            - name: LOG_LEVEL
-              value: info
-            - name: CSL_LOG_TRANSPORT
-              value: console
-            - name: EVENT_SDK_SIDECAR_DISABLED
-              value: 'true'
-            - name: ALS_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
-              value: account-lookup-service
-            - name: ALS_SWITCH_ENDPOINT
-              value: centralledger
-          image: mojaloop/account-lookup-service:v11.1.2
-          imagePullPolicy: Always
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: http-api
-              scheme: HTTP
-          name: service
-          ports:
-            - containerPort: 4002
-              name: http-api
-              protocol: TCP
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: http-api
-              scheme: HTTP
+      - command:
+        - node
+        - src/index.js
+        - server
+        - --api
+        env:
+        - name: LOG_LEVEL
+          value: info
+        - name: CSL_LOG_TRANSPORT
+          value: console
+        - name: EVENT_SDK_SIDECAR_DISABLED
+          value: 'true'
+        - name: ALS_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
+          value: account-lookup-service
+        - name: ALS_SWITCH_ENDPOINT
+          value: centralledger
+        image: mojaloop/account-lookup-service:v11.1.2
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http-api
+            scheme: HTTP
+        name: service
+        ports:
+        - containerPort: 4002
+          name: http-api
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http-api
+            scheme: HTTP
       initContainers:
-        - command:
-            - sh
-            - -c
-            - until mysql -h als-mysql -P 3306 -u $(MYSQL_USER) --password=$(MYSQL_PASSWORD) $(MYSQL_DATABASE)   -e
-              'select * from oracleEndpoint;' ; do echo waiting for MySQL; sleep 2;
-              done;
-          image: mysql:latest
-          imagePullPolicy: Always
-          name: wait-for-mysql
-          envFrom:
-            - secretRef:
-                name: mysql
+      - command:
+        - sh
+        - -c
+        - until mysql -h als-mysql -P 3306 -u $(MYSQL_USER) --password=$(MYSQL_PASSWORD) $(MYSQL_DATABASE)   -e
+          'select * from oracleEndpoint;' ; do echo waiting for MySQL; sleep 2;
+          done;
+        image: mysql:latest
+        imagePullPolicy: Always
+        name: wait-for-mysql
+        envFrom:
+        - secretRef:
+            name: mysql
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -77,53 +77,53 @@ spec:
         app.kubernetes.io/name: account-lookup-service-admin
     spec:
       containers:
-        - command:
-            - node
-            - src/index.js
-            - server
-            - --admin
-          env:
-            - name: LOG_LEVEL
-              value: info
-            - name: CSL_LOG_TRANSPORT
-              value: console
-            - name: EVENT_SDK_SIDECAR_DISABLED
-              value: 'true'
-            - name: ALS_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
-              value: account-lookup-service-admin
-          image: mojaloop/account-lookup-service:v11.1.2
-          imagePullPolicy: Always
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: http-admin
-              scheme: HTTP
-          name: service
-          ports:
-            - containerPort: 4001
-              name: http-admin
-              protocol: TCP
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: http-admin
-              scheme: HTTP
+      - command:
+        - node
+        - src/index.js
+        - server
+        - --admin
+        env:
+        - name: LOG_LEVEL
+          value: info
+        - name: CSL_LOG_TRANSPORT
+          value: console
+        - name: EVENT_SDK_SIDECAR_DISABLED
+          value: 'true'
+        - name: ALS_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
+          value: account-lookup-service-admin
+        image: mojaloop/account-lookup-service:v11.1.2
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http-admin
+            scheme: HTTP
+        name: service
+        ports:
+        - containerPort: 4001
+          name: http-admin
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http-admin
+            scheme: HTTP
       initContainers:
-        - command:
-            - sh
-            - -c
-            - until mysql -h als-mysql -P 3306 -u $(MYSQL_USER) --password=$(MYSQL_PASSWORD) $(MYSQL_DATABASE)   -e
-              'select version()' ; do echo waiting for MySQL; sleep 2; done;
-          image: mysql:latest
-          imagePullPolicy: Always
-          name: wait-for-mysql
-          envFrom:
-            - secretRef:
-                name: mysql
-        - command:
-            - sh
-            - -c
-            - npm run migrate
-          image: mojaloop/account-lookup-service:v11.1.2
-          imagePullPolicy: Always
-          name: run-migration
+      - command:
+        - sh
+        - -c
+        - until mysql -h als-mysql -P 3306 -u $(MYSQL_USER) --password=$(MYSQL_PASSWORD) $(MYSQL_DATABASE)   -e
+          'select version()' ; do echo waiting for MySQL; sleep 2; done;
+        image: mysql:latest
+        imagePullPolicy: Always
+        name: wait-for-mysql
+        envFrom:
+        - secretRef:
+            name: mysql
+      - command:
+        - sh
+        - -c
+        - npm run migrate
+        image: mojaloop/account-lookup-service:v11.1.2
+        imagePullPolicy: Always
+        name: run-migration

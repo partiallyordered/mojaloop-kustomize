@@ -1,9 +1,9 @@
 resources:
-  - deployment.yaml
-  - service.yaml
-  - ./handlers/transfer-fulfil
-  - ./handlers/transfer-prepare
-  - ./handlers/transfer-position
-  - ./handlers/transfer-get
-  - ./handlers/timeout
-  - ./handlers/admin-transfer
+- deployment.yaml
+- service.yaml
+- ./handlers/transfer-fulfil
+- ./handlers/transfer-prepare
+- ./handlers/transfer-position
+- ./handlers/transfer-get
+- ./handlers/timeout
+- ./handlers/admin-transfer

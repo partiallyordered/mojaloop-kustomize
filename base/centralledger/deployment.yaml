@@ -26,7 +26,7 @@ spec:
           value: console
         - name: EVENT_SDK_SIDECAR_DISABLED
           value: "true"
-        image: &image mojaloop/central-ledger:v11.2.3
+        image: mojaloop/central-ledger:v11.2.3
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -64,7 +64,7 @@ spec:
         env:
         - name: CLEDG_MIGRATIONS__RUN_DATA_MIGRATIONS
           value: "true"
-        image: *image
+        image: mojaloop/central-ledger:v11.2.3
         imagePullPolicy: Always
         name: run-migration
       restartPolicy: Always

@@ -6,9 +6,9 @@ metadata:
   name: quoting-service
 spec:
   ports:
-    - name: http-api
-      port: 80
-      protocol: TCP
-      targetPort: 3002
+  - name: http-api
+    port: 80
+    protocol: TCP
+    targetPort: 3002
   selector:
     app.kubernetes.io/name: quoting-service

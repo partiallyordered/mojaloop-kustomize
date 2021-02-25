@@ -6,9 +6,9 @@ metadata:
   name: ml-api-adapter-handler-notification
 spec:
   ports:
-    - port: 80
-      protocol: TCP
-      targetPort: 3000
+  - port: 80
+    protocol: TCP
+    targetPort: 3000
   selector:
     app.kubernetes.io/name: ml-api-adapter-handler-notification
 ---
@@ -20,8 +20,8 @@ metadata:
   name: ml-api-adapter-service
 spec:
   ports:
-    - port: 80
-      protocol: TCP
-      targetPort: 3000
+  - port: 80
+    protocol: TCP
+    targetPort: 3000
   selector:
     app.kubernetes.io/name: ml-api-adapter-service

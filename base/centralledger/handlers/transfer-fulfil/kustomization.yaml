@@ -1,26 +1,26 @@
 nameSuffix: -transfer-fulfil
 
 patchesStrategicMerge:
-  - |-
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: centralledger-handler
-    spec:
-      template:
-        spec:
-          containers:
-            - name: handler
-              command:
-                - node
-                - src/handlers/index.js
-                - handler
-                - --fulfil
-              env:
-                - name: CLEDG_HOSTNAME
-                  value: central-ledger-transfer-fulfil.local
-                - name: CLEDG_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
-                  value: central-handler-fulfil
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: centralledger-handler
+  spec:
+    template:
+      spec:
+        containers:
+        - name: handler
+          command:
+          - node
+          - src/handlers/index.js
+          - handler
+          - --fulfil
+          env:
+          - name: CLEDG_HOSTNAME
+            value: central-ledger-transfer-fulfil.local
+          - name: CLEDG_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
+            value: central-handler-fulfil
 
 resources:
-  - ../base/
+- ../base/

@@ -1,26 +1,26 @@
 nameSuffix: -transfer-prepare
 
 patchesStrategicMerge:
-  - |-
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: centralledger-handler
-    spec:
-      template:
-        spec:
-          containers:
-            - name: handler
-              command:
-                - node
-                - src/handlers/index.js
-                - handler
-                - --prepare
-              env:
-                - name: CLEDG_HOSTNAME
-                  value: central-ledger-transfer-prepare.local
-                - name: CLEDG_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
-                  value: central-handler-prepare
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: centralledger-handler
+  spec:
+    template:
+      spec:
+        containers:
+        - name: handler
+          command:
+          - node
+          - src/handlers/index.js
+          - handler
+          - --prepare
+          env:
+          - name: CLEDG_HOSTNAME
+            value: central-ledger-transfer-prepare.local
+          - name: CLEDG_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
+            value: central-handler-prepare
 
 resources:
-  - ../base/
+- ../base/

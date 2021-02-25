@@ -2,7 +2,7 @@
 # always) and the Service name is changed (e.g. with a namePrefix) the MYSQL_SERVICE value should
 # be updated correspondingly.
 nameReference:
-  - kind: Service
-    fieldSpecs:
-      - kind: ConfigMap
-        path: data/MYSQL_SERVICE
+- kind: Service
+  fieldSpecs:
+  - kind: ConfigMap
+    path: data/MYSQL_SERVICE

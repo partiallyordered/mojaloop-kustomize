@@ -6,10 +6,10 @@ metadata:
   name: test-account-lookup-service
 spec:
   ports:
-    - name: http-api
-      port: 80
-      protocol: TCP
-      targetPort: http-api
+  - name: http-api
+    port: 80
+    protocol: TCP
+    targetPort: http-api
   selector:
     app.kubernetes.io/name: account-lookup-service
 ---
@@ -21,9 +21,9 @@ metadata:
   name: test-account-lookup-service-admin
 spec:
   ports:
-    - name: http-admin
-      port: 80
-      protocol: TCP
-      targetPort: http-admin
+  - name: http-admin
+    port: 80
+    protocol: TCP
+    targetPort: http-admin
   selector:
     app.kubernetes.io/name: account-lookup-service-admin

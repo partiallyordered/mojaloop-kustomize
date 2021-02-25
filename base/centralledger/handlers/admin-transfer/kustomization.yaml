@@ -1,26 +1,26 @@
 nameSuffix: -admin-transfer
 
 patchesStrategicMerge:
-  - |-
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: centralledger-handler
-    spec:
-      template:
-        spec:
-          containers:
-            - name: handler
-              command:
-                - node
-                - src/handlers/index.js
-                - handler
-                - --admin
-              env:
-                - name: CLEDG_HOSTNAME
-                  value: central-ledger-admin-transfer.local
-                - name: CLEDG_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
-                  value: central-handler-admin-transfer
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: centralledger-handler
+  spec:
+    template:
+      spec:
+        containers:
+        - name: handler
+          command:
+          - node
+          - src/handlers/index.js
+          - handler
+          - --admin
+          env:
+          - name: CLEDG_HOSTNAME
+            value: central-ledger-admin-transfer.local
+          - name: CLEDG_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
+            value: central-handler-admin-transfer
 
 resources:
-  - ../base/
+- ../base/

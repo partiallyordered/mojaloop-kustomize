@@ -6,10 +6,10 @@ metadata:
     app.kubernetes.io/name: mysql
 spec:
   ports:
-    - name: mysql
-      port: 3306
-      protocol: TCP
-      targetPort: mysql
+  - name: mysql
+    port: 3306
+    protocol: TCP
+    targetPort: mysql
   selector:
     app.kubernetes.io/name: mysql
 ---
@@ -21,10 +21,10 @@ metadata:
     app.kubernetes.io/name: mysql
 spec:
   ports:
-    - name: metrics
-      port: 9104
-      protocol: TCP
-      targetPort: 9104
+  - name: metrics
+    port: 9104
+    protocol: TCP
+    targetPort: 9104
   selector:
     app.kubernetes.io/name: mysql
 ---
@@ -44,17 +44,17 @@ spec:
   # See: https://github.com/helm/charts/blob/c20aa5c619235fc23638536505022ac61536e703/stable/percona-xtradb-cluster/files/entrypoint.sh#L19
   clusterIP: None
   ports:
-    - name: galera
-      port: 4567
-      protocol: TCP
-      targetPort: 4567
-    - name: state-xfer
-      port: 4568
-      protocol: TCP
-      targetPort: 4568
-    - name: state-snap
-      port: 4444
-      protocol: TCP
-      targetPort: 4444
+  - name: galera
+    port: 4567
+    protocol: TCP
+    targetPort: 4567
+  - name: state-xfer
+    port: 4568
+    protocol: TCP
+    targetPort: 4568
+  - name: state-snap
+    port: 4444
+    protocol: TCP
+    targetPort: 4444
   selector:
     app.kubernetes.io/name: mysql

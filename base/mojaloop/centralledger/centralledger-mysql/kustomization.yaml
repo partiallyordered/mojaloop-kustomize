@@ -1,4 +1,4 @@
 namePrefix: cl-
 
 resources:
-  - ../../../mysql
+- ../../../mysql

@@ -1,26 +1,26 @@
 nameSuffix: -timeout
 
 patchesStrategicMerge:
-  - |-
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: centralledger-handler
-    spec:
-      template:
-        spec:
-          containers:
-            - name: handler
-              command:
-                - node
-                - src/handlers/index.js
-                - handler
-                - --timeout
-              env:
-                - name: CLEDG_HOSTNAME
-                  value: central-ledger-timeout.local
-                - name: CLEDG_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
-                  value: central-handler-timeout
+- |-
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: centralledger-handler
+  spec:
+    template:
+      spec:
+        containers:
+        - name: handler
+          command:
+          - node
+          - src/handlers/index.js
+          - handler
+          - --timeout
+          env:
+          - name: CLEDG_HOSTNAME
+            value: central-ledger-timeout.local
+          - name: CLEDG_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
+            value: central-handler-timeout
 
 resources:
-  - ../base/
+- ../base/

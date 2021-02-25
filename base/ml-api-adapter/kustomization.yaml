@@ -1,0 +1,38 @@
+resources:
+- deployments.yaml
+- services.yaml
+
+configMapGenerator:
+# TODO: it should be possible to reference the kafka base here. Perhaps modifying every
+# deployment to have environment variables using k8s variable replacement functionality:
+# - name: KAFKA_SVC
+#   value: kafka
+# - name: KAFKA_PORT
+#   value: 9092
+# - name: CLEDG_KAFKA__CONSUMER__ADMIN__TRANSFER__config__rdkafkaConf__metadata
+#   value: $(KAFKA_SVC):$(KAFKA_PORT)
+# I'm unsure, but it may also be possible to use the valueAddTransformer.
+- name: mlapi-kafka
+  literals:
+  - MLAPI_KAFKA__CONSUMER__NOTIFICATION__EVENT__config__rdkafkaConf__metadata.broker.list=kafka:9092
+  - MLAPI_KAFKA__PRODUCER__TRANSFER__PREPARE__config__rdkafkaConf__metadata.broker.list=kafka:9092
+  - MLAPI_KAFKA__PRODUCER__TRANSFER__GET__config__rdkafkaConf__metadata.broker.list=kafka:9092
+  - MLAPI_KAFKA__PRODUCER__TRANSFER__FULFIL__config__rdkafkaConf__metadata.broker.list=kafka:9092
+
+patches:
+- target:
+    kind: Deployment
+    name: ml-api-adapter-.*
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: ignored-by-kustomize
+    spec:
+      template:
+        spec:
+          containers:
+          - name: service
+            envFrom:
+            - configMapRef:
+                name: mlapi-kafka

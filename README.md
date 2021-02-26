@@ -2,6 +2,9 @@
 
 An incomplete proof-of-concept of Mojaloop deployed using Kustomize.
 
+The intended audience of this document is current Mojaloop Helm users and developers in particular,
+and Helm users in general.
+
 This proof-of-concept is presented in opposition to Helm. Therefore it will, with extreme
 prejudice, present downsides of Helm in contrast with Kustomize.
 

@@ -100,7 +100,7 @@ resources:
 - github.com/partiallyordered/mojaloop-kustomize/base/mojaloop?ref=578e9eabc908a4d0a51054fd015b6f94c4192979
 ```
 To subsequently compromise this upstream dependency requires a capability to generate a compromised
-chart that produces an sha256 hash collision. This is basically impossible.
+base that produces an sha256 hash collision. This is not known to be practically possible at present.
 
 ### Common Usage Patterns
 

@@ -106,9 +106,9 @@ chart that produces an sha256 hash collision. This is basically impossible.
 
 | Activity | Helm | Kustomize |
 | -------- | ---- | --------- |
-| Basic deployment | `helm repo add <repo>`<br>`helm repo update`<br>`helm install <repo>/<chart>` | `kustomize build github.com/<org>/<repo>/<path>?ref=<ref> | kubectl apply -f -` |
-| Basic configuration | `helm install --set some.key=some-value <repo>/<chart>` | 1. create a `kustomization.yaml` containing configuration<br>2. `kustomize build . | kubectl apply -f -` |
-| Advanced configuration | 1. Create a `values.yaml` containing configuration<br>2. `helm install <repo>/<chart>` | 1. create a `kustomization.yaml` containing configuration<br>2. `kustomize build . | kubectl apply -f -` |
+| Basic deployment | `helm repo add <repo>`<br>`helm repo update`<br>`helm install <repo>/<chart>` | `kustomize build github.com/<org>/<repo>/<path>?ref=<ref> \| kubectl apply -f -` |
+| Basic configuration | `helm install --set some.key=some-value <repo>/<chart>` | 1. create a `kustomization.yaml` containing configuration<br>2. `kustomize build . \| kubectl apply -f -` |
+| Advanced configuration | 1. Create a `values.yaml` containing configuration<br>2. `helm install <repo>/<chart>` | 1. create a `kustomization.yaml` containing configuration<br>2. `kustomize build . \| kubectl apply -f -` |
 
 ## Try It
 You'll need Kustomize v3.10.0 or later (pretty new).

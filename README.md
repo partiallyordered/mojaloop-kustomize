@@ -37,6 +37,8 @@ exposed by the maintainers.
 
 ## Comparison
 
+### Implementation Size
+
 We make a shallow comparison of the implementations:
 ```sh
 $ cat base/{centralledger,account-lookup-service,ml-api-adapter,mojaloop}/**/*.yaml | wc -l
@@ -52,11 +54,61 @@ $ cat {centralledger,ml-api-adapter,account-lookup-service}/**/*.json | wc -l
 4292
 ```
 
-It is the author's contention that the Kustomize implementation is
-- more configurable
-- more understandable
-- less than 1/10th the size
-- less maintenance
+Industry studies of bug density have demonstrated that number of bugs is directly proportional to
+lines of code, independent of language. We can therefore conclude a representative Kustomize
+implementation is very likely to contain fewer bugs.
+
+### Maintenance
+
+#### Configuration
+
+The nature of Kustomize means that users are free to make their own modifications to the generated
+manifests. Therefore, changes don't need to be incorporated upstream. This means:
+- lower maintenance burden for Mojaloop developers
+- more power for deployers- no need for changes to be incorporated upstream
+- a faster development/deployment cycle for deployers- no need to merge changes upstream before they
+    can be used
+
+Kustomize has a better pattern for configuration updates than Helm, and supports automatic rolling
+updates of pods when their dependent configuration (i.e. `ConfigMaps` and `Secrets`) changes. Helm
+is merely a templating engine and does not have any intrinsic understanding of Kubernetes resources,
+and. It therefore requires the user to implement these patterns. This increases maintenance for
+chart developers when rolling updates are configured, correctly or otherwise; or for deployers when
+rolling updates are not correctly configured.
+
+#### Debugging
+
+When reasoning about compatibility and versioning, Kustomize respects the deliberate decoupling of
+yaml manifests and cluster resources. Helm bundles tools that break this decoupling, such as hooks.
+When debugging a Helm-managed deployment, we must understand the Helm chart format, Helm's tooling,
+and Kubernetes manifests. When debugging Kustomize manifests, we must understand Kustomize tooling
+and Kubernetes manifests. In sum: Helm represents a considerably more complex compatibility matrix.
+
+It is the author's opinion that Kustomize's emphasis on composition and mutation over templating,
+and its use of plain yaml makes it far easier to comprehend, and means the learning curve is
+smaller than that of Helm.
+
+### Security
+
+It is possible to compromise upstream dependencies and republish a compromised Helm chart to a Helm
+repo. This applies to both dependencies _of_ Mojaloop, and, for users, _Mojaloop itself_.
+
+Kustomize allows content-addressable references to upstream manifests. For example, a
+`kustomization.yaml` can declare dependencies as follows:
+```yaml
+resources:
+- github.com/partiallyordered/mojaloop-kustomize/base/mojaloop?ref=578e9eabc908a4d0a51054fd015b6f94c4192979
+```
+To subsequently compromise this upstream dependency requires a capability to generate a compromised
+chart that produces an sha256 hash collision. This is basically impossible.
+
+### Common Usage Patterns
+
+| Activity | Helm | Kustomize |
+| -------- | ---- | --------- |
+| Basic deployment | `helm repo add <repo>`<br>`helm repo update`<br>`helm install <repo>/<chart>` | `kustomize build github.com/<org>/<repo>/<path>?ref=<ref> | kubectl apply -f -` |
+| Basic configuration | `helm install --set some.key=some-value <repo>/<chart>` | 1. create a `kustomization.yaml` containing configuration<br>2. `kustomize build . | kubectl apply -f -` |
+| Advanced configuration | 1. Create a `values.yaml` containing configuration<br>2. `helm install <repo>/<chart>` | 1. create a `kustomization.yaml` containing configuration<br>2. `kustomize build . | kubectl apply -f -` |
 
 ## Try It
 You'll need Kustomize v3.10.0 or later (pretty new).
@@ -66,7 +118,7 @@ Build the manifests:
 kustomize build base/mojaloop
 ```
 
-Validate (you'll need `kubeval`, but you should get it anyway!):
+Validate - optional (you'll need `kubeval`, but you should get it anyway!):
 ```sh
 kustomize build base/mojaloop | kubeval
 ```

@@ -71,10 +71,10 @@ manifests. Therefore, changes don't need to be incorporated upstream. This means
 
 Kustomize has a better pattern for configuration updates than Helm, and supports automatic rolling
 updates of pods when their dependent configuration (i.e. `ConfigMaps` and `Secrets`) changes. Helm
-is merely a templating engine and does not have any intrinsic understanding of Kubernetes resources,
-and. It therefore requires the user to implement these patterns. This increases maintenance for
-chart developers when rolling updates are configured, correctly or otherwise; or for deployers when
-rolling updates are not correctly configured.
+is merely a templating engine and does not have any intrinsic understanding of Kubernetes
+resources. It therefore requires the user to implement these patterns. This increases maintenance
+for chart developers when rolling updates are configured, correctly or otherwise; or for deployers
+when rolling updates are not correctly configured.
 
 #### Debugging
 

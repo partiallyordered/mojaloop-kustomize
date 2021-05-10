@@ -26,6 +26,29 @@ spec:
           value: console
         - name: EVENT_SDK_SIDECAR_DISABLED
           value: "true"
+        - name: CLEDG_DATABASE__SCHEMA
+          valueFrom:
+            configMapKeyRef:
+              name: centralledger-mysql
+              key: MYSQL_DATABASE
+        - name: CLEDG_DATABASE__USER
+          valueFrom:
+            configMapKeyRef:
+              name: centralledger-mysql
+              key: MYSQL_USER
+        - name: CLEDG_DATABASE__HOST
+          valueFrom:
+            configMapKeyRef:
+              name: centralledger-mysql
+              key: MYSQL_SERVICE
+        - name: CLEDG_DATABASE__PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: centralledger-mysql
+              key: MYSQL_PASSWORD
+        envFrom:
+        - configMapRef:
+            name: centralledger-kafka
         image: mojaloop/central-ledger:v11.2.3
         imagePullPolicy: Always
         livenessProbe:
@@ -57,6 +80,27 @@ spec:
         image: mysql:latest
         imagePullPolicy: Always
         name: wait-for-mysql
+        env:
+        - name: CLEDG_DATABASE__SCHEMA
+          valueFrom:
+            configMapKeyRef:
+              name: centralledger-mysql
+              key: MYSQL_DATABASE
+        - name: CLEDG_DATABASE__USER
+          valueFrom:
+            configMapKeyRef:
+              name: centralledger-mysql
+              key: MYSQL_USER
+        - name: CLEDG_DATABASE__HOST
+          valueFrom:
+            configMapKeyRef:
+              name: centralledger-mysql
+              key: MYSQL_SERVICE
+        - name: CLEDG_DATABASE__PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: centralledger-mysql
+              key: MYSQL_PASSWORD
       - command:
         - sh
         - -c
@@ -64,6 +108,26 @@ spec:
         env:
         - name: CLEDG_MIGRATIONS__RUN_DATA_MIGRATIONS
           value: "true"
+        - name: CLEDG_DATABASE__SCHEMA
+          valueFrom:
+            configMapKeyRef:
+              name: centralledger-mysql
+              key: MYSQL_DATABASE
+        - name: CLEDG_DATABASE__USER
+          valueFrom:
+            configMapKeyRef:
+              name: centralledger-mysql
+              key: MYSQL_USER
+        - name: CLEDG_DATABASE__HOST
+          valueFrom:
+            configMapKeyRef:
+              name: centralledger-mysql
+              key: MYSQL_SERVICE
+        - name: CLEDG_DATABASE__PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: centralledger-mysql
+              key: MYSQL_PASSWORD
         image: mojaloop/central-ledger:v11.2.3
         imagePullPolicy: Always
         name: run-migration

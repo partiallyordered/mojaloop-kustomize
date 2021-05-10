@@ -30,7 +30,7 @@ spec:
           value: account-lookup-service
         - name: ALS_SWITCH_ENDPOINT
           value: centralledger
-        image: mojaloop/account-lookup-service:v11.1.2
+        image: mojaloop/account-lookup-service:v11.2.1
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -91,7 +91,7 @@ spec:
           value: 'true'
         - name: ALS_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
           value: account-lookup-service-admin
-        image: mojaloop/account-lookup-service:v11.1.2
+        image: mojaloop/account-lookup-service:v11.2.1
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -124,6 +124,6 @@ spec:
         - sh
         - -c
         - npm run migrate
-        image: mojaloop/account-lookup-service:v11.1.2
+        image: mojaloop/account-lookup-service:v11.2.1
         imagePullPolicy: Always
         name: run-migration

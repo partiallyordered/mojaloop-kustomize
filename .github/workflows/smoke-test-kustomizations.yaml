@@ -3,9 +3,6 @@ on:
   pull_request:
   push:
 jobs:
-  strategy:
-    # It doesn't make sense to attempt a deployment if our manifests don't validate
-    max-parallel: 1
   validate_manifests:
     runs-on: ubuntu-latest
     steps:
@@ -25,6 +22,7 @@ jobs:
       run: kustomize build base/mojaloop | kubeval --strict
 
   deploy:
+    needs: validate_manifest
     timeout-minutes: 10
     runs-on: ubuntu-20.04
     steps:

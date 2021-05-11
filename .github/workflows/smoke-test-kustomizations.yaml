@@ -22,7 +22,7 @@ jobs:
       run: kustomize build base/mojaloop | kubeval --strict
 
   deploy:
-    needs: validate_manifest
+    needs: validate_manifests
     timeout-minutes: 10
     runs-on: ubuntu-20.04
     steps:

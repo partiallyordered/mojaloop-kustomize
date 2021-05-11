@@ -25,5 +25,6 @@ in
   nixpkgs.kustomize
   nixpkgs.kubeval
   nixpkgs.minikube
+  nixpkgs.skaffold
   kubefwd
 ]

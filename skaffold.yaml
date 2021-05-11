@@ -1,0 +1,8 @@
+apiVersion: skaffold/v2beta12
+kind: Config
+metadata:
+  name: mojaloop-kustomize
+deploy:
+  kustomize:
+    paths:
+    - base/mojaloop

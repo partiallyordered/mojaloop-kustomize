@@ -25,3 +25,47 @@ secretGenerator:
   - MYSQL_PASSWORD=oyMxgZChuu
   - MYSQL_ROOT_PASSWORD=2dMJTrx8y9
   - XTRABACKUP_PASSWORD=4WHuZ4xTLq
+
+patches:
+- target:
+    kind: Deployment
+    name: centralledger-handler-.*
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: ignored-by-kustomize
+    spec:
+      template:
+        spec:
+          # TODO: apply wait-for-mysql and wait-for-kafka to all relevant images with a patch as
+          #       follows. This also means removing them from the bases. Additionally, use the
+          #       relevant MySQL and Kafka configmaps.
+          initContainers:
+          - name: wait-for-mysql
+            command:
+            - sh
+            - -c
+            - until result=$(mysql -h cl-mysql -P 3306 -u $(MYSQL_USER)
+              --password=$(MYSQL_PASSWORD)  $(MYSQL_DATABASE) -ss -N -e 'select is_locked from
+              migration_lock;') && eval 'echo is_locked=$result' && if [ -z $result
+              ]; then false; fi && if [ $result -ne 0 ]; then false; fi; do echo waiting
+              for MySQL; sleep 2; done;
+            image: mysql:latest
+            imagePullPolicy: Always
+            envFrom:
+            - configMapRef:
+                name: cl-mysql
+            - secretRef:
+                name: cl-mysql
+          - command:
+            - sh
+            - -c
+            - until ./bin/kafka-broker-api-versions.sh --bootstrap-server kafka:9092;
+              do
+                echo waiting for Kafka;
+                sleep 2;
+              done;
+            image: solsson/kafka:latest
+            imagePullPolicy: Always
+            name: wait-for-kafka

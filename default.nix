@@ -24,6 +24,6 @@ in
 [
   nixpkgs.kustomize
   nixpkgs.kubeval
-  nixpkgs.k3d
+  nixpkgs.minikube
   kubefwd
 ]

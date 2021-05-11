@@ -7,6 +7,7 @@
 commonLabels:
   app.kubernetes.io/part-of: mojaloop
 resources:
+# consider attempting to replace kafka with Redpanda
 - ../../kafka
 - ./centralledger-mysql
 - ../../centralledger
@@ -46,8 +47,8 @@ patches:
             command:
             - sh
             - -c
-            - until result=$(mysql -h cl-mysql -P 3306 -u $(MYSQL_USER)
-              --password=$(MYSQL_PASSWORD)  $(MYSQL_DATABASE) -ss -N -e 'select is_locked from
+            - until result=$(mysql -h "$MYSQL_SERVICE" -P 3306 -u "$MYSQL_USER"
+              --password="$MYSQL_PASSWORD"  "$MYSQL_DATABASE" -ss -N -e 'select is_locked from
               migration_lock;') && eval 'echo is_locked=$result' && if [ -z $result
               ]; then false; fi && if [ $result -ne 0 ]; then false; fi; do echo waiting
               for MySQL; sleep 2; done;
@@ -55,12 +56,13 @@ patches:
             imagePullPolicy: Always
             envFrom:
             - configMapRef:
-                name: cl-mysql
+                name: centralledger-mysql
             - secretRef:
-                name: cl-mysql
+                name: centralledger-mysql
           - command:
             - sh
             - -c
+            # TODO: parametrise the Kafka service and port
             - until ./bin/kafka-broker-api-versions.sh --bootstrap-server kafka:9092;
               do
                 echo waiting for Kafka;

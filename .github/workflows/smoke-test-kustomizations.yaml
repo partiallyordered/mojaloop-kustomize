@@ -40,10 +40,15 @@ jobs:
 
     # Cluster setup
     - name: Start cluster
-      run: minikube start --kubernetes-version=v1.20.2
+      run: |-
+        k3d cluster create \
+          --kubeconfig-update-default \
+          --kubeconfig-switch-context \
+          --image=rancher/k3s:v1.20.5-k3s1 \
+          int-test
 
     - name: Deploy
-      run: skaffold run --profile minikube-integration
+      run: skaffold run
 
     - name: Print mysql debug info
       if: ${{ always() }}

@@ -62,4 +62,4 @@ jobs:
 
     - name: Print resources
       if: ${{ always() }}
-      run: kubectl get svc,deploy,configmap,job,pod -A
+      run: kubectl get svc,deploy,sts,pv,pvc,configmap,job,pod -A

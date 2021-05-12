@@ -43,15 +43,9 @@ jobs:
       run: minikube start --kubernetes-version=v1.20.2
 
     - name: Deploy
-      run: skaffold run
+      run: skaffold run --profile minikube-integration
 
-    # Print all pod logs here, but also pods individually
-    - name: Print all pod logs
-      if: ${{ always() }}
-      # the "bonus" echo here just means that if a pod hasn't printed a new-line we'll add a gap
-      run: kubectl get pods -o jsonpath='{$.items[*].metadata.name}' | tr ' ' '\n' | xargs -I{} bash -xc 'echo; kubectl logs {}'
-
-    - name: Print centralledger mysql debug info
+    - name: Print mysql debug info
       if: ${{ always() }}
       run: |-
         kubectl logs sts/centralledger-mysql -c database

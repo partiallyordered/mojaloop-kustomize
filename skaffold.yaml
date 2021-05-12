@@ -6,3 +6,9 @@ deploy:
   kustomize:
     paths:
     - base/mojaloop
+profiles:
+- name: minikube-integration
+  deploy:
+    kustomize:
+      paths:
+      - base/insecure-minikube-integration-test

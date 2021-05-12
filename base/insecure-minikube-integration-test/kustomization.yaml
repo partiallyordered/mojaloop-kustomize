@@ -17,8 +17,8 @@ patches:
       template:
         spec:
           securityContext:
-            # runAsUser: 0
-            # runAsGroup: 0
+            runAsUser: 0
+            runAsGroup: 0
             fsGroup: 999
 
 

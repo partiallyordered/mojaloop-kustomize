@@ -1,5 +1,7 @@
 resources:
 - ../mojaloop
+- pv-als-mysql.yaml
+- pv-centralledger-mysql.yaml
 
 # Minikube mounts our emptyDir as root into the mysql container. This means mysql cannot access it
 # by default. Because we're running in a CI environment with no real data to leak, we'll run the
@@ -7,7 +9,7 @@ resources:
 patches:
 - target:
     kind: StatefulSet
-    name: .*-mysql
+    name: centralledger-mysql
   patch: |
     apiVersion: apps/v1
     kind: StatefulSet
@@ -16,9 +18,24 @@ patches:
     spec:
       template:
         spec:
-          securityContext:
-            runAsUser: 0
-            runAsGroup: 0
-            fsGroup: 999
-
-
+          volumes:
+          - name: mysql-data
+            emptyDir: null
+            persistentVolumeClaim:
+              claimName: centralledger-mysql
+- target:
+    kind: StatefulSet
+    name: als-mysql
+  patch: |
+    apiVersion: apps/v1
+    kind: StatefulSet
+    metadata:
+      name: ignored
+    spec:
+      template:
+        spec:
+          volumes:
+          - name: mysql-data
+            emptyDir: null
+            persistentVolumeClaim:
+              claimName: als-mysql

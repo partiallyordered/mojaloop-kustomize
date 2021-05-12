@@ -48,7 +48,7 @@ jobs:
           int-test
 
     - name: Deploy
-      run: skaffold run --profile minikube-integration
+      run: skaffold run
 
     - name: Print mysql debug info
       if: ${{ always() }}

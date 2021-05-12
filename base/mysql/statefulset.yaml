@@ -16,6 +16,8 @@ spec:
     spec:
       containers:
       - command:
+        # TODO: we should supply --ignore-db-dir=lost+found to the mysql startup parameters
+        # https://stackoverflow.com/questions/52601684/kubernetes-mysql-image-persistent-volume-is-non-empty-during-init
         - /bin/bash
         - /startup-scripts/entrypoint.sh
         envFrom:
@@ -54,45 +56,11 @@ spec:
             - -e
             - SELECT 1
         volumeMounts:
-        - mountPath: /var/lib/mysql
-          name: mysql-data
         - mountPath: /startup-scripts
           name: mysql-startup-scripts
         - mountPath: /etc/mysql/conf.d
           name: mysql-config-files
-        - mountPath: /root
-          name: slash-root
-        - mountPath: /var/log
-          name: var-log
-      - command:
-        - tail
-        - -f
-        - /var/log/mysqld.log
-        image: busybox:stable
-        imagePullPolicy: IfNotPresent
-        name: logs
-        volumeMounts:
-        - mountPath: /var/log
-          name: var-log
-      initContainers:
-        # TODO: This initContainer can be replaced by supplying --ignore-db-dir=lost+found to the
-        # mysql startup parameters
-        # https://stackoverflow.com/questions/52601684/kubernetes-mysql-image-persistent-volume-is-non-empty-during-init
-      - command:
-        - rm
-        - -fr
-        - /var/lib/mysql/lost+found
-        image: busybox:stable
-        imagePullPolicy: IfNotPresent
-        name: remove-lost-found
-        volumeMounts:
-        - mountPath: /var/lib/mysql
-          name: mysql-data
       volumes:
-      - emptyDir: {}
-        name: slash-root
-      - emptyDir: {}
-        name: var-log
       - configMap:
           defaultMode: 420
           name: mysql-config-files
@@ -101,5 +69,3 @@ spec:
           defaultMode: 420
           name: mysql-startup-scripts
         name: mysql-startup-scripts
-      - emptyDir: {}
-        name: mysql-data

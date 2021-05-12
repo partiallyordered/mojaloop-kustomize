@@ -44,7 +44,7 @@ jobs:
         k3d cluster create \
           --kubeconfig-update-default \
           --kubeconfig-switch-context \
-          --image=rancher/k3s:v1.20.5-k3s1 \
+          --image=rancher/k3s:v1.21.0-k3s1 \
           int-test
 
     - name: Deploy
@@ -55,6 +55,10 @@ jobs:
       run: |-
         kubectl logs sts/centralledger-mysql -c database
         kubectl logs sts/als-mysql -c database
+
+    - name: Print docker containers
+      if: ${{ always() }}
+      run: docker ps
 
     - name: Print resources
       if: ${{ always() }}

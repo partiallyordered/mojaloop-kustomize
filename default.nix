@@ -17,6 +17,8 @@ let
       cp $src $out/bin/k3d
       chmod +x $out/bin/k3d
     '';
+
+    dontFixup = true;
   };
 
   kubefwd = nixpkgs.stdenv.mkDerivation rec {

@@ -14,8 +14,8 @@ let
 
     installPhase = ''
       mkdir -p $out/bin
-      cp $src $out/bin/
-      chmod +x $out/bin/
+      cp $src $out/bin/k3d
+      chmod +x $out/bin/k3d
     '';
   };
 

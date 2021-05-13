@@ -78,5 +78,6 @@ jobs:
 
     - name: Print secret values
       if: ${{ always() }}
-      run: kubectl get secrets -o json | jq -r '.items[] | { name: .metadata.name, data: .data | map_values(@base64d) }'
+      run: |-
+        kubectl get secrets -o json | jq -r '.items[] | { name: .metadata.name, data: .data | map_values(@base64d) }'
 

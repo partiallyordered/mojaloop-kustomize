@@ -57,7 +57,9 @@ jobs:
           int-test
 
     - name: Deploy
-      run: skaffold run
+      run: |-
+        kustomize build base/mojaloop | kubectl apply -f -
+        kubectl wait --for=condition=Ready pod --all --timeout=600s
 
     - name: Print docker containers to check any issues with the cluster
       if: ${{ always() }}

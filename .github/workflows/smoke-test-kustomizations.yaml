@@ -64,26 +64,19 @@ jobs:
     - name: Deploy
       run: skaffold run
 
-    - name: Print mysql debug info
-      if: ${{ always() }}
-      run: |-
-        set -x
-        kubectl logs sts/centralledger-mysql -c database
-        echo
-        kubectl logs sts/als-mysql -c database
-        echo
-        kubectl describe sts/centralledger-mysql
-        echo
-        kubectl describe sts/als-mysql
-        echo
-        kubectl describe pods/als-mysql-0
-        echo
-        kubectl describe pods/centralledger-mysql-0
-
-    - name: Print docker containers
+    - name: Print docker containers to check any issues with the cluster
       if: ${{ always() }}
       run: docker ps
 
     - name: Print resources
       if: ${{ always() }}
       run: kubectl get svc,deploy,sts,pv,pvc,configmap,job,pod -A
+
+    - name: Describe resources
+      if: ${{ always() }}
+      run: kubectl describe svc,deploy,sts,pv,pvc,configmap,job,pod -A
+
+    - name: Print secret values
+      if: ${{ always() }}
+      run: kubectl get secrets -o json | jq -r '.items[] | { name: .metadata.name, data: .data | map_values(@base64d) }'
+

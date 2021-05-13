@@ -47,6 +47,7 @@ in
   nixpkgs.kubectl
   nixpkgs.kubeval
   nixpkgs.skaffold
+  nixpkgs.jq
   kubefwd
   k3d
 ]

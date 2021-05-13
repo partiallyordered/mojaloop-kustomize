@@ -66,7 +66,7 @@ jobs:
       run: docker ps
 
     - name: Print resources
-      if: ${{ failure() }}
+      if: ${{ always() }}
       run: kubectl get svc,deploy,sts,pv,pvc,configmap,job,pod -A
 
     - name: Describe resources

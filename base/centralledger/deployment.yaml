@@ -49,7 +49,7 @@ spec:
         envFrom:
         - configMapRef:
             name: centralledger-kafka
-        image: mojaloop/central-ledger:v11.2.3
+        image: mojaloop/central-ledger:v13.0.1
         imagePullPolicy: Always
         livenessProbe:
           httpGet:

@@ -13,11 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    # Enable tmate debugging of manually-triggered workflows if the input option was provided
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
-      if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
-
     # Setup
     - uses: actions/checkout@v2.3.4
 
@@ -35,62 +30,9 @@ jobs:
           kustomize build "$base" | kubeval --strict;
         done
 
-  deploy_mysql:
-    needs: validate_manifests
-    timeout-minutes: 10
-    runs-on: ubuntu-20.04
-    steps:
-
-    # Enable tmate debugging of manually-triggered workflows if the input option was provided
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
-      if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.debug_enabled }}
-
-    # Env setup
-    - uses: actions/checkout@v2.3.4
-    - uses: cachix/install-nix-action@v13
-      with:
-        nix_path: nixpkgs=https://github.com/NixOS/nixpkgs/archive/8e4fe32876ca15e3d5eb3ecd3ca0b224417f5f17.tar.gz
-
-    - name: Install dependencies in environment
-      run: nix-env -if default.nix
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    # Cluster setup
-    - name: Start cluster
-      run: |-
-        k3d cluster create \
-          --kubeconfig-update-default \
-          --kubeconfig-switch-context \
-          --image=rancher/k3s:v1.21.0-k3s1 \
-          int-test
-
-    - name: Deploy
-      run: skaffold run --profile mysql
-
-    - name: Wait for pod readiness- Skaffold waits for deployments, not statefulsets
-      run: kubectl wait --for=condition=Ready pod --all --timeout=300s
-
-    - name: Print mysql debug info
-      if: ${{ always() }}
-      run: |-
-        set -x
-        kubectl logs sts/mysql -c database
-
-    - name: Print docker containers
-      if: ${{ always() }}
-      run: docker ps
-
-    - name: Print resources
-      if: ${{ always() }}
-      run: kubectl get svc,deploy,sts,pv,pvc,configmap,job,pod -A
-
-
   deploy_mojaloop:
     needs: validate_manifests
-    if: false
-    timeout-minutes: 10
+    timeout-minutes: 20
     runs-on: ubuntu-20.04
     steps:
 

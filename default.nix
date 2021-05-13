@@ -44,6 +44,7 @@ in
 
 [
   nixpkgs.kustomize
+  nixpkgs.kubectl
   nixpkgs.kubeval
   nixpkgs.skaffold
   kubefwd

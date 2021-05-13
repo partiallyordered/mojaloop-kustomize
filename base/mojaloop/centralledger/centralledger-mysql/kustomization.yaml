@@ -1,4 +1,4 @@
 namePrefix: centralledger-
 
 resources:
-- ../../../mysql
+- github.com/partiallyordered/bases/mysql?ref=170709f52250a1e6489cd7bb7398140bcd92212b

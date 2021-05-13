@@ -25,7 +25,6 @@ secretGenerator:
   literals:
   - MYSQL_PASSWORD=oyMxgZChuu
   - MYSQL_ROOT_PASSWORD=2dMJTrx8y9
-  - XTRABACKUP_PASSWORD=4WHuZ4xTLq
 
 patches:
 - target:

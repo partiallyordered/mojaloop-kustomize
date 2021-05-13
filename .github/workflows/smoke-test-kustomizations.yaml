@@ -59,22 +59,22 @@ jobs:
     - name: Deploy
       run: |-
         kustomize build base/mojaloop | kubectl apply -f -
-        kubectl wait --for=condition=Ready deploy --all --timeout=600s
+        kubectl wait --for=condition=Available deploy --all --timeout=600s
 
     - name: Print docker containers to check any issues with the cluster
-      if: ${{ always() }}
+      if: ${{ failure() }}
       run: docker ps
 
     - name: Print resources
-      if: ${{ always() }}
+      if: ${{ failure() }}
       run: kubectl get svc,deploy,sts,pv,pvc,configmap,job,pod -A
 
     - name: Describe resources
-      if: ${{ always() }}
+      if: ${{ failure() }}
       run: kubectl describe svc,deploy,sts,pv,pvc,configmap,job,pod -A
 
     - name: Print secret values
-      if: ${{ always() }}
+      if: ${{ failure() }}
       run: |-
         kubectl get secrets -o json | jq -r '.items[] | { name: .metadata.name, data: .data | map_values(@base64d) }'
 

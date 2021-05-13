@@ -17,8 +17,8 @@ secretGenerator:
 - name: als-mysql
   behavior: merge
   literals:
-  - MYSQL_PASSWORD=oyMxgZChuu
-  - MYSQL_ROOT_PASSWORD=2dMJTrx8y9
+  - MYSQL_PASSWORD=wSDe6CL9Qi
+  - MYSQL_ROOT_PASSWORD=uXgvkCuhhj
 
 patches:
 - target:

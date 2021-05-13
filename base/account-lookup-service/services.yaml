@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app.kubernetes.io/name: account-lookup-service
-  name: test-account-lookup-service
+  name: account-lookup-service
 spec:
   ports:
   - name: http-api
@@ -18,7 +18,7 @@ kind: Service
 metadata:
   labels:
     app.kubernetes.io/name: account-lookup-service-admin
-  name: test-account-lookup-service-admin
+  name: account-lookup-service-admin
 spec:
   ports:
   - name: http-admin

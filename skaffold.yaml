@@ -12,3 +12,8 @@ profiles:
     kustomize:
       paths:
       - base/insecure-minikube-integration-test
+- name: mysql
+  deploy:
+    kustomize:
+      paths:
+      - base/mysql

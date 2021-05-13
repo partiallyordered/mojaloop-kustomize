@@ -133,17 +133,7 @@ jobs:
       if: ${{ always() }}
       run: |-
         set -x
-        kubectl logs sts/centralledger-mysql -c database
-        echo
-        kubectl logs sts/als-mysql -c database
-        echo
-        kubectl describe sts/centralledger-mysql
-        echo
-        kubectl describe sts/als-mysql
-        echo
-        kubectl describe pods/als-mysql-0
-        echo
-        kubectl describe pods/centralledger-mysql-0
+        kubectl logs sts/mysql -c database
 
     - name: Print docker containers
       if: ${{ always() }}

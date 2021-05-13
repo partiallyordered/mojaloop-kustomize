@@ -23,7 +23,7 @@ jobs:
 
   deploy:
     needs: validate_manifests
-    timeout-minutes: 20
+    timeout-minutes: 10
     runs-on: ubuntu-20.04
     steps:
 
@@ -53,8 +53,13 @@ jobs:
     - name: Print mysql debug info
       if: ${{ always() }}
       run: |-
+        set -x
         kubectl logs sts/centralledger-mysql -c database
         kubectl logs sts/als-mysql -c database
+        kubectl describe sts/centralledger-mysql
+        kubectl describe sts/als-mysql
+        kubectl describe pods/als-mysql-0
+        kubectl describe pods/centralledger-mysql-0
 
     - name: Print docker containers
       if: ${{ always() }}

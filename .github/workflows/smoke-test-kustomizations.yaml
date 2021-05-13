@@ -67,7 +67,7 @@ jobs:
           int-test
 
     - name: Deploy
-      run: skaffold run
+      run: skaffold run --profile mysql
 
     - name: Print mysql debug info
       if: ${{ always() }}

@@ -59,12 +59,7 @@ jobs:
     - name: Deploy
       run: |-
         kustomize build base/mojaloop | kubectl apply -f -
-        until kubectl get pods centralledger-service &> /dev/null
-        do
-          echo waiting for pods to exist
-          sleep 1
-        done
-        kubectl wait --for=condition=Ready pod --all --timeout=600s
+        kubectl wait --for=condition=Ready deploy --all --timeout=600s
 
     - name: Print docker containers to check any issues with the cluster
       if: ${{ always() }}

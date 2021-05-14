@@ -17,7 +17,7 @@ spec:
       containers:
       - name: app
         command: [node, src/api/index.js]
-        image: mojaloop/centralsettlement:v12.0.3
+        image: mojaloop/central-settlement:v12.0.3
         ports:
         - containerPort: 3007
         env:

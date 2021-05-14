@@ -1,0 +1,46 @@
+resources:
+- deployment.yaml
+- service.yaml
+
+configMapGenerator:
+- name: portal-backend
+  literals:
+    # The mysql host hostname
+  - DB_HOST=mysql
+    # The mysql host port
+  - DB_PORT=3306
+    # The mysql user name
+  - DB_USER=central_ledger
+    # The mysql password
+  - DB_PASSWORD=whatever
+    # The local port to listen for requests on
+  - LISTEN_PORT=3000
+    # The Mojaloop's central settlements service endpoint
+  - CENTRAL_SETTLEMENTS_ENDPOINT=http://centralsettlement/v2
+    # Mojaloop's central ledger service endpoint
+  - CENTRAL_LEDGER_ENDPOINT=http://centralledger/
+    # Dev/production
+  - NODE_ENV=development
+    ### ONLY SET TO TRUE FOR DEVELOPMENT USE ###
+    # Allow requests from any origin. Specifically, when true, reflects the origin protocol, hostname,
+    # port back to the requester in the Access-Control-Allow-Origin header. This is useful for
+    # testing and development, but should never be used in production as it is important for preventing
+    # CSRF attacks.
+  - CORS_ACCESS_CONTROL_REFLECT_ORIGIN=true
+    ### ONLY SET TO TRUE FOR DEVELOPMENT USE ###
+    # If true, the Secure directive will not be set in the Set-Cookie header. This means the browser
+    # will be able to send the cookie over connections that are insecure. You may need this to develop
+    # locally when BYPASS_AUTH is true. In other words, you may need this to develop locally when
+    # developing/debugging login/auth.
+  - INSECURE_COOKIE=true
+    # Bypass auth. Useful when running locally.
+  - BYPASS_AUTH=false
+    # OAuth2 auth server (WSO2IS)
+  - AUTH_SERVER_CLIENTKEY=rxvU2f2gURAMtz_kRtCmX8m4C9Ia
+  - AUTH_SERVER_CLIENTSECRET=RcNfVGvFJQQrRQezS84vDzbjigka
+  - AUTH_SERVER=https://wso2
+  - AUTH_SERVER_PORT=9443
+  - AUTH_SERVICE=/oauth2/token
+  - USERINFO_SERVICE=/oauth2/userinfo
+  - VALIDATE_SERVICE=/oauth2/introspect
+  - REVOKE_SERVICE=/oauth2/revoke

@@ -28,22 +28,22 @@ spec:
         - name: CSET_DATABASE__SCHEMA
           valueFrom:
             configMapKeyRef:
-              name: mysql
+              name: centralledger-mysql
               key: MYSQL_DATABASE
         - name: CSET_DATABASE__USER
           valueFrom:
             configMapKeyRef:
-              name: mysql
+              name: centralledger-mysql
               key: MYSQL_USER
         - name: CSET_DATABASE__HOST
           valueFrom:
             configMapKeyRef:
-              name: mysql
+              name: centralledger-mysql
               key: MYSQL_SERVICE
         - name: CSET_DATABASE__PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql
+              name: centralledger-mysql
               key: MYSQL_PASSWORD
         readinessProbe:
           httpGet:

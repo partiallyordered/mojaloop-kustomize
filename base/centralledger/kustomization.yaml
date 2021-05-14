@@ -57,6 +57,29 @@ patches:
             - name: CLEDG_DATABASE__SCHEMA
               valueFrom:
                 configMapKeyRef:
+                  # TODO: this and all other references to centralledger-mysql should probably
+                  # reference plain mysql. At the time of writing it seems like this works if a
+                  # mysql base is only used once, like this:
+                  #
+                  #    mysql
+                  #      |
+                  # centralledger
+                  #      |
+                  #   mojaloop
+                  #
+                  # However, it seems like when it's used in a diamond, like this:
+                  #
+                  #            mysql
+                  #           /     \
+                  # centralledger    als
+                  #          \       /
+                  #           mojaloop
+                  #
+                  # the configmap name won't be changed.
+                  # Note that this is arguably a consequence of using the wrong pattern anyway. We
+                  # should perhaps not be expecting to access data that's not yet defined here.
+                  # Instead, we should probably be setting this data in the overlay, where we
+                  # compose central ledger and mysql
                   name: centralledger-mysql
                   key: MYSQL_DATABASE
             - name: CLEDG_DATABASE__USER

@@ -1,0 +1,17 @@
+resources:
+- ../base
+
+nameSuffix: -handler-settlementwindow
+
+patches:
+- patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: centralsettlement
+    spec:
+      template:
+        spec:
+          containers:
+          - name: app
+            command: [node, src/handlers/index.js, h, --settlementwindow]

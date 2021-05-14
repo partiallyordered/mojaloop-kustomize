@@ -11,6 +11,7 @@ resources:
 - ../../kafka
 - ./centralledger-mysql
 - ../../centralledger
+- ../../centralsettlement
 
 configMapGenerator:
 - name: centralledger-mysql
@@ -18,6 +19,19 @@ configMapGenerator:
   literals:
   - MYSQL_DATABASE=central_ledger
   - MYSQL_USER=central_ledger
+- name: centralsettlement
+  behavior: merge
+  literals:
+  # TODO: parametrise kafka host + port
+  - CSET_KAFKA__CONSUMER__SETTLEMENTWINDOW__CLOSE__config__rdkafkaConf__metadata.broker.list=kafka:9092
+  - CSET_KAFKA__CONSUMER__NOTIFICATION__EVENT__config__rdkafkaConf__metadata.broker.list=kafka:9092
+  - CSET_KAFKA__PRODUCER__SETTLEMENTWINDOW__CLOSE__config__rdkafkaConf__metadata.broker.list=kafka:9092
+  - CSET_KAFKA__PRODUCER__NOTIFICATION__EVENT__config__rdkafkaConf__metadata.broker.list=kafka:9092
+
+# CSET_HUB_PARTICIPANT__NAME="hub"
+# CSET_HANDLERS__DISABLED=true
+# CSET_ERROR_HANDLING__includeCauseExtension=false
+# CSET_ERROR_HANDLING__truncateExtensions=true
 
 secretGenerator:
 - name: centralledger-mysql

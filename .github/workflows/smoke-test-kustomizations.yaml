@@ -59,7 +59,11 @@ jobs:
     - name: Deploy
       run: |-
         kustomize build base/mojaloop | kubectl apply -f -
-        kubectl wait --for=condition=Available deploy --all --timeout=600s
+        # kubectl wait will wait for 600s for each resource. I.e. 6000 seconds if there are ten
+        # deployments. So we use timeout. This means, between this timeout and our overall job
+        # timeout, we expect the job to finish in roughly ten minutes, leaving us roughly ten
+        # minutes to debug if necessary.
+        timeout 600 kubectl wait --for=condition=Available deploy --all --timeout=600s
 
     - name: Print docker containers to check any issues with the cluster
       if: ${{ failure() }}

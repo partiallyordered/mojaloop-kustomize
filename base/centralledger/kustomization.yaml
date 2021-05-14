@@ -8,6 +8,8 @@ resources:
 - ./handlers/timeout
 - ./handlers/admin-transfer
 
+# TODO: Probably should only generate the Kafka config map when we actually tie central ledger and
+# Kafka together. I.e. when we have Kafka listed in the top-level resources section
 # TODO: it should be possible to reference the kafka base here. Perhaps modifying every
 # deployment to have environment variables using k8s variable replacement functionality:
 # - name: KAFKA_SVC

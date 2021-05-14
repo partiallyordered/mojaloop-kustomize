@@ -29,22 +29,22 @@ spec:
         - name: CLEDG_DATABASE__SCHEMA
           valueFrom:
             configMapKeyRef:
-              name: centralledger-mysql
+              name: mysql
               key: MYSQL_DATABASE
         - name: CLEDG_DATABASE__USER
           valueFrom:
             configMapKeyRef:
-              name: centralledger-mysql
+              name: mysql
               key: MYSQL_USER
         - name: CLEDG_DATABASE__HOST
           valueFrom:
             configMapKeyRef:
-              name: centralledger-mysql
+              name: mysql
               key: MYSQL_SERVICE
         - name: CLEDG_DATABASE__PASSWORD
           valueFrom:
             secretKeyRef:
-              name: centralledger-mysql
+              name: mysql
               key: MYSQL_PASSWORD
         envFrom:
         - configMapRef:
@@ -84,22 +84,22 @@ spec:
         - name: CLEDG_DATABASE__SCHEMA
           valueFrom:
             configMapKeyRef:
-              name: centralledger-mysql
+              name: mysql
               key: MYSQL_DATABASE
         - name: CLEDG_DATABASE__USER
           valueFrom:
             configMapKeyRef:
-              name: centralledger-mysql
+              name: mysql
               key: MYSQL_USER
         - name: CLEDG_DATABASE__HOST
           valueFrom:
             configMapKeyRef:
-              name: centralledger-mysql
+              name: mysql
               key: MYSQL_SERVICE
         - name: CLEDG_DATABASE__PASSWORD
           valueFrom:
             secretKeyRef:
-              name: centralledger-mysql
+              name: mysql
               key: MYSQL_PASSWORD
       - command:
         - sh
@@ -111,22 +111,22 @@ spec:
         - name: CLEDG_DATABASE__SCHEMA
           valueFrom:
             configMapKeyRef:
-              name: centralledger-mysql
+              name: mysql
               key: MYSQL_DATABASE
         - name: CLEDG_DATABASE__USER
           valueFrom:
             configMapKeyRef:
-              name: centralledger-mysql
+              name: mysql
               key: MYSQL_USER
         - name: CLEDG_DATABASE__HOST
           valueFrom:
             configMapKeyRef:
-              name: centralledger-mysql
+              name: mysql
               key: MYSQL_SERVICE
         - name: CLEDG_DATABASE__PASSWORD
           valueFrom:
             secretKeyRef:
-              name: centralledger-mysql
+              name: mysql
               key: MYSQL_PASSWORD
         image: mojaloop/central-ledger:v11.2.3
         imagePullPolicy: Always

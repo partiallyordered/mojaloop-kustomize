@@ -1,3 +1,32 @@
 resources:
 - ./als
 - ./central
+- ../portal
+
+patches:
+- patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: portal-backend
+    spec:
+      template:
+        spec:
+          containers:
+          - name: app
+            env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: centralledger-mysql
+                  key: MYSQL_SERVICE
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: centralledger-mysql
+                  key: MYSQL_PASSWORD
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: centralledger-mysql
+                  key: MYSQL_USER

@@ -44,3 +44,18 @@ configMapGenerator:
   - USERINFO_SERVICE=/oauth2/userinfo
   - VALIDATE_SERVICE=/oauth2/introspect
   - REVOKE_SERVICE=/oauth2/revoke
+
+patches:
+- patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: portal-backend
+    spec:
+      template:
+        spec:
+          containers:
+          - name: app
+            envFrom:
+            - configMapRef:
+                name: portal-backend

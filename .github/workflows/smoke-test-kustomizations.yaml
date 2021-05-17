@@ -27,7 +27,7 @@ jobs:
     - name: Smoke test parent chart
       run: |-
         for base in $(find base -mindepth 1 -maxdepth 1 -type d); do
-          kustomize build "$base" | kubeval --strict;
+          kustomize build "$base" | kubeconform -strict -kubernetes-version 1.21.1;
         done
 
   deploy_mojaloop:

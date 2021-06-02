@@ -35,6 +35,7 @@ configMapGenerator:
   - CLEDG_KAFKA__PRODUCER__TRANSFER__FULFIL__config__rdkafkaConf__metadata.broker.list=kafka:9092
   - CLEDG_KAFKA__CONSUMER__ADMIN__TRANSFER__config__rdkafkaConf__metadata.broker.list=kafka:9092
   - CLEDG_KAFKA__PRODUCER__ADMIN__TRANSFER__config__rdkafkaConf__metadata.broker.list=kafka:9092
+  - CLEDG_KAFKA__PRODUCER__NOTIFICATION__EVENT__config__rdkafkaConf__metadata.broker.list=kafka:9092
 
 patches:
 - target:

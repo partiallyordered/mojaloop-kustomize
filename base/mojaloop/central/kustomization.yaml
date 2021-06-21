@@ -30,14 +30,21 @@ configMapGenerator:
   - CSET_KAFKA__PRODUCER__NOTIFICATION__EVENT__config__rdkafkaConf__metadata.broker.list=kafka:9092
 - name: ml-api-adapter-service
   behavior: merge
-  literals: &ml_api_adapter_service_kafka_config
+  literals: &ml_api_adapter_service_config
   - MLAPI_KAFKA__CONSUMER__NOTIFICATION__EVENT__config__rdkafkaConf__metadata.broker.list=kafka:9092
   - MLAPI_KAFKA__PRODUCER__TRANSFER__PREPARE__config__rdkafkaConf__metadata.broker.list=kafka:9092
   - MLAPI_KAFKA__PRODUCER__TRANSFER__FULFIL__config__rdkafkaConf__metadata.broker.list=kafka:9092
   - MLAPI_KAFKA__PRODUCER__TRANSFER__GET__config__rdkafkaConf__metadata.broker.list=kafka:9092
+  # TODO: this is _okay_ here, as this is the file where we should tie together centralledger and
+  # ml-api-adapter, but we should _actually_ tie them together so that if we change the name of
+  # centralledger service, we also change the value that goes in these config items. The
+  # namereference config trick should work well here (see the kustomizeconfig directory of the
+  # mysql base).
+  - MLAPI_ENDPOINT_HEALTH_URL=http://centralledger-service/health
+  - MLAPI_ENDPOINT_SOURCE_URL=http://centralledger-service
 - name: ml-api-adapter-notification-handler
   behavior: merge
-  literals: *ml_api_adapter_service_kafka_config
+  literals: *ml_api_adapter_service_config
 
 secretGenerator:
 - name: centralledger-mysql

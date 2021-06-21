@@ -24,7 +24,6 @@ spec:
         - configMapRef:
             name: ml-api-adapter-service
         readinessProbe:
-          initialDelaySeconds: 120
           httpGet:
             path: /health
             port: 3000

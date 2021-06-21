@@ -7,11 +7,12 @@
 commonLabels:
   app.kubernetes.io/part-of: mojaloop
 resources:
-# consider attempting to replace kafka with Redpanda
+# TODO: consider attempting to replace kafka with Redpanda
 - ../../kafka
 - ./centralledger-mysql
 - ../../centralledger
 - ../../centralsettlement
+- ../../ml-api-adapter
 
 configMapGenerator:
 - name: centralledger-mysql
@@ -27,11 +28,16 @@ configMapGenerator:
   - CSET_KAFKA__CONSUMER__NOTIFICATION__EVENT__config__rdkafkaConf__metadata.broker.list=kafka:9092
   - CSET_KAFKA__PRODUCER__SETTLEMENTWINDOW__CLOSE__config__rdkafkaConf__metadata.broker.list=kafka:9092
   - CSET_KAFKA__PRODUCER__NOTIFICATION__EVENT__config__rdkafkaConf__metadata.broker.list=kafka:9092
-
-# CSET_HUB_PARTICIPANT__NAME="hub"
-# CSET_HANDLERS__DISABLED=true
-# CSET_ERROR_HANDLING__includeCauseExtension=false
-# CSET_ERROR_HANDLING__truncateExtensions=true
+- name: ml-api-adapter-service
+  behavior: merge
+  literals: &ml_api_adapter_service_kafka_config
+  - MLAPI_KAFKA__CONSUMER__NOTIFICATION__EVENT__config__rdkafkaConf__metadata.broker.list=kafka:9092
+  - MLAPI_KAFKA__PRODUCER__TRANSFER__PREPARE__config__rdkafkaConf__metadata.broker.list=kafka:9092
+  - MLAPI_KAFKA__PRODUCER__TRANSFER__FULFIL__config__rdkafkaConf__metadata.broker.list=kafka:9092
+  - MLAPI_KAFKA__PRODUCER__TRANSFER__GET__config__rdkafkaConf__metadata.broker.list=kafka:9092
+- name: ml-api-adapter-notification-handler
+  behavior: merge
+  literals: *ml_api_adapter_service_kafka_config
 
 secretGenerator:
 - name: centralledger-mysql

@@ -1,0 +1,11 @@
+resources:
+- deployment.yaml
+- service.yaml
+
+configMapGenerator:
+- name: ml-api-adapter-service
+  literals:
+  - LOG_LEVEL=info
+  - LOG_FILTER=error,warn,info
+  - CSL_LOG_TRANSPORT=file
+  - LIB_RESOURCE_VERSIONS=transfers=1.0,participants=1.0,quotes=1.0

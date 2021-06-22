@@ -13,7 +13,7 @@ spec:
         app.kubernetes.io/name: ml-api-adapter-notification-handler
     spec:
       containers:
-      - name: service
+      - name: ml-api-adapter-notification-handler
         image: mojaloop/ml-api-adapter:v11.0.1
         command:
         - node

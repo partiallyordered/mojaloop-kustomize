@@ -13,7 +13,7 @@ spec:
         app.kubernetes.io/name: ml-api-adapter-service
     spec:
       containers:
-      - name: service
+      - name: ml-api-adapter-service
         image: mojaloop/ml-api-adapter:v11.1.4
         command:
         - node

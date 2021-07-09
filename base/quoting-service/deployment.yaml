@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quoting-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: quoting-service
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: quoting-service
+    spec:
+      containers:
+      # It would be better to call this container something generic, like "service" or "app", but
+      # we use "quoting-service" in order to remain compatible with the ML helm charts
+      - name: quoting-service
+        image: mojaloop/quoting-service:v11.2.2
+        ports:
+        - containerPort: 3002
+          name: http-api
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3002
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3002

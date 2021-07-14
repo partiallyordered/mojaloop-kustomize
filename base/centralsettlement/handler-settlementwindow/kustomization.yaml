@@ -3,6 +3,9 @@ resources:
 
 nameSuffix: -handler-settlementwindow
 
+commonLabels:
+  app.kubernetes.io/name: centralsettlement-handler-settlementwindow
+
 patches:
 - patch: |-
     apiVersion: apps/v1

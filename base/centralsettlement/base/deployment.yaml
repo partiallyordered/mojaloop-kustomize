@@ -12,6 +12,7 @@ spec:
         image: mojaloop/central-settlement:v12.0.3
         ports:
         - containerPort: 3007
+        envFrom: [] # Having this here, but empty, allows us to patch it
         env:
         - name: LOG_LEVEL
           value: info

@@ -4,56 +4,12 @@ resources:
 - ../portal
 - ../quoting-service
 
-patches:
-- patch: |-
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: quoting-service
-    spec:
-      template:
-        spec:
-          containers:
-          - name: quoting-service
-            env:
-            - name: QUOTE_DATABASE__HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: centralledger-mysql
-                  key: MYSQL_SERVICE
-            - name: QUOTE_DATABASE__PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: centralledger-mysql
-                  key: MYSQL_PASSWORD
-            - name: QUOTE_DATABASE__USER
-              valueFrom:
-                configMapKeyRef:
-                  name: centralledger-mysql
-                  key: MYSQL_USER
-- patch: |-
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: portal-backend
-    spec:
-      template:
-        spec:
-          containers:
-          - name: app
-            env:
-            - name: DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: centralledger-mysql
-                  key: MYSQL_SERVICE
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: centralledger-mysql
-                  key: MYSQL_PASSWORD
-            - name: DB_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: centralledger-mysql
-                  key: MYSQL_USER
+# TODO:
+# - it may be possible to deploy ALS and Central Ledger in different namespaces, then use their
+# default MySQL hosts, and not need to configure that. There's probably no need for them to be in
+# the same namespace. Although, perhaps the quoting service calls the ALS? In which case, tying
+# them together would be more awkward if they're not in the same namespace.
+
+patchesStrategicMerge:
+- patch-portal-backend-mysql-env.yaml
+- patch-quoting-service-mysql-env.yaml

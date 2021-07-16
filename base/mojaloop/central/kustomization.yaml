@@ -13,6 +13,8 @@ resources:
 - ../../centralledger
 - ../../centralsettlement
 - ../../ml-api-adapter
+- ../../portal
+- ../../quoting-service
 
 configMapGenerator:
 - name: centralledger-mysql
@@ -53,12 +55,16 @@ secretGenerator:
   - MYSQL_PASSWORD=oyMxgZChuu
   - MYSQL_ROOT_PASSWORD=2dMJTrx8y9
 
+patchesStrategicMerge:
+- patch-portal-backend-mysql-env.yaml
+- patch-quoting-service-mysql-env.yaml
+
 patches:
 - target:
     kind: Deployment
     name: centralsettlement.*
-  path: wait-for-mysql.patch.yaml
+  path: patch-wait-for-mysql.yaml
 - target:
     kind: Deployment
     name: centralledger-handler-.*
-  path: wait-for-mysql.patch.yaml
+  path: patch-wait-for-mysql.yaml

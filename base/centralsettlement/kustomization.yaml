@@ -8,20 +8,13 @@ resources:
 configMapGenerator:
 - name: centralsettlement
 
-patches:
+patchesJson6902:
 - target:
     kind: Deployment
     name: centralsettlement.*
   patch: |-
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: ignored-by-kustomize
-    spec:
-      template:
-        spec:
-          containers:
-          - name: app
-            envFrom:
-            - configMapRef:
-                name: centralsettlement
+    - path: /spec/template/spec/containers/0/envFrom/-
+      op: add
+      value:
+        configMapRef:
+          name: centralsettlement

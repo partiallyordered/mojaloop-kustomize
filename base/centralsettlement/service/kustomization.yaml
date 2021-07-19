@@ -1,2 +1,18 @@
 resources:
 - ../base
+
+nameSuffix: -service
+
+commonLabels:
+  app.kubernetes.io/name: centralsettlement-service
+
+# Here we rename the container to be in line with the Mojaloop helm chart. Not really very useful
+# to have this name, but for the sake of compatibility..
+patchesJson6902:
+- target:
+    kind: Deployment
+    name: centralsettlement
+  patch: |-
+    - path: /spec/template/spec/containers/0/name
+      op: replace
+      value: centralsettlement-service

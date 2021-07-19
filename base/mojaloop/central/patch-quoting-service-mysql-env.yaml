@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quoting-service
+spec:
+  template:
+    spec:
+      containers:
+      - name: quoting-service
+        env:
+        - name: QUOTE_DATABASE__HOST
+          valueFrom:
+            configMapKeyRef:
+              name: centralledger-mysql
+              key: MYSQL_SERVICE
+        - name: QUOTE_DATABASE__PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: centralledger-mysql
+              key: MYSQL_PASSWORD
+        - name: QUOTE_DATABASE__USER
+          valueFrom:
+            configMapKeyRef:
+              name: centralledger-mysql
+              key: MYSQL_USER

@@ -33,6 +33,11 @@ configMapGenerator:
 - name: ml-api-adapter-service
   behavior: merge
   literals: &ml_api_adapter_service_config
+  # This means the endpoint cache will expire in one millisecond, which under heavy load would
+  # cause one request per millisecond per service to the database.
+  # This would be bad in a production instance, but is hugely preferable for development and
+  # deployment, where load should be quite light.
+  - MLAPI_ENDPOINT_CACHE_CONFIG__expiresIn=1
   - MLAPI_KAFKA__CONSUMER__NOTIFICATION__EVENT__config__rdkafkaConf__metadata.broker.list=kafka:9092
   - MLAPI_KAFKA__PRODUCER__TRANSFER__PREPARE__config__rdkafkaConf__metadata.broker.list=kafka:9092
   - MLAPI_KAFKA__PRODUCER__TRANSFER__FULFIL__config__rdkafkaConf__metadata.broker.list=kafka:9092

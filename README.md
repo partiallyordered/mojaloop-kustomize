@@ -111,24 +111,44 @@ base that produces an sha256 hash collision. This is not known to be practically
 | Advanced configuration | 1. Create a `values.yaml` containing configuration<br>2. `helm install <repo>/<chart>` | 1. create a `kustomization.yaml` containing configuration<br>2. `kustomize build . \| kubectl apply -f -` |
 
 ## Try It
-You'll need Kustomize v3.10.0 or later (pretty new).
+
+### Kustomize
+It's best to use Kustomize v3.10.0 or later.
+```sh
+kustomize version
+```
 
 Build the manifests:
 ```sh
-kustomize build base/mojaloop
+kustomize build https://github.com/partiallyordered/mojaloop-kustomize/base/mojaloop
 ```
 
 Validate - optional (you'll need `kubeval`, but you should get it anyway!):
 ```sh
-kustomize build base/mojaloop | kubeval
+kustomize build https://github.com/partiallyordered/mojaloop-kustomize/base/mojaloop | kubeval
 ```
 
 Deploy:
 ```sh
-kustomize build base/mojaloop | kubectl apply -f -
+kustomize build https://github.com/partiallyordered/mojaloop-kustomize/base/mojaloop | kubectl apply -f -
 ```
 
 Destroy:
 ```sh
-kustomize build base/mojaloop | kubectl delete -f -
+kustomize build https://github.com/partiallyordered/mojaloop-kustomize/base/mojaloop | kubectl delete -f -
+```
+
+### Kubectl
+
+You could also try `kubectl`. At the time of writing the author is unsure what versions of
+`kubectl` will work correctly, so do this at your own risk.
+
+Dry run:
+```sh
+kubectl apply --dry-run=client -k https://github.com/partiallyordered/mojaloop-kustomize/base/mojaloop
+```
+
+Deploy:
+```sh
+kubectl apply -k https://github.com/partiallyordered/mojaloop-kustomize/base/mojaloop
 ```

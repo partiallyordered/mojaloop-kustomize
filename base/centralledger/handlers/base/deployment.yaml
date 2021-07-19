@@ -24,10 +24,11 @@ spec:
           value: centralledger-handler
         - name: CLEDG_INSTRUMENTATION__METRICS__config__defaultLabels__serviceName
           value: centralledger-handler
-        - name: LOG_LEVEL
-          value: info
+        # Central ledger has a bug caused by attempting JSON.stringify of a circular reference
+        # here: https://github.com/mojaloop/central-ledger/blob/5216d494f39eb60f383dc2805d937afc79b339c6/src/api/participants/handler.js#L118
+        # For this reason we disable debug printing
         - name: LOG_FILTER
-          value: error, warn, info
+          value: error, warn, audit, trace, info, perf, verbose, debug, silly
         - name: CSL_LOG_TRANSPORT
           value: console
         - name: EVENT_SDK_SIDECAR_DISABLED

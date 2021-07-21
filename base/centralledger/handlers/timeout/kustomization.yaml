@@ -1,5 +1,8 @@
 nameSuffix: -timeout
 
+commonLabels:
+  app.kubernetes.io/name: centralledger-handler-timeout
+
 patchesStrategicMerge:
 - |-
   apiVersion: apps/v1

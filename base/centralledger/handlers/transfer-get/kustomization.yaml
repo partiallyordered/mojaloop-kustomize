@@ -1,5 +1,8 @@
 nameSuffix: -transfer-get
 
+commonLabels:
+  app.kubernetes.io/name: centralledger-handler-transfer-get
+
 patchesStrategicMerge:
 - |-
   apiVersion: apps/v1

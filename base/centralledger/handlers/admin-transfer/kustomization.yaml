@@ -1,5 +1,8 @@
 nameSuffix: -admin-transfer
 
+commonLabels:
+  app.kubernetes.io/name: centralledger-handler-admin-transfer
+
 patchesStrategicMerge:
 - |-
   apiVersion: apps/v1

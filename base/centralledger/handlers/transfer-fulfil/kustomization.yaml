@@ -1,5 +1,8 @@
 nameSuffix: -transfer-fulfil
 
+commonLabels:
+  app.kubernetes.io/name: centralledger-handler-transfer-fulfil
+
 patchesStrategicMerge:
 - |-
   apiVersion: apps/v1

@@ -1,5 +1,8 @@
 nameSuffix: -transfer-position
 
+commonLabels:
+  app.kubernetes.io/name: centralledger-handler-transfer-position
+
 patchesStrategicMerge:
 - |-
   apiVersion: apps/v1

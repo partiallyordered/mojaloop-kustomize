@@ -1,5 +1,8 @@
 nameSuffix: -transfer-prepare
 
+commonLabels:
+  app.kubernetes.io/name: centralledger-handler-transfer-prepare
+
 patchesStrategicMerge:
 - |-
   apiVersion: apps/v1

@@ -1,0 +1,3 @@
+resources:
+- ../../base/nginx-ingress-controller
+- ingress-class.yaml

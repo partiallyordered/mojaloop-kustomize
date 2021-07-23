@@ -24,11 +24,13 @@ jobs:
       run: nix-env -if default.nix
 
     # Tests
-    - name: Smoke test parent chart
+    - name: Smoke test manifests
       run: |-
         for base in $(find base -mindepth 1 -maxdepth 1 -type d); do
           kustomize build "$base" | kubeconform -strict -kubernetes-version 1.21.1;
         done
+        kustomize build nginx-ingress-controller-k8s-pre-1-18 | kubeconform -strict -kubernetes-version 1.17.9;
+        kustomize build nginx-ingress-controller-k8s-post-1-17 | kubeconform -strict -kubernetes-version 1.21.1;
 
   deploy_mojaloop:
     needs: validate_manifests

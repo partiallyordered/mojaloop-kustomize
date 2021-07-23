@@ -1,0 +1,8 @@
+resources:
+- ns-and-sa.yaml
+- rbac.yaml
+- default-server-secret.yaml
+- nginx-config.yaml
+- dep.yaml
+
+namespace: nginx-ingress

@@ -1,9 +1,21 @@
-resources:
-- ns-and-sa.yaml
-- rbac.yaml
-- default-server-secret.yaml
-- nginx-config.yaml
-- dep.yaml
-- svc.yaml
+namespace: ingress-nginx
 
-namespace: nginx-ingress
+resources:
+- ns.yaml
+- controller-serviceaccount.yaml
+- controller-configmap.yaml
+- controller-clusterrole.yaml
+- controller-clusterrolebinding.yaml
+- controller-role.yaml
+- controller-rolebinding.yaml
+- controller-service-webhook.yaml
+- controller-service.yaml
+- controller-deployment.yaml
+- validating-webhook.yaml
+- serviceaccount.yaml
+- admission-clusterrole.yaml
+- admission-clusterrolebinding.yaml
+- role.yaml
+- rolebinding.yaml
+- job-create-secret.yaml
+- job-patch-webhook.yaml

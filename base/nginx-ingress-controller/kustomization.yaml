@@ -4,5 +4,6 @@ resources:
 - default-server-secret.yaml
 - nginx-config.yaml
 - dep.yaml
+- svc.yaml
 
 namespace: nginx-ingress

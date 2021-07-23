@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-ingress
+spec:
+  # This might seem odd, but it allows us to access the ingress controller with a port-forward,
+  # which is an adequate simulation of a load balancer for development purposes.
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+    name: http
+  - port: 443
+    targetPort: 443
+    protocol: TCP
+    name: https
+  selector:
+    app: nginx-ingress

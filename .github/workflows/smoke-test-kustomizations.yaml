@@ -34,7 +34,7 @@ jobs:
 
   deploy_mojaloop:
     needs: validate_manifests
-    timeout-minutes: 20
+    timeout-minutes: 25
     runs-on: ubuntu-20.04
     steps:
 
@@ -67,7 +67,7 @@ jobs:
         # deployments. So we use timeout. This means, between this timeout and our overall job
         # timeout, we expect the job to finish in roughly ten minutes, leaving us roughly ten
         # minutes to debug if necessary.
-        timeout 600 kubectl wait --for=condition=Available deploy --all --timeout=600s
+        timeout 900 kubectl wait --for=condition=Available deploy --all --timeout=900s
 
     - name: Print docker containers to check any issues with the cluster
       if: ${{ failure() }}

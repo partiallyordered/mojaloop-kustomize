@@ -18,7 +18,7 @@ configMapGenerator:
     # The Mojaloop's central settlements service endpoint
   - CENTRAL_SETTLEMENTS_ENDPOINT=http://centralsettlement/v2
     # Mojaloop's central ledger service endpoint
-  - CENTRAL_LEDGER_ENDPOINT=http://centralledger/
+  - CENTRAL_LEDGER_ENDPOINT=http://centralledger-service/
     # Dev/production
   - NODE_ENV=development
     ### ONLY SET TO TRUE FOR DEVELOPMENT USE ###

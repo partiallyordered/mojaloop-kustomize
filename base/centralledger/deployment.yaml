@@ -44,10 +44,12 @@ spec:
             secretKeyRef:
               name: centralledger-mysql
               key: MYSQL_PASSWORD
+        - name: LIB_RESOURCE_VERSIONS
+          value: transfers=1.1,participants=1.0,quotes=1.0
         envFrom:
         - configMapRef:
             name: centralledger-kafka
-        image: mojaloop/central-ledger:v12.0.0
+        image: mojaloop/central-ledger:v13.14.3
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
@@ -126,7 +128,7 @@ spec:
             secretKeyRef:
               name: centralledger-mysql
               key: MYSQL_PASSWORD
-        image: mojaloop/central-ledger:v11.2.3
+        image: mojaloop/central-ledger:v13.14.3
         imagePullPolicy: Always
         name: run-migration
       restartPolicy: Always

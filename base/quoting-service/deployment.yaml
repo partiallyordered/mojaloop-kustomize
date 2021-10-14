@@ -16,7 +16,7 @@ spec:
       # It would be better to call this container something generic, like "service" or "app", but
       # we use "quoting-service" in order to remain compatible with the ML helm charts
       - name: quoting-service
-        image: mojaloop/quoting-service:v12.0.7
+        image: mojaloop/quoting-service:v12.0.10
         ports:
         - containerPort: 3002
           name: http-api

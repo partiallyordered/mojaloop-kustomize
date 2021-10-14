@@ -1,12 +1,26 @@
 resources:
 - service
-- handler-settlementwindow
+- handler-deferredsettlement
+- handler-grosssettlement
 
-# The empty configmapgenerator here combined with the patch below to take env from this configmap
-# lets a consumer of this base easily override env vars by defining their own configmapgenerator
-# with the same name and specifying `behavior: merge`.
+# TODO: it should be possible to reference the kafka base here. Perhaps modifying every
+# deployment to have environment variables using k8s variable replacement functionality:
+# - name: KAFKA_SVC
+#   value: kafka
+# - name: KAFKA_PORT
+#   value: 9092
+# - name: CLEDG_KAFKA__CONSUMER__ADMIN__TRANSFER__config__rdkafkaConf__metadata
+#   value: $(KAFKA_SVC):$(KAFKA_PORT)
+# I'm unsure, but it may also be possible to use the valueAddTransformer. Alternatively, upstream
+# could be changed to use KAFKA_HOST instead of KAFKA_SVC and KAFKA_PORT.
+# Note: central ledger uses this pattern also, so if it's fixed here, it should be fixed there.
 configMapGenerator:
 - name: centralsettlement
+  literals:
+  - CSET_KAFKA__CONSUMER__DEFERREDSETTLEMENT__CLOSE__config__rdkafkaConf__metadata.broker.list=kafka:9092
+  - CSET_KAFKA__CONSUMER__NOTIFICATION__EVENT__config__rdkafkaConf__metadata.broker.list=kafka:9092
+  - CSET_KAFKA__PRODUCER__DEFERREDSETTLEMENT__CLOSE__config__rdkafkaConf__metadata.broker.list=kafka:9092
+  - CSET_KAFKA__PRODUCER__NOTIFICATION__EVENT__config__rdkafkaConf__metadata.broker.list=kafka:9092
 
 patchesJson6902:
 - target:

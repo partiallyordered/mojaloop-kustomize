@@ -152,3 +152,6 @@ Deploy:
 ```sh
 kubectl apply -k https://github.com/partiallyordered/mojaloop-kustomize/base/mojaloop
 ```
+
+## TODO
+- bundle the position and prepare handler, if possible, to reduce the resource requirement

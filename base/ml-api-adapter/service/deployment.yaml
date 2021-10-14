@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: ml-api-adapter-service
-        image: mojaloop/ml-api-adapter:v11.1.4
+        image: mojaloop/ml-api-adapter:v11.2.0
         command:
         - node
         - src/api/index.js

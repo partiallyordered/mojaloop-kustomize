@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: ml-api-adapter-notification-handler
-        image: mojaloop/ml-api-adapter:v11.0.1
+        image: mojaloop/ml-api-adapter:v11.2.0
         command:
         - node
         - src/handlers/index.js

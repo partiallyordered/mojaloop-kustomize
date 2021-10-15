@@ -5,5 +5,5 @@ configMapGenerator:
 - name: ml-api-adapter-notification-handler
   literals:
   - LOG_LEVEL=silly
-  - CSL_LOG_TRANSPORT=file
-  - LIB_RESOURCE_VERSIONS=transfers=1.0,participants=1.0,quotes=1.0
+  - CSL_LOG_TRANSPORT=console
+  - LIB_RESOURCE_VERSIONS=transfers=1.1,participants=1.0,quotes=1.0

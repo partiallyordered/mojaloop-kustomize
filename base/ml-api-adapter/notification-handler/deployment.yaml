@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: ml-api-adapter-notification-handler
-        image: mojaloop/ml-api-adapter:v11.0.1
+        image: mojaloop/ml-api-adapter:v11.2.0
         command:
         - node
         - src/handlers/index.js
@@ -26,10 +26,12 @@ spec:
         - configMapRef:
             name: ml-api-adapter-notification-handler
         readinessProbe:
+          timeoutSeconds: 5 # the default is prone to failure on lower-resource clusters
           httpGet:
             path: /health
             port: 3000
         livenessProbe:
+          timeoutSeconds: 5 # the default is prone to failure on lower-resource clusters
           httpGet:
             path: /health
             port: 3000

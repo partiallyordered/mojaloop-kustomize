@@ -18,6 +18,8 @@ resources:
 #   value: $(KAFKA_SVC):$(KAFKA_PORT)
 # I'm unsure, but it may also be possible to use the valueAddTransformer. Alternatively, upstream
 # could be changed to use KAFKA_HOST instead of KAFKA_SVC and KAFKA_PORT.
+# Note: the central settlement deferred settlement handler uses this pattern also, so if it's
+# fixed here, it should be fixed there.
 configMapGenerator:
 - name: centralledger-kafka
   literals:

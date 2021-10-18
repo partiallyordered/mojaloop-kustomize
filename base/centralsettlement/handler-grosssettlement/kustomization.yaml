@@ -1,0 +1,20 @@
+resources:
+- ../base
+
+nameSuffix: -handler-grosssettlement
+
+commonLabels:
+  app.kubernetes.io/name: centralsettlement-handler-grosssettlement
+
+patches:
+- patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: centralsettlement
+    spec:
+      template:
+        spec:
+          containers:
+          - name: app
+            command: [node, src/handlers/index.js, h, --grossSettlement]

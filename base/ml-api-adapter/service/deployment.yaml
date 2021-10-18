@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: ml-api-adapter-service
-        image: mojaloop/ml-api-adapter:v11.1.4
+        image: mojaloop/ml-api-adapter:v11.2.0
         command:
         - node
         - src/api/index.js
@@ -24,10 +24,12 @@ spec:
         - configMapRef:
             name: ml-api-adapter-service
         readinessProbe:
+          timeoutSeconds: 5 # the default is prone to failure on lower-resource clusters
           httpGet:
             path: /health
             port: 3000
         livenessProbe:
+          timeoutSeconds: 5 # the default is prone to failure on lower-resource clusters
           httpGet:
             path: /health
             port: 3000

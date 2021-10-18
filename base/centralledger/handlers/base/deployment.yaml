@@ -33,7 +33,7 @@ spec:
           value: console
         - name: EVENT_SDK_SIDECAR_DISABLED
           value: "true"
-        image: mojaloop/central-ledger:v12.0.0
+        image: mojaloop/central-ledger:v13.14.3
         imagePullPolicy: Always
         livenessProbe:
           httpGet:
